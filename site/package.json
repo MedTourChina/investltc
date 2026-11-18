@@ -8,7 +8,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "validate": "node scripts/validate.mjs"
+    "validate": "node scripts/validate.mjs",
+    "check:live": "node scripts/check-live.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.4.1",

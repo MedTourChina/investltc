@@ -2,83 +2,101 @@ id: bank-account
 name: Local bank account
 nameZh: 银行结算账户
 type: bank
-summary: >-
-  The front door. Almost every onshore product settles through a Chinese bank account,
-  and a bank card is what you link to a brokerage account. Getting this right first saves weeks later.
+summary: The front door. Almost every onshore product settles through a Chinese bank account, and a bank card is what you link to a brokerage account. Getting this right first saves weeks later.
 whatYouCanBuy:
-  - "Salary and everyday payments"
-  - "The bank's own deposits and wealth products"
-  - "The settlement account a brokerage requires before you can trade"
+  - Salary and everyday payments
+  - The bank's own deposits and wealth products
+  - The settlement account a brokerage requires before you can trade
 access:
   - investorType: resident-foreign-individual
     status: open
-    fundSources: [onshore-rmb-income, onshore-rmb-asset-sale, offshore-fx]
+    fundSources:
+      - onshore-rmb-income
+      - onshore-rmb-asset-sale
+      - offshore-fx
+    requirements:
+      - residence-permit
+      - chinese-phone
+      - in-person
     conditions:
-      - "Passport plus a valid visa or residence permit"
-      - "A Chinese mobile number for SMS and the banking app"
-      - "Proof of address — lease, utility bill, or the police registration form"
+      - Passport plus a valid visa or residence permit
+      - A Chinese mobile number for SMS and the banking app
+      - Proof of address — lease, utility bill, or the police registration form
     denialReasons:
-      - "Branch insists on a work permit or employment letter the rules do not require"
-      - "Address proof is a hotel booking or a letter with no address on it"
+      - Branch insists on a work permit or employment letter the rules do not require
+      - Address proof is a hotel booking or a letter with no address on it
   - investorType: non-resident-individual
     status: conditional
-    fundSources: [offshore-fx, offshore-cnh]
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements:
+      - chinese-phone
     conditions:
-      - "Usually a non-resident account (banks may call it an NRA or a 境外个人账户); rules and minimums vary by bank"
-      - "Be ready to explain the purpose of the account"
+      - Usually a non-resident account (banks may call it an NRA or a 境外个人账户); rules and minimums vary by bank
+      - Be ready to explain the purpose of the account
     denialReasons:
-      - "Some branches decline NRA accounts for individuals entirely"
+      - Some branches decline NRA accounts for individuals entirely
   - investorType: offshore-institution
     status: conditional
-    fundSources: [offshore-fx, offshore-cnh]
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
     conditions:
-      - "NRA account in the institution's name; documents and minimums set by the bank"
+      - NRA account in the institution's name; documents and minimums set by the bank
   - investorType: onshore-fie
     status: open
-    fundSources: [onshore-rmb-income, offshore-fx]
+    fundSources:
+      - onshore-rmb-income
+      - offshore-fx
+    requirements: []
     conditions:
-      - "Business licence, legal representative ID, company seal"
+      - Business licence, legal representative ID, company seal
 documents:
-  - "Passport"
-  - "Visa or residence permit"
-  - "Chinese mobile number"
-  - "Proof of address"
-  - "Employment letter (some branches)"
+  - Passport
+  - Visa or residence permit
+  - Chinese mobile number
+  - Proof of address
+  - Employment letter (some branches)
 process:
-  - step: "Pick a branch near your home or office, not a tourist-area branch"
+  - step: Pick a branch near your home or office, not a tourist-area branch
     where: branch
-  - step: "Ask the desk whether they open accounts for foreign passport holders before you queue"
+  - step: Ask the desk whether they open accounts for foreign passport holders before you queue
     where: branch
-  - step: "Fill the account form and the tax-residency self-certification"
+  - step: Fill the account form and the tax-residency self-certification
     where: branch
-  - step: "Activate the app and mobile banking, then test a small transfer"
+  - step: Activate the app and mobile banking, then test a small transfer
     where: online
 minimums:
   amount: 0
   currency: CNY
-  note: "No minimum for a basic account. NRA accounts may carry one."
+  note: No minimum for a basic account. NRA accounts may carry one.
 fees:
-  - label: "Account management"
-    amount: "CNY 0–10 / month"
-  - label: "Domestic transfer"
-    amount: "CNY 0–2"
-  - label: "International wire out"
-    amount: "CNY 100–300 plus correspondent fees"
+  - label: Account management
+    amount: CNY 0–10 / month
+  - label: Domestic transfer
+    amount: CNY 0–2
+  - label: International wire out
+    amount: CNY 100–300 plus correspondent fees
 liquidity:
-  settlement: "Instant within the bank; same day or next day between banks."
-taxNote: >-
-  Deposit interest has been exempt from individual income tax since 2008.
-  Confirm current treatment before relying on it.
-friction: {documents: 3, inPerson: 4, language: 3, minimum: 1, exit: 2}
+  settlement: Instant within the bank; same day or next day between banks.
+taxNote: Deposit interest has been exempt from individual income tax since 2008. Confirm current treatment before relying on it.
+friction:
+  documents: 3
+  inPerson: 4
+  language: 3
+  minimum: 1
+  exit: 2
 lastVerified: 2026-11-18
 verifiedBy: document
 sources:
-  - label: "个人外汇管理办法实施细则（汇发〔2007〕1号）"
+  - label: 个人外汇管理办法实施细则（汇发〔2007〕1号）
     date: 2007-01-05
-  - label: "Published branch guidance on opening accounts with a foreign passport"
+  - label: Published branch guidance on opening accounts with a foreign passport
     date: 2026-11-18
 caveats:
-  - "Compiled from public documents and published guidance — not yet field-verified at a branch."
-  - "Branches apply the same rule differently. If one refuses, try another branch of the same bank."
-  - "A Chinese mobile number is the single most common blocker for new arrivals."
+  - Compiled from public documents and published guidance — not yet field-verified at a branch.
+  - Branches apply the same rule differently. If one refuses, try another branch of the same bank.
+  - A Chinese mobile number is the single most common blocker for new arrivals.
 fieldNotes: []

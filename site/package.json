@@ -9,6 +9,7 @@
     "preview": "astro preview",
     "check": "astro check",
     "validate": "node scripts/validate.mjs",
+    "test": "node scripts/eligibility.test.mjs",
     "check:live": "node scripts/check-live.mjs"
   },
   "dependencies": {

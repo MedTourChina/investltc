@@ -2,79 +2,93 @@ id: public-fund
 name: Public mutual funds
 nameZh: 公募基金
 type: fund
-summary: >-
-  RMB-denominated mutual funds sold through banks, brokers and fund platforms. The widest
-  product shelf available to a foreign resident, and the usual first step before direct equities.
+summary: RMB-denominated mutual funds sold through banks, brokers and fund platforms. The widest product shelf available to a foreign resident, and the usual first step before direct equities.
 whatYouCanBuy:
-  - "Money-market funds"
-  - "Bond funds"
-  - "Equity and mixed funds"
-  - "Index and ETF feeder funds"
+  - Money-market funds
+  - Bond funds
+  - Equity and mixed funds
+  - Index and ETF feeder funds
 access:
   - investorType: resident-foreign-individual
     status: conditional
-    fundSources: [onshore-rmb-income, onshore-rmb-asset-sale]
+    fundSources:
+      - onshore-rmb-income
+      - onshore-rmb-asset-sale
+    requirements:
+      - local-bank-account
+      - in-person
     conditions:
-      - "A fund account opened through a bank, broker or platform"
-      - "Risk questionnaire and KYC"
-      - "Some channels only accept Chinese ID online; foreigners may need the counter"
+      - A fund account opened through a bank, broker or platform
+      - Risk questionnaire and KYC
+      - Some channels only accept Chinese ID online; foreigners may need the counter
     denialReasons:
-      - "Platform's online onboarding rejects a passport number"
-      - "Bank says fund sales are for domestic ID holders only"
+      - Platform's online onboarding rejects a passport number
+      - Bank says fund sales are for domestic ID holders only
   - investorType: non-resident-individual
     status: unknown
-    fundSources: [offshore-fx, offshore-cnh]
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
     conditions:
-      - "Cross-border fund distribution to non-residents is not verified here"
+      - Cross-border fund distribution to non-residents is not verified here
   - investorType: offshore-institution
     status: conditional
-    fundSources: [offshore-fx]
+    fundSources:
+      - offshore-fx
+    requirements: []
     conditions:
-      - "Via QFII or the mutual recognition scheme, not through a retail platform"
+      - Via QFII or the mutual recognition scheme, not through a retail platform
   - investorType: onshore-fie
     status: conditional
-    fundSources: [onshore-rmb-income]
+    fundSources:
+      - onshore-rmb-income
+    requirements:
+      - local-bank-account
     conditions:
-      - "Corporate fund account"
+      - Corporate fund account
 documents:
-  - "Passport and residence permit"
-  - "Bank card for settlement"
-  - "Risk assessment result"
+  - Passport and residence permit
+  - Bank card for settlement
+  - Risk assessment result
 process:
-  - step: "Open the fund account at a bank or broker that has handled foreign passports"
+  - step: Open the fund account at a bank or broker that has handled foreign passports
     where: both
-  - step: "Complete the risk questionnaire and keep the result"
+  - step: Complete the risk questionnaire and keep the result
     where: both
-  - step: "Buy a money-market fund first as a test of the settlement path"
+  - step: Buy a money-market fund first as a test of the settlement path
     where: online
-  - step: "Check subscription and redemption fees before choosing the share class"
+  - step: Check subscription and redemption fees before choosing the share class
     where: online
 minimums:
   amount: 10
   currency: CNY
-  note: "Often CNY 10–1,000 to start; some funds require CNY 10,000."
+  note: Often CNY 10–1,000 to start; some funds require CNY 10,000.
 fees:
-  - label: "Subscription"
-    amount: "0.1–1.5%, often discounted online"
-  - label: "Management"
-    amount: "0.15–1.5% per year, inside the NAV"
-  - label: "Redemption"
-    amount: "0–1.5%, higher if held under 7 days"
+  - label: Subscription
+    amount: 0.1–1.5%, often discounted online
+  - label: Management
+    amount: 0.15–1.5% per year, inside the NAV
+  - label: Redemption
+    amount: 0–1.5%, higher if held under 7 days
 liquidity:
-  settlement: "Money-market T+0/T+1; equity funds T+1 to T+7 depending on the fund."
-taxNote: >-
-  Fund distributions and redemption gains are generally taxed as investment income,
-  with different treatment for residents and non-residents. Confirm your case.
-friction: {documents: 3, inPerson: 3, language: 4, minimum: 1, exit: 2}
+  settlement: Money-market T+0/T+1; equity funds T+1 to T+7 depending on the fund.
+taxNote: Fund distributions and redemption gains are generally taxed as investment income, with different treatment for residents and non-residents. Confirm your case.
+friction:
+  documents: 3
+  inPerson: 3
+  language: 4
+  minimum: 1
+  exit: 2
 lastVerified: 2026-11-18
 verifiedBy: document
 sources:
-  - label: "公开募集证券投资基金运作管理办法"
+  - label: 公开募集证券投资基金运作管理办法
     date: 2014-08-08
-  - label: "Fund platform onboarding rules and fee schedules"
+  - label: Fund platform onboarding rules and fee schedules
     date: 2026-11-18
 caveats:
-  - "Compiled from public documents — not yet field-verified."
-  - "A fund is not a deposit. Money-market funds can also lose value in extreme conditions."
-  - "Short holding periods carry punitive redemption fees; check before you buy."
+  - Compiled from public documents — not yet field-verified.
+  - A fund is not a deposit. Money-market funds can also lose value in extreme conditions.
+  - Short holding periods carry punitive redemption fees; check before you buy.
 fieldNotes: []

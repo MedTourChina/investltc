@@ -2,73 +2,86 @@ id: savings-bond
 name: Savings government bonds
 nameZh: 储蓄国债
 type: bond
-summary: >-
-  Retail government bonds sold through banks. Small minimums, fixed coupons, and a queue
-  on issuance day. One of the few genuinely simple fixed-income products for a foreign resident.
+summary: Retail government bonds sold through banks. Small minimums, fixed coupons, and a queue on issuance day. One of the few genuinely simple fixed-income products for a foreign resident.
 whatYouCanBuy:
-  - "Electronic savings bonds (电子式储蓄国债)"
-  - "Book-entry savings bonds (凭证式国债)"
+  - Electronic savings bonds (电子式储蓄国债)
+  - Book-entry savings bonds (凭证式国债)
 access:
   - investorType: resident-foreign-individual
     status: conditional
-    fundSources: [onshore-rmb-income, onshore-rmb-asset-sale]
+    fundSources:
+      - onshore-rmb-income
+      - onshore-rmb-asset-sale
+    requirements:
+      - local-bank-account
+      - in-person
     conditions:
-      - "A bank account with a bank that distributes savings bonds"
-      - "Some banks restrict distribution to domestic ID holders; ask first"
+      - A bank account with a bank that distributes savings bonds
+      - Some banks restrict distribution to domestic ID holders; ask first
     denialReasons:
-      - "Bank says the product is only sold to Chinese ID holders"
-      - "Issue sold out on the first morning"
+      - Bank says the product is only sold to Chinese ID holders
+      - Issue sold out on the first morning
   - investorType: non-resident-individual
     status: unknown
-    fundSources: [onshore-rmb-income]
+    fundSources:
+      - onshore-rmb-income
+    requirements: []
     conditions:
-      - "Not verified whether NRA holders can subscribe"
+      - Not verified whether NRA holders can subscribe
   - investorType: offshore-institution
     status: conditional
-    fundSources: [offshore-fx]
+    fundSources:
+      - offshore-fx
+    requirements: []
     conditions:
-      - "Institutional bond access runs through CIBM Direct, not retail savings bonds"
+      - Institutional bond access runs through CIBM Direct, not retail savings bonds
   - investorType: onshore-fie
     status: conditional
-    fundSources: [onshore-rmb-income]
+    fundSources:
+      - onshore-rmb-income
+    requirements:
+      - local-bank-account
     conditions:
-      - "Corporate bond accounts; distribution rules differ"
+      - Corporate bond accounts; distribution rules differ
 documents:
-  - "Passport and residence permit"
-  - "Bank account"
+  - Passport and residence permit
+  - Bank account
 process:
-  - step: "Ask the bank whether it distributes savings bonds and whether foreign passport holders can subscribe"
+  - step: Ask the bank whether it distributes savings bonds and whether foreign passport holders can subscribe
     where: branch
-  - step: "Check the issuance calendar and the coupon before the sale window"
+  - step: Check the issuance calendar and the coupon before the sale window
     where: online
-  - step: "Subscribe on the first morning; issues often sell out in hours"
+  - step: Subscribe on the first morning; issues often sell out in hours
     where: both
-  - step: "Keep the electronic certificate and note the early-redemption rules"
+  - step: Keep the electronic certificate and note the early-redemption rules
     where: both
 minimums:
   amount: 100
   currency: CNY
-  note: "CNY 100 minimum, in increments of CNY 100."
+  note: CNY 100 minimum, in increments of CNY 100.
 fees:
-  - label: "Subscription"
-    amount: "None"
-  - label: "Early redemption"
-    amount: "Principal plus interest at a reduced rate, minus a small fee"
+  - label: Subscription
+    amount: None
+  - label: Early redemption
+    amount: Principal plus interest at a reduced rate, minus a small fee
 liquidity:
-  settlement: "At maturity, or early redemption after a holding period through the bank."
-taxNote: >-
-  Interest on savings bonds is generally exempt from individual income tax.
-  Confirm the current rule and whether it applies to you.
-friction: {documents: 2, inPerson: 3, language: 3, minimum: 1, exit: 2}
+  settlement: At maturity, or early redemption after a holding period through the bank.
+taxNote: Interest on savings bonds is generally exempt from individual income tax. Confirm the current rule and whether it applies to you.
+friction:
+  documents: 2
+  inPerson: 3
+  language: 3
+  minimum: 1
+  exit: 2
 lastVerified: 2026-11-18
 verifiedBy: document
 sources:
-  - label: "储蓄国债（电子式）管理办法"
+  - label: 储蓄国债（电子式）管理办法
     date: 2013-01-01
-  - label: "Bank distribution notices for savings bonds"
+  - label: Bank distribution notices for savings bonds
     date: 2026-11-18
 caveats:
-  - "Compiled from public documents — not yet field-verified."
-  - "Issuance is monthly and quota-limited; a missed window means waiting a month."
-  - "Early redemption returns less than holding to maturity."
+  - Compiled from public documents — not yet field-verified.
+  - Issuance is monthly and quota-limited; a missed window means waiting a month.
+  - Early redemption returns less than holding to maturity.
 fieldNotes: []

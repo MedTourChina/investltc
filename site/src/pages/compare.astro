@@ -2,8 +2,9 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import StatusBadge from '../components/StatusBadge.astro';
 import FrictionBar from '../components/FrictionBar.astro';
+import ChannelData from '../components/ChannelData.astro';
 import { getChannels } from '../lib/data';
-import { INVESTOR_SHORT, TYPE_LABEL, formatAmount } from '../lib/labels';
+import { INVESTOR_LABEL, INVESTOR_SHORT, TYPE_LABEL, formatAmount } from '../lib/labels';
 import { INVESTOR_TYPES } from '../lib/schema';
 
 const channels = getChannels();
@@ -81,6 +82,29 @@ const rows = [
         </div>
       </fieldset>
 
+      <div class="row" style="gap:1rem;margin:0 0 1.2rem">
+        <div class="field" style="max-width:280px">
+          <label for="cmp-investor">Your situation</label>
+          <select id="cmp-investor">
+            {INVESTOR_TYPES.map((t) => (
+              <option value={t}>{INVESTOR_LABEL[t]}</option>
+            ))}
+          </select>
+        </div>
+        <div class="field" style="max-width:280px">
+          <label for="cmp-source">Where the money is</label>
+          <select id="cmp-source">
+            <option value="onshore-rmb-income">RMB earned in China</option>
+            <option value="onshore-rmb-asset-sale">RMB from selling an asset</option>
+            <option value="offshore-fx">Foreign currency abroad</option>
+            <option value="offshore-cnh">Offshore RMB (CNH)</option>
+          </select>
+        </div>
+        <p class="tiny muted" style="max-width:28ch;margin:1.4rem 0 0">
+          The “for your profile” row recomputes as you change these two answers.
+        </p>
+      </div>
+
       <p class="tiny muted" id="compare-hint" hidden>
         Four at a time is readable; more than that becomes a wall of columns.
       </p>
@@ -98,6 +122,14 @@ const rows = [
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <th scope="row" style="background:var(--surface-alt);font-weight:640">For your profile</th>
+              {channels.map((c) => (
+                <td data-col={c.id} data-fit={c.id}>
+                  <span class="tiny muted">—</span>
+                </td>
+              ))}
+            </tr>
             {rows.map((row) => (
               <tr>
                 <th scope="row" style="background:var(--surface-alt);font-weight:640">{row.label}</th>
@@ -141,10 +173,67 @@ const rows = [
     </div>
   </section>
 
+  <ChannelData channels={channels} />
+
   <script>
+    import { evaluateChannel, profileFromParams } from '../lib/eligibility';
+
     const boxes = Array.from(document.querySelectorAll<HTMLInputElement>('[data-check]'));
     const cells = Array.from(document.querySelectorAll<HTMLElement>('[data-col]'));
+    const fitCells = Array.from(document.querySelectorAll<HTMLElement>('[data-fit]'));
     const hint = document.getElementById('compare-hint');
+    const investor = document.getElementById('cmp-investor') as HTMLSelectElement;
+    const source = document.getElementById('cmp-source') as HTMLSelectElement;
+
+    const data: any[] = JSON.parse(document.getElementById('channel-data')?.textContent ?? '[]');
+
+    const LABEL: Record<string, string> = {
+      open: 'Open',
+      conditional: 'Conditional',
+      unknown: 'Not verified',
+      closed: 'Not available',
+    };
+
+    function profile() {
+      const params = new URLSearchParams();
+      params.set('investor', investor.value);
+      params.set('source', source.value);
+      return profileFromParams(params);
+    }
+
+    function renderFit() {
+      const p = profile();
+      const byId = new Map(data.map((c) => [c.id, c]));
+      for (const cell of fitCells) {
+        const channel = byId.get(cell.dataset.fit);
+        if (!channel) continue;
+        const verdict = evaluateChannel(channel, p);
+        cell.replaceChildren();
+
+        const badge = document.createElement('span');
+        badge.className = `badge badge--${verdict.status} badge--sm`;
+        badge.textContent = LABEL[verdict.status];
+        cell.appendChild(badge);
+
+        const why = verdict.blockers[0] ?? verdict.needs[0] ?? verdict.notes[0];
+        if (why) {
+          const el = document.createElement('div');
+          el.className = 'tiny muted';
+          el.style.marginTop = '.3rem';
+          el.textContent = why;
+          cell.appendChild(el);
+        }
+      }
+    }
+
+    function updateUrl() {
+      const ids = boxes.filter((b) => b.checked).map((b) => b.dataset.check);
+      const params = new URLSearchParams();
+      params.set('investor', investor.value);
+      params.set('source', source.value);
+      if (ids.length > 0) params.set('ids', ids.join(','));
+      history.replaceState(null, '', `?${params}`);
+    }
 
     function apply() {
       const ids = boxes.filter((b) => b.checked).map((b) => b.dataset.check);
@@ -152,18 +241,19 @@ const rows = [
         cell.hidden = !ids.includes(cell.dataset.col ?? '');
       });
       if (hint) hint.hidden = ids.length <= 4;
-      const params = new URLSearchParams();
-      if (ids.length > 0) params.set('ids', ids.join(','));
-      history.replaceState(null, '', ids.length > 0 ? `?${params}` : location.pathname);
+      renderFit();
+      updateUrl();
     }
 
-    const initial = new URLSearchParams(location.search).get('ids');
-    if (initial) {
-      const ids = initial.split(',');
-      boxes.forEach((b) => (b.checked = ids.includes(b.dataset.check ?? '')));
-    }
+    const params = new URLSearchParams(location.search);
+    const ids = params.get('ids');
+    if (ids) boxes.forEach((b) => (b.checked = ids.split(',').includes(b.dataset.check ?? '')));
+    if (params.get('investor')) investor.value = params.get('investor') as string;
+    if (params.get('source')) source.value = params.get('source') as string;
 
     boxes.forEach((b) => b.addEventListener('change', apply));
+    investor.addEventListener('change', apply);
+    source.addEventListener('change', apply);
     apply();
   </script>
 </BaseLayout>

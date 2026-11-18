@@ -9,6 +9,7 @@ import { getChannels } from '../../lib/data';
 import {
   FUND_SOURCE_LABEL,
   INVESTOR_LABEL,
+  REQUIREMENT_LABEL,
   STATUS_HINT,
   STATUS_LABEL,
   TYPE_LABEL,
@@ -115,6 +116,15 @@ const jsonLd = {
                                 <p class="tiny muted" style="margin-top:.4rem">
                                   Money from: {a.fundSources.map((f) => FUND_SOURCE_LABEL[f]).join(' · ')}
                                 </p>
+                              )}
+                              {a.requirements.length > 0 && (
+                                <div class="tag-row" style="margin-top:.5rem">
+                                  {a.requirements.map((r) => (
+                                    <span class="badge badge--neutral badge--sm">
+                                      {REQUIREMENT_LABEL[r] ?? r}
+                                    </span>
+                                  ))}
+                                </div>
                               )}
                             </>
                           ) : (

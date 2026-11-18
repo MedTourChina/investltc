@@ -21,6 +21,13 @@ const INVESTORS = [
 const SOURCES = ['offshore-fx', 'offshore-cnh', 'onshore-rmb-income', 'onshore-rmb-asset-sale'];
 const STATUSES = ['open', 'conditional', 'closed', 'unknown'];
 const TYPES = ['bank', 'cash', 'wealth', 'fund', 'equity', 'bond', 'route'];
+const REQUIREMENTS = [
+  'residence-permit',
+  'employment-or-study-proof',
+  'local-bank-account',
+  'chinese-phone',
+  'in-person',
+];
 const VERIFIED_BY = ['phone', 'branch', 'official-site', 'app', 'document'];
 const ISO = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -69,6 +76,12 @@ for (const file of fs.readdirSync(dataDir).filter((f) => f.endsWith('.yaml'))) {
       if (a.fundSources && !Array.isArray(a.fundSources)) problems.push(`${where}: access[${i}] fundSources must be a list`);
       for (const s of a.fundSources ?? []) {
         if (!SOURCES.includes(s)) problems.push(`${where}: access[${i}] bad fundSource "${s}"`);
+      }
+      if (a.requirements !== undefined && !Array.isArray(a.requirements)) {
+        problems.push(`${where}: access[${i}] requirements must be a list`);
+      }
+      for (const r of a.requirements ?? []) {
+        if (!REQUIREMENTS.includes(r)) problems.push(`${where}: access[${i}] bad requirement "${r}"`);
       }
       if (!Array.isArray(a.conditions)) problems.push(`${where}: access[${i}] conditions must be a list`);
     }

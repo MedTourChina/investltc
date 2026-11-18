@@ -2,79 +2,94 @@ id: bank-wealth
 name: Bank wealth products
 nameZh: 银行理财产品
 type: wealth
-summary: >-
-  Bank-sold wealth management products, from money-market-like daily products to multi-year
-  fixed-income funds. They are not deposits, and since the 2018 asset-management rules they are not guaranteed.
+summary: Bank-sold wealth management products, from money-market-like daily products to multi-year fixed-income funds. They are not deposits, and since the 2018 asset-management rules they are not guaranteed.
 whatYouCanBuy:
-  - "Daily and short-term wealth products"
-  - "Fixed-income wealth products"
-  - "Structured deposits sold alongside wealth products"
+  - Daily and short-term wealth products
+  - Fixed-income wealth products
+  - Structured deposits sold alongside wealth products
 access:
   - investorType: resident-foreign-individual
     status: conditional
-    fundSources: [onshore-rmb-income, onshore-rmb-asset-sale]
+    fundSources:
+      - onshore-rmb-income
+      - onshore-rmb-asset-sale
+    requirements:
+      - local-bank-account
+      - in-person
     conditions:
-      - "A risk-assessment questionnaire, usually in Chinese"
-      - "Some products are restricted to domestic ID holders; ask before you queue"
-      - "A minimum subscription, often CNY 10,000 or more"
+      - A risk-assessment questionnaire, usually in Chinese
+      - Some products are restricted to domestic ID holders; ask before you queue
+      - A minimum subscription, often CNY 10,000 or more
     denialReasons:
-      - "Branch says wealth products are only for Chinese ID holders"
-      - "Risk questionnaire cannot be completed in English"
-      - "Product requires a face-to-face recording (双录) you were not offered"
+      - Branch says wealth products are only for Chinese ID holders
+      - Risk questionnaire cannot be completed in English
+      - Product requires a face-to-face recording (双录) you were not offered
   - investorType: non-resident-individual
     status: unknown
-    fundSources: [offshore-fx, offshore-cnh]
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements:
+      - local-bank-account
     conditions:
-      - "Whether NRA holders can buy wealth products is bank-specific and not verified here"
+      - Whether NRA holders can buy wealth products is bank-specific and not verified here
   - investorType: offshore-institution
     status: conditional
-    fundSources: [offshore-fx]
+    fundSources:
+      - offshore-fx
+    requirements: []
     conditions:
-      - "Institutional wealth products exist but are sold through a different desk"
+      - Institutional wealth products exist but are sold through a different desk
   - investorType: onshore-fie
     status: conditional
-    fundSources: [onshore-rmb-income]
+    fundSources:
+      - onshore-rmb-income
+    requirements:
+      - local-bank-account
     conditions:
-      - "Corporate treasury products; subject to the company's own approvals"
+      - Corporate treasury products; subject to the company's own approvals
 documents:
-  - "Passport and residence permit"
-  - "Bank account"
-  - "Risk assessment result"
+  - Passport and residence permit
+  - Bank account
+  - Risk assessment result
 process:
-  - step: "Complete the risk questionnaire; keep a copy of the score"
+  - step: Complete the risk questionnaire; keep a copy of the score
     where: both
-  - step: "Ask for the product's prospectus and the fee schedule, not the marketing sheet"
+  - step: Ask for the product's prospectus and the fee schedule, not the marketing sheet
     where: branch
-  - step: "Check the redemption rules and the actual settlement date"
+  - step: Check the redemption rules and the actual settlement date
     where: online
-  - step: "If the product needs 双录, ask the branch to arrange it before you subscribe"
+  - step: If the product needs 双录, ask the branch to arrange it before you subscribe
     where: branch
 minimums:
   amount: 10000
   currency: CNY
-  note: "Often CNY 10,000; some products start at CNY 50,000 or CNY 1,000,000."
+  note: Often CNY 10,000; some products start at CNY 50,000 or CNY 1,000,000.
 fees:
-  - label: "Management fee"
-    amount: "0.1–0.5% per year, inside the product"
-  - label: "Subscription / redemption"
-    amount: "Usually zero, sometimes 0.1%"
-  - label: "Early redemption"
-    amount: "Often not allowed before maturity"
+  - label: Management fee
+    amount: 0.1–0.5% per year, inside the product
+  - label: Subscription / redemption
+    amount: Usually zero, sometimes 0.1%
+  - label: Early redemption
+    amount: Often not allowed before maturity
 liquidity:
-  settlement: "Daily products T+1; fixed terms at maturity, sometimes with a redemption window."
-taxNote: >-
-  Returns are generally treated as investment income. Withholding depends on the product structure
-  and your tax status; confirm rather than assume.
-friction: {documents: 3, inPerson: 4, language: 4, minimum: 2, exit: 3}
+  settlement: Daily products T+1; fixed terms at maturity, sometimes with a redemption window.
+taxNote: Returns are generally treated as investment income. Withholding depends on the product structure and your tax status; confirm rather than assume.
+friction:
+  documents: 3
+  inPerson: 4
+  language: 4
+  minimum: 2
+  exit: 3
 lastVerified: 2026-11-18
 verifiedBy: document
 sources:
-  - label: "关于规范金融机构资产管理业务的指导意见（2018）"
+  - label: 关于规范金融机构资产管理业务的指导意见（2018）
     date: 2018-04-27
-  - label: "Bank wealth product prospectuses and fee schedules"
+  - label: Bank wealth product prospectuses and fee schedules
     date: 2026-11-18
 caveats:
-  - "Compiled from public documents — not yet field-verified."
-  - "Wealth products are not deposits and are not covered by deposit insurance."
+  - Compiled from public documents — not yet field-verified.
+  - Wealth products are not deposits and are not covered by deposit insurance.
   - "'Expected return' or a performance benchmark is not a promise. Read the downside case."
 fieldNotes: []

@@ -56,6 +56,14 @@ export const TYPE_LABEL: Record<ChannelType, string> = {
   route: 'Inbound route',
 };
 
+export const REQUIREMENT_LABEL: Record<string, string> = {
+  'residence-permit': 'Residence permit',
+  'employment-or-study-proof': 'Employment or study proof',
+  'local-bank-account': 'Local bank account first',
+  'chinese-phone': 'Chinese mobile number',
+  'in-person': 'Branch visit',
+};
+
 export function formatDate(iso: string): string {
   const d = new Date(`${iso}T00:00:00Z`);
   return d.toLocaleDateString('en-GB', {

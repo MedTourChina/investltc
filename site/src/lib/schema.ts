@@ -26,10 +26,20 @@ export const CHANNEL_TYPES = [
   'route',
 ] as const;
 
+/** Structured gates, so the eligibility engine never has to parse prose. */
+export const REQUIREMENTS = [
+  'residence-permit',
+  'employment-or-study-proof',
+  'local-bank-account',
+  'chinese-phone',
+  'in-person',
+] as const;
+
 const accessSchema = z.object({
   investorType: z.enum(INVESTOR_TYPES),
   status: z.enum(STATUSES),
   fundSources: z.array(z.enum(FUND_SOURCES)).default([]),
+  requirements: z.array(z.enum(REQUIREMENTS)).default([]),
   conditions: z.array(z.string()).default([]),
   denialReasons: z.array(z.string()).default([]),
 });

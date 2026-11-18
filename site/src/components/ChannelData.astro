@@ -1,0 +1,12 @@
+---
+import type { Channel } from '../lib/schema';
+import { toPayload } from '../lib/payload';
+
+interface Props {
+  channels: Channel[];
+}
+
+const { channels } = Astro.props;
+---
+
+<script type="application/json" id="channel-data" set:html={JSON.stringify(toPayload(channels))}></script>

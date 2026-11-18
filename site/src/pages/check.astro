@@ -1,35 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ChannelData from '../components/ChannelData.astro';
 import { getChannels } from '../lib/data';
-import { INVESTOR_HINT, INVESTOR_LABEL } from '../lib/labels';
+import { INVESTOR_LABEL } from '../lib/labels';
 import { INVESTOR_TYPES } from '../lib/schema';
 
-const channels = getChannels().map((c) => ({
-  id: c.id,
-  name: c.name,
-  type: c.type,
-  access: c.access.map((a) => ({
-    investorType: a.investorType,
-    status: a.status,
-    conditions: a.conditions,
-    denialReasons: a.denialReasons,
-  })),
-  minimum: c.minimums.amount,
-  currency: c.minimums.currency,
-  languageFriction: c.friction.language,
-}));
+const channels = getChannels();
 ---
 
 <BaseLayout
   title="Check your case"
-  description="Tell us where you live and where the money sits, and see which onshore investment channels in China are open, conditional, unverified or closed to you."
+  description="Tell us where you live, where the money sits and what you can do in Chinese, and see which onshore investment channels in China are actually open to you."
 >
   <section class="section">
     <div class="wrap">
       <p class="hero__eyebrow">Eligibility check</p>
       <h1 style="margin-top:.6rem">What can you actually open?</h1>
       <p class="lede">
-        Seven questions. Everything runs in your browser — no account, no email, nothing stored.
+        Nine questions. Everything runs in your browser — no account, no email, nothing stored.
         The link at the end carries your answers, so you can send it to a friend or a banker.
       </p>
     </div>
@@ -58,6 +46,10 @@ const channels = getChannels().map((c) => ({
                   <option value="offshore-fx">Foreign currency held abroad</option>
                   <option value="offshore-cnh">Offshore RMB (CNH)</option>
                 </select>
+                <p class="tiny muted" style="margin-top:.3rem">
+                  This is the question that changes everything. Offshore money usually has to come in
+                  through an inbound route first.
+                </p>
               </div>
 
               <div class="field">
@@ -78,7 +70,7 @@ const channels = getChannels().map((c) => ({
                   <option value="student">Student</option>
                   <option value="family">Family / dependent</option>
                   <option value="permanent">Permanent residence</option>
-                  <option value="none">None / visitor</option>
+                  <option value="visitor">Visitor / no residence permit</option>
                 </select>
               </div>
 
@@ -106,6 +98,22 @@ const channels = getChannels().map((c) => ({
                   <option value="none">None</option>
                   <option value="basic">Basic</option>
                   <option value="fluent">Fluent</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="bank">Local bank account</label>
+                <select id="bank" name="bank">
+                  <option value="yes">Yes, I have one</option>
+                  <option value="no">Not yet</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="phone">Chinese mobile number</label>
+                <select id="phone" name="phone">
+                  <option value="yes">Yes, in my name</option>
+                  <option value="no">No</option>
                 </select>
               </div>
             </div>
@@ -145,9 +153,9 @@ const channels = getChannels().map((c) => ({
             <span class="card__kicker">Four states, honestly</span>
             <ul class="dotlist" style="margin-top:.6rem">
               <li><strong>Open</strong> — a published route exists.</li>
-              <li><strong>Conditional</strong> — possible if conditions are met.</li>
+              <li><strong>Conditional</strong> — possible if you satisfy something.</li>
               <li><strong>Not verified</strong> — we have not checked. Not a no.</li>
-              <li><strong>Not available</strong> — no general route exists.</li>
+              <li><strong>Not available</strong> — blocked, with the reason.</li>
             </ul>
           </div>
           <div class="card card--flat">
@@ -162,10 +170,17 @@ const channels = getChannels().map((c) => ({
     </div>
   </section>
 
-  <script type="application/json" id="channel-data" set:html={JSON.stringify(channels)}></script>
+  <ChannelData channels={channels} />
 
   <script>
-    type Result = { id: string; name: string; type: string; status: string; why: string[] };
+    import {
+      evaluateChannel,
+      profileFromParams,
+      profileToParams,
+      rankVerdicts,
+      summarise,
+      type Profile,
+    } from '../lib/eligibility';
 
     const raw = document.getElementById('channel-data')?.textContent ?? '[]';
     const channels = JSON.parse(raw);
@@ -174,162 +189,150 @@ const channels = getChannels().map((c) => ({
     const results = document.getElementById('results') as HTMLElement;
     const copyBtn = document.getElementById('copy-link') as HTMLButtonElement;
 
-    const playbookFor: Record<string, string> = {
+    const PLAYBOOK: Record<string, string> = {
       equity: 'a-shares',
       wealth: 'bank-wealth',
       fund: 'funds',
       route: 'inbound-funding',
     };
 
-    const LABEL: Record<string, string> = {
+    const GROUP_LABEL: Record<string, string> = {
       open: 'Can open now',
-      conditional: 'Conditional',
+      conditional: 'Conditional — one thing to fix',
       unknown: 'Not verified for your case',
-      closed: 'No general route',
+      closed: 'Not available to you',
     };
 
-    const BADGE: Record<string, string> = {
+    const BADGE_LABEL: Record<string, string> = {
       open: 'Open',
       conditional: 'Conditional',
       unknown: 'Not verified',
       closed: 'Not available',
     };
 
-    function readInput() {
+    function readProfile(): Profile {
       const fd = new FormData(form);
       return {
-        investor: String(fd.get('investor') ?? ''),
-        source: String(fd.get('source') ?? ''),
-        months: String(fd.get('months') ?? ''),
-        visa: String(fd.get('visa') ?? ''),
-        amount: Number(fd.get('amount') ?? 0),
-        visit: String(fd.get('visit') ?? 'yes'),
-        chinese: String(fd.get('chinese') ?? 'none'),
+        investor: String(fd.get('investor')) as Profile['investor'],
+        source: String(fd.get('source')) as Profile['source'],
+        months: String(fd.get('months')) as Profile['months'],
+        visa: String(fd.get('visa')) as Profile['visa'],
+        amount: Number(fd.get('amount')) || 0,
+        canVisit: String(fd.get('visit')) === 'yes',
+        chinese: String(fd.get('chinese')) as Profile['chinese'],
+        hasBank: String(fd.get('bank')) === 'yes',
+        hasPhone: String(fd.get('phone')) === 'yes',
       };
     }
 
-    function evaluate(input: ReturnType<typeof readInput>): Result[] {
-      return channels.map((ch: any) => {
-        const a = ch.access.find((x: any) => x.investorType === input.investor);
-        if (!a) {
-          return {
-            id: ch.id,
-            name: ch.name,
-            type: ch.type,
-            status: 'closed',
-            why: ['We have not documented this channel for your investor type.'],
-          };
-        }
-
-        let status: string = a.status;
-        const why: string[] = [];
-
-        if (status === 'closed') {
-          why.push(...(a.denialReasons?.length ? a.denialReasons : a.conditions));
-        } else {
-          why.push(...a.conditions);
-        }
-
-        if (
-          status !== 'closed' &&
-          typeof ch.minimum === 'number' &&
-          ch.currency === 'CNY' &&
-          input.amount < ch.minimum
-        ) {
-          if (status === 'open') status = 'conditional';
-          why.unshift(
-            `Minimum is CNY ${ch.minimum.toLocaleString('en-US')}; your selected amount is below it.`,
-          );
-        }
-
-        if (
-          status !== 'closed' &&
-          input.visit === 'no' &&
-          /branch|counter|in person|face-to-face/i.test(a.conditions.join(' '))
-        ) {
-          if (status === 'open') status = 'conditional';
-          why.push('This route usually requires a branch visit.');
-        }
-
-        if (input.chinese === 'none' && ch.languageFriction >= 4 && status !== 'closed') {
-          why.push('Chinese is effectively required at the counter or in the app.');
-        }
-
-        if (input.months === 'none' && input.investor === 'resident-foreign-individual') {
-          why.push('You said you are not in China — the “living in China” rules may not apply to you.');
-        }
-
-        return { id: ch.id, name: ch.name, type: ch.type, status, why };
-      });
+    function line(text: string, kind: 'blocker' | 'need' | 'note') {
+      const p = document.createElement('p');
+      p.className = 'result-item__why';
+      p.style.margin = '0.15rem 0';
+      const mark = kind === 'blocker' ? '✕ ' : kind === 'need' ? '! ' : '· ';
+      p.style.color =
+        kind === 'blocker' ? 'var(--red)' : kind === 'need' ? 'var(--amber)' : 'var(--ink-muted)';
+      p.textContent = mark + text;
+      return p;
     }
 
-    function render(list: Result[]) {
-      const order = ['open', 'conditional', 'unknown', 'closed'];
-      const groups = order.map((s) => ({ status: s, items: list.filter((r) => r.status === s) }));
-      const actionable = list.filter((r) => r.status === 'open' || r.status === 'conditional').length;
+    function item(v: any) {
+      const row = document.createElement('div');
+      row.className = 'result-item';
 
-      const summary = document.createElement('p');
-      summary.className = 'muted';
-      summary.style.marginBottom = '1rem';
-      summary.textContent = `${actionable} of ${list.length} channels look open or conditional for you. ${list.filter((r) => r.status === 'unknown').length} are unverified — those are questions, not refusals.`;
+      const head = document.createElement('div');
+      head.className = 'result-item__head';
+
+      const link = document.createElement('a');
+      link.href = `/channels/${v.channelId}`;
+      link.className = 'result-item__name';
+      link.textContent = v.name;
+
+      const badge = document.createElement('span');
+      badge.className = `badge badge--${v.status} badge--sm`;
+      badge.textContent = BADGE_LABEL[v.status];
+
+      const friction = document.createElement('span');
+      friction.className = 'mono tiny muted';
+      friction.textContent = `friction ${v.friction.toFixed(1)}`;
+
+      head.append(link, badge, friction);
+      row.appendChild(head);
+
+      for (const b of v.blockers ?? []) row.appendChild(line(b, 'blocker'));
+      for (const n of v.needs ?? []) row.appendChild(line(n, 'need'));
+      for (const n of v.notes ?? []) row.appendChild(line(n, 'note'));
+
+      const pb = PLAYBOOK[v.type];
+      if (pb) {
+        const a = document.createElement('a');
+        a.href = `/playbooks/${pb}`;
+        a.className = 'tiny';
+        a.textContent = 'Open the playbook →';
+        a.style.display = 'inline-block';
+        a.style.marginTop = '0.35rem';
+        row.appendChild(a);
+      }
+
+      return row;
+    }
+
+    function render(profile: Profile) {
+      const verdicts = rankVerdicts(channels.map((c: any) => evaluateChannel(c, profile)));
+      const counts = summarise(verdicts);
+
+      const head = document.createElement('div');
+      head.className = 'stack';
+      head.style.marginBottom = '1.2rem';
+
+      const title = document.createElement('h2');
+      title.style.fontSize = '1.25rem';
+      title.textContent = `${counts.open + counts.conditional} of ${verdicts.length} channels look usable for you`;
+      head.appendChild(title);
+
+      const sub = document.createElement('p');
+      sub.className = 'muted small';
+      sub.textContent = `${counts.open} open · ${counts.conditional} conditional · ${counts.unknown} not verified · ${counts.closed} blocked`;
+      head.appendChild(sub);
 
       const frag = document.createDocumentFragment();
-      frag.appendChild(summary);
+      frag.appendChild(head);
 
-      for (const g of groups) {
-        if (g.items.length === 0) continue;
-        const wrap = document.createElement('div');
-        wrap.className = 'result-group';
-        wrap.style.marginBottom = '1rem';
+      const order = ['open', 'conditional', 'unknown', 'closed'] as const;
+      for (const status of order) {
+        const items = verdicts.filter((v) => v.status === status);
+        if (items.length === 0) continue;
 
-        const head = document.createElement('div');
-        head.className = 'result-group__head';
-        const title = document.createElement('span');
-        title.textContent = LABEL[g.status];
-        const count = document.createElement('span');
-        count.className = 'mono';
-        count.textContent = String(g.items.length);
-        head.append(title, count);
+        const group = document.createElement('div');
+        group.className = 'result-group';
+        group.style.marginBottom = '1rem';
+
+        const gh = document.createElement('div');
+        gh.className = 'result-group__head';
+        const gt = document.createElement('span');
+        gt.textContent = GROUP_LABEL[status];
+        const gc = document.createElement('span');
+        gc.className = 'mono';
+        gc.textContent = String(items.length);
+        gh.append(gt, gc);
 
         const body = document.createElement('div');
-        for (const item of g.items) {
-          const row = document.createElement('div');
-          row.className = 'result-item';
+        for (const v of items) body.appendChild(item(v));
 
-          const headRow = document.createElement('div');
-          headRow.className = 'result-item__head';
+        group.append(gh, body);
+        frag.appendChild(group);
+      }
 
-          const link = document.createElement('a');
-          link.href = `/channels/${item.id}`;
-          link.className = 'result-item__name';
-          link.textContent = item.name;
-
-          const badge = document.createElement('span');
-          badge.className = `badge badge--${item.status} badge--sm`;
-          badge.textContent = BADGE[g.status];
-
-          headRow.append(link, badge);
-
-          const why = document.createElement('p');
-          why.className = 'result-item__why';
-          why.textContent = item.why.slice(0, 3).join(' · ');
-
-          row.append(headRow, why);
-
-          const pb = playbookFor[item.type];
-          if (pb) {
-            const a2 = document.createElement('a');
-            a2.href = `/playbooks/${pb}`;
-            a2.className = 'tiny';
-            a2.textContent = 'Open the playbook →';
-            row.appendChild(a2);
-          }
-
-          body.appendChild(row);
-        }
-
-        wrap.append(head, body);
-        frag.appendChild(wrap);
+      const offshore = verdicts.filter(
+        (v) => v.status === 'closed' && (v.blockers ?? []).some((b) => /inbound route|arriving from outside/i.test(b)),
+      );
+      if (offshore.length > 0) {
+        const note = document.createElement('p');
+        note.className = 'small muted';
+        note.style.marginTop = '.6rem';
+        note.innerHTML =
+          'Some channels are blocked because the money is still offshore. That is a transfer problem, not a product problem — read <a href="/playbooks/inbound-funding">how money gets into China</a> first.';
+        frag.appendChild(note);
       }
 
       results.replaceChildren(frag);
@@ -337,27 +340,41 @@ const channels = getChannels().map((c) => ({
     }
 
     function syncUrl() {
-      const fd = new FormData(form);
-      const params = new URLSearchParams();
-      fd.forEach((v, k) => params.set(k, String(v)));
-      const url = `${location.pathname}?${params.toString()}`;
-      history.replaceState(null, '', url);
+      const params = profileToParams(readProfile());
+      history.replaceState(null, '', `${location.pathname}?${params.toString()}`);
     }
 
     function applyParams() {
       const params = new URLSearchParams(location.search);
-      if (![...params.keys()].length) return false;
-      for (const [k, v] of params) {
-        const el = form.elements.namedItem(k) as HTMLSelectElement | null;
-        if (el && [...el.options].some((o) => o.value === v)) el.value = v;
-      }
+      if ([...params.keys()].length === 0) return false;
+      const profile = profileFromParams(params);
+      const setValue = (name: string, value: string) => {
+        const el = form.elements.namedItem(name) as HTMLSelectElement | null;
+        if (el) el.value = value;
+      };
+      setValue('investor', profile.investor);
+      setValue('source', profile.source);
+      setValue('months', profile.months);
+      setValue('visa', profile.visa);
+      setValue('amount', String(profile.amount));
+      setValue('visit', profile.canVisit ? 'yes' : 'no');
+      setValue('chinese', profile.chinese);
+      setValue('bank', profile.hasBank ? 'yes' : 'no');
+      setValue('phone', profile.hasPhone ? 'yes' : 'no');
       return true;
     }
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const input = readInput();
-      render(evaluate(input));
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const profile = readProfile();
+      render(profile);
+      syncUrl();
+    });
+
+    form.addEventListener('change', () => {
+      if (results.childElementCount === 0) return;
+      const profile = readProfile();
+      render(profile);
       syncUrl();
     });
 
@@ -371,8 +388,15 @@ const channels = getChannels().map((c) => ({
       }
     });
 
-    if (applyParams()) {
-      render(evaluate(readInput()));
+    const hadParams = applyParams();
+    render(readProfile());
+    if (!hadParams) {
+      const hint = document.createElement('p');
+      hint.className = 'tiny muted';
+      hint.style.marginTop = '.6rem';
+      hint.textContent =
+        'Showing a default profile: a foreign work-permit holder with RMB earned in China. Change the answers above to see yours.';
+      results.appendChild(hint);
     }
   </script>
 </BaseLayout>

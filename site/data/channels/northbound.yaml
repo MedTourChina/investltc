@@ -2,77 +2,88 @@ id: northbound
 name: Northbound Stock Connect
 nameZh: 沪港通／深港通（北向）
 type: route
-summary: >-
-  The main legal channel for money outside China to buy A-shares without a mainland account.
-  You trade through a Hong Kong broker, and the order is routed into Shanghai or Shenzhen.
+summary: The main legal channel for money outside China to buy A-shares without a mainland account. You trade through a Hong Kong broker, and the order is routed into Shanghai or Shenzhen.
 whatYouCanBuy:
-  - "Eligible A-shares on the Shanghai and Shenzhen exchanges"
-  - "ETFs included in the Stock Connect scope"
+  - Eligible A-shares on the Shanghai and Shenzhen exchanges
+  - ETFs included in the Stock Connect scope
 access:
   - investorType: non-resident-individual
     status: conditional
-    fundSources: [offshore-fx, offshore-cnh]
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
     conditions:
-      - "A Hong Kong securities account with a broker that offers Northbound trading"
-      - "Eligibility checks set by the Hong Kong broker, not by mainland rules"
-      - "Settlement and FX happen offshore"
+      - A Hong Kong securities account with a broker that offers Northbound trading
+      - Eligibility checks set by the Hong Kong broker, not by mainland rules
+      - Settlement and FX happen offshore
     denialReasons:
-      - "Broker does not offer Northbound trading to your client category"
-      - "Documentation for the Hong Kong account is incomplete"
+      - Broker does not offer Northbound trading to your client category
+      - Documentation for the Hong Kong account is incomplete
   - investorType: resident-foreign-individual
     status: closed
-    fundSources: [onshore-rmb-income]
+    fundSources:
+      - onshore-rmb-income
+    requirements: []
     conditions:
-      - "If you live in the mainland, using a Hong Kong account to trade is an offshore arrangement, which is outside this site's scope"
+      - If you live in the mainland, using a Hong Kong account to trade is an offshore arrangement, which is outside this site's scope
   - investorType: offshore-institution
     status: open
-    fundSources: [offshore-fx, offshore-cnh]
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
     conditions:
-      - "Institutional Northbound access through a Hong Kong participant"
+      - Institutional Northbound access through a Hong Kong participant
   - investorType: onshore-fie
     status: closed
-    fundSources: [onshore-rmb-income]
+    fundSources:
+      - onshore-rmb-income
+    requirements: []
     conditions:
-      - "A mainland-registered company does not use Stock Connect"
+      - A mainland-registered company does not use Stock Connect
 documents:
-  - "Passport"
-  - "Proof of address outside the mainland"
-  - "Hong Kong brokerage account documents"
+  - Passport
+  - Proof of address outside the mainland
+  - Hong Kong brokerage account documents
 process:
-  - step: "Open a Hong Kong brokerage account that explicitly supports Northbound trading"
+  - step: Open a Hong Kong brokerage account that explicitly supports Northbound trading
     where: online
-  - step: "Confirm the eligible stock list and the trading calendar with the broker"
+  - step: Confirm the eligible stock list and the trading calendar with the broker
     where: online
-  - step: "Fund the account in HKD or offshore RMB and place a Northbound order"
+  - step: Fund the account in HKD or offshore RMB and place a Northbound order
     where: online
-  - step: "Check dividend withholding and reporting obligations in your home country"
+  - step: Check dividend withholding and reporting obligations in your home country
     where: n/a
 minimums:
   amount: null
   currency: HKD
-  note: "Set by the broker; there is no mainland account minimum."
+  note: Set by the broker; there is no mainland account minimum.
 fees:
-  - label: "Brokerage commission"
-    amount: "0.03–0.25% per trade"
-  - label: "Mainland levies"
-    amount: "Stamp duty and transfer fees apply as onshore"
-  - label: "FX conversion"
-    amount: "Spread set by the broker"
+  - label: Brokerage commission
+    amount: 0.03–0.25% per trade
+  - label: Mainland levies
+    amount: Stamp duty and transfer fees apply as onshore
+  - label: FX conversion
+    amount: Spread set by the broker
 liquidity:
-  settlement: "T+1 for shares, settled offshore in HKD or CNH."
-taxNote: >-
-  Dividends paid on Northbound holdings are subject to withholding at source.
-  The rate and your home-country credit depend on your status; confirm both sides.
-friction: {documents: 3, inPerson: 1, language: 2, minimum: 2, exit: 3}
+  settlement: T+1 for shares, settled offshore in HKD or CNH.
+taxNote: Dividends paid on Northbound holdings are subject to withholding at source. The rate and your home-country credit depend on your status; confirm both sides.
+friction:
+  documents: 3
+  inPerson: 1
+  language: 2
+  minimum: 2
+  exit: 3
 lastVerified: 2026-11-18
 verifiedBy: document
 sources:
-  - label: "上海证券交易所／香港交易所 沪港通业务规则"
+  - label: 上海证券交易所／香港交易所 沪港通业务规则
     date: 2014-11-17
-  - label: "Stock Connect eligibility and trading arrangements"
+  - label: Stock Connect eligibility and trading arrangements
     date: 2026-11-18
 caveats:
-  - "Compiled from public documents — not yet field-verified with a broker."
-  - "For someone living in the mainland, this is an offshore arrangement. Whether it is appropriate is a separate question we do not answer."
-  - "Eligible stock lists change; check them before trading, not after."
+  - Compiled from public documents — not yet field-verified with a broker.
+  - For someone living in the mainland, this is an offshore arrangement. Whether it is appropriate is a separate question we do not answer.
+  - Eligible stock lists change; check them before trading, not after.
 fieldNotes: []

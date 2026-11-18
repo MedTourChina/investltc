@@ -2,79 +2,90 @@ id: personal-inbound
 name: Personal inbound remittance
 nameZh: 个人跨境收款与结汇
 type: route
-summary: >-
-  How an individual legally brings money into China. It works for current-account purposes
-  such as salary, family support or selling a personal asset — not for buying securities.
+summary: How an individual legally brings money into China. It works for current-account purposes such as salary, family support or selling a personal asset — not for buying securities.
 whatYouCanBuy:
-  - "Receiving foreign currency into a personal account"
-  - "Converting foreign currency to RMB within the annual facilitation quota"
+  - Receiving foreign currency into a personal account
+  - Converting foreign currency to RMB within the annual facilitation quota
 access:
   - investorType: non-resident-individual
     status: open
-    fundSources: [offshore-fx, offshore-cnh]
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
     conditions:
-      - "A documented current-account purpose, such as salary or family support"
-      - "Annual facilitation quota of USD 50,000 equivalent for conversion"
-      - "Bank review of the purpose and supporting documents"
+      - A documented current-account purpose, such as salary or family support
+      - Annual facilitation quota of USD 50,000 equivalent for conversion
+      - Bank review of the purpose and supporting documents
     denialReasons:
-      - "Purpose stated as investing in securities or property speculation"
-      - "Split transfers from several people to stay under reporting thresholds"
+      - Purpose stated as investing in securities or property speculation
+      - Split transfers from several people to stay under reporting thresholds
   - investorType: resident-foreign-individual
     status: open
-    fundSources: [offshore-fx, offshore-cnh]
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
     conditions:
-      - "Same current-account rules apply; the 183-day tax position is separate"
+      - Same current-account rules apply; the 183-day tax position is separate
   - investorType: offshore-institution
     status: closed
-    fundSources: [offshore-fx]
+    fundSources:
+      - offshore-fx
+    requirements: []
     conditions:
-      - "Institutional inbound investment runs through QFII, Stock Connect or FDI, not this route"
+      - Institutional inbound investment runs through QFII, Stock Connect or FDI, not this route
   - investorType: onshore-fie
     status: conditional
-    fundSources: [offshore-fx]
+    fundSources:
+      - offshore-fx
+    requirements: []
     conditions:
-      - "Capital injections and intercompany loans follow capital-account procedures"
+      - Capital injections and intercompany loans follow capital-account procedures
 documents:
-  - "Passport"
-  - "Bank account details"
-  - "Supporting document for the purpose (contract, invoice, salary slip)"
+  - Passport
+  - Bank account details
+  - Supporting document for the purpose (contract, invoice, salary slip)
 process:
-  - step: "Confirm with your bank which purpose code applies to your transfer"
+  - step: Confirm with your bank which purpose code applies to your transfer
     where: online
-  - step: "Send the funds with a payment reference that matches the purpose"
+  - step: Send the funds with a payment reference that matches the purpose
     where: online
-  - step: "Complete the FX declaration at the bank, in person or in the app"
+  - step: Complete the FX declaration at the bank, in person or in the app
     where: both
-  - step: "Keep the documents; banks can ask for them months later"
+  - step: Keep the documents; banks can ask for them months later
     where: n/a
 minimums:
   amount: null
   currency: CNY
-  note: "No minimum; the constraint is the purpose and the annual conversion quota."
+  note: No minimum; the constraint is the purpose and the annual conversion quota.
 fees:
-  - label: "Incoming wire"
-    amount: "CNY 0–100 depending on the bank"
-  - label: "FX spread"
-    amount: "0.1–0.5% versus mid-market"
+  - label: Incoming wire
+    amount: CNY 0–100 depending on the bank
+  - label: FX spread
+    amount: 0.1–0.5% versus mid-market
 quota:
-  label: "Annual facilitation quota for conversion"
-  amount: "USD 50,000 equivalent per person per year"
-  note: "This is a conversion quota for current-account purposes. It is not an investment quota."
+  label: Annual facilitation quota for conversion
+  amount: USD 50,000 equivalent per person per year
+  note: This is a conversion quota for current-account purposes. It is not an investment quota.
 liquidity:
-  settlement: "Same day to three business days, depending on the corridor and the bank's review."
-taxNote: >-
-  Inbound transfers are not automatically taxable, but they can affect your tax residency
-  and reporting position. Keep records.
-friction: {documents: 2, inPerson: 2, language: 3, minimum: 1, exit: 3}
+  settlement: Same day to three business days, depending on the corridor and the bank's review.
+taxNote: Inbound transfers are not automatically taxable, but they can affect your tax residency and reporting position. Keep records.
+friction:
+  documents: 2
+  inPerson: 2
+  language: 3
+  minimum: 1
+  exit: 3
 lastVerified: 2026-11-18
 verifiedBy: document
 sources:
-  - label: "个人外汇管理办法（中国人民银行令〔2006〕第3号）"
+  - label: 个人外汇管理办法（中国人民银行令〔2006〕第3号）
     date: 2006-12-25
-  - label: "个人外汇管理办法实施细则（汇发〔2007〕1号）"
+  - label: 个人外汇管理办法实施细则（汇发〔2007〕1号）
     date: 2007-01-05
 caveats:
-  - "Compiled from public documents — not yet field-verified with a bank."
-  - "This route does not create a legal path to invest the converted RMB in securities as a non-resident."
-  - "Splitting transfers or stating a false purpose is a violation, not a workaround."
+  - Compiled from public documents — not yet field-verified with a bank.
+  - This route does not create a legal path to invest the converted RMB in securities as a non-resident.
+  - Splitting transfers or stating a false purpose is a violation, not a workaround.
 fieldNotes: []

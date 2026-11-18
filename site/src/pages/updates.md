@@ -8,11 +8,15 @@ updated: 2026-11-18
 
 ## 2026-11-18 — Prototype published
 
+Live at [invest.lifetourchina.com](https://invest.lifetourchina.com).
+
 - Nine channels documented: bank account, deposits, bank wealth products, public funds, A-shares,
   savings bonds, Northbound Stock Connect, QFII, personal inbound remittance.
 - Access matrix, eligibility check, comparison and four playbooks built.
 - All channel records marked `document`: compiled from public sources, **not field-verified**.
 - Friction scoring published, including weights, so it can be argued with.
+- Deployment: Cloudflare Pages builds from the `main` branch; `/api/channels.json` is published from
+  the same data files.
 
 ## What is next
 

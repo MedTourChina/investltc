@@ -33,3 +33,9 @@ jobs:
           test -f dist/matrix/index.html
           test -f dist/api/channels.json
           echo "pages: $(find dist -name '*.html' | wc -l)"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: site/dist
+          retention-days: 1

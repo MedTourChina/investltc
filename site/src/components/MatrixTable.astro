@@ -1,0 +1,61 @@
+---
+import StatusBadge from './StatusBadge.astro';
+import { INVESTOR_SHORT, STATUS_HINT, TYPE_LABEL } from '../lib/labels';
+import type { Channel, InvestorType } from '../lib/schema';
+import { INVESTOR_TYPES } from '../lib/schema';
+
+interface Props {
+  channels: Channel[];
+  investors?: readonly InvestorType[];
+  showType?: boolean;
+}
+
+const { channels, investors = INVESTOR_TYPES, showType = false } = Astro.props;
+
+function cell(channel: Channel, investor: InvestorType) {
+  return channel.access.find((a) => a.investorType === investor);
+}
+---
+
+<div class="table-scroll">
+  <table class="table--matrix">
+    <caption class="sr-only">Access matrix: onshore investment channels by investor type</caption>
+    <thead>
+      <tr>
+        <th scope="col">{showType ? 'Channel' : 'Channel'}</th>
+        {investors.map((i) => (
+          <th scope="col">{INVESTOR_SHORT[i]}</th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {channels.map((c) => (
+        <tr>
+          <td>
+            <a href={`/channels/${c.id}`}><strong>{c.name}</strong></a>
+            <div class="tiny muted">{showType ? TYPE_LABEL[c.type] : c.nameZh}</div>
+          </td>
+          {investors.map((i) => {
+            const a = cell(c, i);
+            return (
+              <td>
+                {a ? (
+                  <span title={STATUS_HINT[a.status]}>
+                    <StatusBadge status={a.status} size="sm" />
+                    {a.status === 'conditional' && a.conditions.length > 0 && (
+                      <div class="tiny muted" style="margin-top:.35rem">
+                        {a.conditions[0]}
+                      </div>
+                    )}
+                  </span>
+                ) : (
+                  <StatusBadge status="closed" size="sm" label="Not listed" />
+                )}
+              </td>
+            );
+          })}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

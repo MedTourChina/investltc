@@ -1,0 +1,26 @@
+---
+import { formatDate, freshness, freshnessLabel } from '../lib/labels';
+
+interface Props {
+  date: string;
+  verifiedBy?: 'phone' | 'branch' | 'official-site' | 'app' | 'document';
+  short?: boolean;
+}
+
+const { date, verifiedBy = 'document', short = false } = Astro.props;
+const level = freshness(date);
+
+const prefix: Record<string, string> = {
+  document: 'Sources checked',
+  branch: 'Branch-verified',
+  phone: 'Phone-verified',
+  app: 'App checked',
+  'official-site': 'Site checked',
+};
+
+const text = short ? freshnessLabel(date) : `${prefix[verifiedBy]} ${formatDate(date)}`;
+---
+
+<span class:list={['freshness', level !== 'fresh' && `freshness--${level}`]} title={text}>
+  {text}
+</span>

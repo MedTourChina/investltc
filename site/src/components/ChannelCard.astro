@@ -1,0 +1,39 @@
+---
+import FreshnessBadge from './FreshnessBadge.astro';
+import FrictionBar from './FrictionBar.astro';
+import StatusBadge from './StatusBadge.astro';
+import { INVESTOR_SHORT, TYPE_LABEL } from '../lib/labels';
+import type { Channel } from '../lib/schema';
+
+interface Props {
+  channel: Channel;
+}
+
+const { channel } = Astro.props;
+const open = channel.access.filter((a) => a.status === 'open');
+const conditional = channel.access.filter((a) => a.status === 'conditional');
+const unknown = channel.access.filter((a) => a.status === 'unknown');
+---
+
+<a class="card card--link" href={`/channels/${channel.id}`} data-type={channel.type}>
+  <div class="spread">
+    <span class="card__kicker">{TYPE_LABEL[channel.type]}</span>
+    <FreshnessBadge date={channel.lastVerified} verifiedBy={channel.verifiedBy} short />
+  </div>
+  <h3 class="card__title">{channel.name}</h3>
+  <p class="card__body">{channel.summary}</p>
+  <div class="tag-row" style="margin-top:.8rem">
+    {open.length > 0 && <StatusBadge status="open" size="sm" label={`${open.length} open`} />}
+    {conditional.length > 0 && (
+      <StatusBadge status="conditional" size="sm" label={`${conditional.length} conditional`} />
+    )}
+    {unknown.length > 0 && <StatusBadge status="unknown" size="sm" label={`${unknown.length} unverified`} />}
+  </div>
+  <div class="spread" style="margin-top:.9rem">
+    <FrictionBar friction={channel.friction} />
+    <span class="tiny muted">
+      {channel.access.map((a) => INVESTOR_SHORT[a.investorType]).slice(0, 2).join(' · ')}
+      {channel.access.length > 2 ? ' …' : ''}
+    </span>
+  </div>
+</a>

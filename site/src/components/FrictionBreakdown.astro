@@ -1,0 +1,31 @@
+---
+import type { Channel } from '../lib/schema';
+
+interface Props {
+  friction: Channel['friction'];
+}
+
+const { friction } = Astro.props;
+
+const rows = [
+  { key: 'documents', label: 'Documents', value: friction.documents },
+  { key: 'inPerson', label: 'In person', value: friction.inPerson },
+  { key: 'language', label: 'Chinese needed', value: friction.language },
+  { key: 'minimum', label: 'Minimum size', value: friction.minimum },
+  { key: 'exit', label: 'Getting out', value: friction.exit },
+];
+
+const tone = (v: number) => (v <= 2 ? '' : v === 3 ? 'fbar__fill--mid' : 'fbar__fill--high');
+---
+
+<dl class="stack" style="margin:0">
+  {rows.map((r) => (
+    <div style="display:grid;grid-template-columns:1fr auto;gap:.2rem .6rem;align-items:center">
+      <dt class="tiny muted">{r.label}</dt>
+      <dd class="mono tiny" style="margin:0">{r.value}/5</dd>
+      <div class="fbar__track" style="grid-column:1 / -1;width:100%" aria-hidden="true">
+        <div class:list={['fbar__fill', tone(r.value)]} style={`width:${(r.value / 5) * 100}%`}></div>
+      </div>
+    </div>
+  ))}
+</dl>

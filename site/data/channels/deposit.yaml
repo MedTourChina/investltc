@@ -1,0 +1,72 @@
+id: deposit
+name: Deposits and large certificates
+nameZh: 存款与大额存单
+type: cash
+summary: >-
+  The simplest onshore place for RMB. Ordinary deposits are open to almost anyone with an account;
+  large-denomination certificates pay more but lock your money up.
+whatYouCanBuy:
+  - "Current and fixed-term deposits"
+  - "Large-denomination certificates of deposit (大额存单)"
+  - "Structured deposits that pair a deposit with a derivative"
+access:
+  - investorType: resident-foreign-individual
+    status: open
+    fundSources: [onshore-rmb-income, onshore-rmb-asset-sale]
+    conditions:
+      - "A local bank account"
+    denialReasons:
+      - "Structured deposits may be limited to domestic ID holders at some branches"
+  - investorType: non-resident-individual
+    status: conditional
+    fundSources: [offshore-fx, offshore-cnh]
+    conditions:
+      - "NRA account, or converted RMB in a local account"
+      - "Large certificates may require the branch to treat you as a resident customer"
+  - investorType: offshore-institution
+    status: open
+    fundSources: [offshore-fx, offshore-cnh]
+    conditions:
+      - "NRA deposit account"
+  - investorType: onshore-fie
+    status: open
+    fundSources: [onshore-rmb-income]
+    conditions:
+      - "Corporate account"
+documents:
+  - "Passport"
+  - "Bank card or account number"
+process:
+  - step: "Check the rate board in the app, not the poster in the branch"
+    where: online
+  - step: "Confirm whether early withdrawal is allowed and at what rate"
+    where: both
+  - step: "Buy in the app or at the counter; keep the electronic receipt"
+    where: both
+minimums:
+  amount: 50
+  currency: CNY
+  note: "CNY 50 for a regular deposit; CNY 200,000 for a large-denomination certificate at most banks."
+fees:
+  - label: "Account fee"
+    amount: "None"
+  - label: "Early withdrawal"
+    amount: "Interest is cut to the demand rate"
+liquidity:
+  settlement: "Demand deposits instantly; fixed terms at maturity or with a penalty."
+taxNote: >-
+  Deposit interest has been exempt from individual income tax since 2008.
+  Structured deposits are not deposits for capital-protection purposes.
+friction: {documents: 2, inPerson: 2, language: 2, minimum: 1, exit: 2}
+lastVerified: 2026-11-18
+verifiedBy: document
+sources:
+  - label: "存款保险条例（State Council, 2015）"
+    date: 2015-05-01
+  - label: "Bank rate sheets and product terms"
+    date: 2026-11-18
+caveats:
+  - "Compiled from public documents — not yet field-verified."
+  - "Deposit insurance covers up to CNY 500,000 per depositor per bank. Amounts above that are uninsured."
+  - "Structured deposits can lose part of the coupon; they are not the same as a fixed deposit."
+fieldNotes: []

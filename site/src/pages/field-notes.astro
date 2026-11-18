@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getChannels } from '../lib/data';
+import { formatDate } from '../lib/labels';
+
+const channels = getChannels();
+const withNotes = channels.filter((c) => c.fieldNotes.length > 0);
+---
+
+<BaseLayout
+  title="Field notes"
+  description="Dated, city-specific records of what actually happened at a bank or broker branch when a foreigner tried to open an account."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="hero__eyebrow">What actually happened</p>
+      <h1 style="margin-top:.6rem">Field notes</h1>
+      <p class="lede">
+        A field note is one visit: a city, a branch, a date, the documents carried, the time taken and
+        the outcome. It is the only part of this site that cannot be assembled from a press release.
+      </p>
+
+      {withNotes.length === 0 ? (
+        <div class="card" style="margin-top:2rem;padding:2rem">
+          <span class="card__kicker">None yet</span>
+          <h2 class="card__title" style="font-size:1.3rem;margin-top:.5rem">
+            Zero visits so far — and we are not going to invent one
+          </h2>
+          <p class="card__body" style="max-width:60ch">
+            This build is compiled from public documents. The first branch visits are scheduled in
+            Shanghai; each will be published here with the branch, the date and the answer we got,
+            including the refusals.
+          </p>
+
+          <div class="table-scroll" style="margin-top:1.6rem">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Field</th>
+                  <th scope="col">Example of what will be recorded</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>City and branch</td><td>Shanghai, Jing'an, a named branch</td></tr>
+                <tr><td>Date</td><td>The day of the visit, not the day of writing</td></tr>
+                <tr><td>Investor profile</td><td>Passport country, visa type, residence permit</td></tr>
+                <tr><td>Documents carried</td><td>The exact list, including what was rejected</td></tr>
+                <tr><td>Time</td><td>Queue, paperwork, total</td></tr>
+                <tr><td>Outcome</td><td>Opened, conditionally opened, refused, asked to return</td></tr>
+                <tr><td>What was said</td><td>A short quote, translated, with the original in a note</td></tr>
+                <tr><td>What we would do differently</td><td>The practical takeaway</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="tiny muted" style="margin-top:1rem">
+            If you have a recent experience at a branch, send it with the date and city and it will be
+            considered for publication, with your name or anonymously.
+          </p>
+        </div>
+      ) : (
+        <div class="grid grid--2" style="margin-top:2rem">
+          {withNotes.map((c) => (
+            <a class="card card--link" href={`/channels/${c.id}`}>
+              <span class="card__kicker">{c.name}</span>
+              <h2 class="card__title">{c.fieldNotes.length} note(s)</h2>
+              <p class="card__body">Verified {formatDate(c.lastVerified)} in {c.verifiedCity ?? 'China'}.</p>
+            </a>
+          ))}
+        </div>
+      )}
+
+      <div class="callout callout--info" style="margin-top:2rem">
+        <p class="callout__title">Why this page is empty on purpose</p>
+        <p class="small">
+          A fabricated field note would be worse than no field note. Everything else on this site can
+          be rebuilt from documents; this cannot. It will fill up one visit at a time.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

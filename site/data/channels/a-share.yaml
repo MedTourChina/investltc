@@ -1,0 +1,87 @@
+id: a-share
+name: A-share trading account
+nameZh: A股证券账户
+type: equity
+summary: >-
+  A brokerage account for Shanghai and Shenzhen listed shares. Foreigners living in China can open
+  one, but the paperwork and branch-by-branch execution are the hard part, not the account itself.
+whatYouCanBuy:
+  - "Shanghai and Shenzhen listed A-shares"
+  - "Exchange-traded funds"
+  - "Listed bonds and REITs"
+access:
+  - investorType: resident-foreign-individual
+    status: conditional
+    fundSources: [onshore-rmb-income, onshore-rmb-asset-sale]
+    conditions:
+      - "Passport and valid residence permit"
+      - "Employment proof, or proof of study for students"
+      - "In practice, an in-person visit to a branch that handles foreign clients"
+    denialReasons:
+      - "The broker's app requires a Chinese ID number for online onboarding"
+      - "Branch says it does not process foreign accounts"
+      - "Employment letter does not state the position or the term"
+  - investorType: non-resident-individual
+    status: closed
+    fundSources: [offshore-fx, offshore-cnh]
+    conditions:
+      - "There is no general route for an individual living abroad to open an onshore A-share account."
+      - "The published alternatives are Northbound Stock Connect through a Hong Kong broker, or an institutional route."
+  - investorType: offshore-institution
+    status: conditional
+    fundSources: [offshore-fx, offshore-cnh]
+    conditions:
+      - "QFII/RQFII licence plus a local custodian, or Northbound Stock Connect"
+  - investorType: onshore-fie
+    status: unknown
+    fundSources: [onshore-rmb-income]
+    conditions:
+      - "Corporate brokerage accounts exist, but the foreign-invested company route is not verified here"
+documents:
+  - "Passport"
+  - "Residence permit"
+  - "Employment or study proof"
+  - "Local bank card for the settlement account"
+  - "Completed brokerage forms and risk assessment"
+process:
+  - step: "Shortlist two or three brokers that have handled foreign passports recently"
+    where: online
+  - step: "Call and ask one question: do you open A-share accounts for foreign passport holders at this branch?"
+    where: online
+  - step: "Book an appointment; walk-ins are often turned away"
+    where: branch
+  - step: "Open the securities account and link the bank card as the settlement account"
+    where: branch
+  - step: "Complete the risk assessment and enable the trading app"
+    where: both
+minimums:
+  amount: 0
+  currency: CNY
+  note: "No account minimum, but one lot of shares is 100."
+fees:
+  - label: "Commission"
+    amount: "0.01–0.03% per trade"
+    note: "Negotiable; CNY 5 minimum is common"
+  - label: "Stamp duty"
+    amount: "0.05% on sales"
+    note: "Buy side exempt"
+  - label: "Transfer fee"
+    amount: "0.001% of turnover"
+liquidity:
+  settlement: "T+1 for shares; cash available after settlement."
+taxNote: >-
+  Dividends and capital gains can be taxed differently for residents and non-residents.
+  Get your own case confirmed before trading.
+friction: {documents: 4, inPerson: 5, language: 4, minimum: 1, exit: 2}
+lastVerified: 2026-11-18
+verifiedBy: document
+sources:
+  - label: "中国结算关于外国人开立A股证券账户有关事项的通知（2018）"
+    date: 2018-09-15
+  - label: "Broker onboarding requirements for foreign passport holders"
+    date: 2026-11-18
+caveats:
+  - "Compiled from public documents and broker guidance — not yet field-verified."
+  - "Brokers interpret the rule differently. A refusal at one branch is not a refusal by the broker."
+  - "Trading apps are usually Chinese-only; budget time for translation."
+fieldNotes: []

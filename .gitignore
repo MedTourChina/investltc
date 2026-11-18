@@ -1,0 +1,18 @@
+# Planning docs and build artefacts
+.tmp/
+
+# Site dependencies and output
+site/node_modules/
+site/dist/
+site/.astro/
+site/.vite/
+
+# Local package-manager workarounds (keep the repo npm-based for Cloudflare)
+site/.npmrc
+site/pnpm-workspace.yaml
+site/pnpm-lock.yaml
+site/scripts/patch-vite-local.cjs
+site/scripts/check-astro-local.mjs
+
+*.log
+.DS_Store

@@ -1,0 +1,378 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getChannels } from '../lib/data';
+import { INVESTOR_HINT, INVESTOR_LABEL } from '../lib/labels';
+import { INVESTOR_TYPES } from '../lib/schema';
+
+const channels = getChannels().map((c) => ({
+  id: c.id,
+  name: c.name,
+  type: c.type,
+  access: c.access.map((a) => ({
+    investorType: a.investorType,
+    status: a.status,
+    conditions: a.conditions,
+    denialReasons: a.denialReasons,
+  })),
+  minimum: c.minimums.amount,
+  currency: c.minimums.currency,
+  languageFriction: c.friction.language,
+}));
+---
+
+<BaseLayout
+  title="Check your case"
+  description="Tell us where you live and where the money sits, and see which onshore investment channels in China are open, conditional, unverified or closed to you."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="hero__eyebrow">Eligibility check</p>
+      <h1 style="margin-top:.6rem">What can you actually open?</h1>
+      <p class="lede">
+        Seven questions. Everything runs in your browser — no account, no email, nothing stored.
+        The link at the end carries your answers, so you can send it to a friend or a banker.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="grid" style="grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:2rem;align-items:start">
+        <div>
+          <form class="card" id="check-form" style="padding:1.4rem">
+            <div class="form-grid">
+              <div class="field">
+                <label for="investor">Who are you</label>
+                <select id="investor" name="investor">
+                  {INVESTOR_TYPES.map((t) => (
+                    <option value={t}>{INVESTOR_LABEL[t]}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="source">Where is the money</label>
+                <select id="source" name="source">
+                  <option value="onshore-rmb-income">RMB earned in China</option>
+                  <option value="onshore-rmb-asset-sale">RMB from selling an asset in China</option>
+                  <option value="offshore-fx">Foreign currency held abroad</option>
+                  <option value="offshore-cnh">Offshore RMB (CNH)</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="months">Time in China</label>
+                <select id="months" name="months">
+                  <option value="none">Not in China</option>
+                  <option value="lt6">Less than 6 months</option>
+                  <option value="6to12">6–12 months</option>
+                  <option value="1to3">1–3 years</option>
+                  <option value="3plus">More than 3 years</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="visa">Visa / status</label>
+                <select id="visa" name="visa">
+                  <option value="work">Work permit</option>
+                  <option value="student">Student</option>
+                  <option value="family">Family / dependent</option>
+                  <option value="permanent">Permanent residence</option>
+                  <option value="none">None / visitor</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="amount">Amount you could invest</label>
+                <select id="amount" name="amount">
+                  <option value="30000">Under CNY 50,000</option>
+                  <option value="300000">CNY 50,000 – 500,000</option>
+                  <option value="1500000">CNY 500,000 – 3 million</option>
+                  <option value="5000000">Above CNY 3 million</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="visit">Branch visits</label>
+                <select id="visit" name="visit">
+                  <option value="yes">I can go in person</option>
+                  <option value="no">Online only</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="chinese">Chinese</label>
+                <select id="chinese" name="chinese">
+                  <option value="none">None</option>
+                  <option value="basic">Basic</option>
+                  <option value="fluent">Fluent</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top:1.2rem">
+              <button class="btn" type="submit">Show my options</button>
+              <button class="btn btn--ghost btn--sm" type="button" id="copy-link" hidden>Copy shareable link</button>
+            </div>
+            <p class="tiny muted" style="margin-top:.9rem">
+              This is a filter, not an assessment. It tells you which combinations to check, not
+              whether a product suits you.
+            </p>
+          </form>
+
+          <noscript>
+            <div class="callout callout--info" style="margin-top:1rem">
+              <p class="callout__title">JavaScript is off</p>
+              <p class="small">
+                The filter runs in your browser, so it needs JavaScript. You can still read the
+                <a href="/matrix">full matrix</a>.
+              </p>
+            </div>
+          </noscript>
+
+          <div id="results" aria-live="polite" style="margin-top:2rem"></div>
+        </div>
+
+        <aside class="stack">
+          <div class="card card--flat">
+            <span class="card__kicker">Why this exists</span>
+            <p class="small" style="margin-top:.5rem">
+              Most English guides answer “what should I buy”. Almost nobody answers “can I even open
+              this”. This page answers the second question.
+            </p>
+          </div>
+          <div class="card card--flat">
+            <span class="card__kicker">Four states, honestly</span>
+            <ul class="dotlist" style="margin-top:.6rem">
+              <li><strong>Open</strong> — a published route exists.</li>
+              <li><strong>Conditional</strong> — possible if conditions are met.</li>
+              <li><strong>Not verified</strong> — we have not checked. Not a no.</li>
+              <li><strong>Not available</strong> — no general route exists.</li>
+            </ul>
+          </div>
+          <div class="card card--flat">
+            <span class="card__kicker">Money from abroad?</span>
+            <p class="small" style="margin-top:.5rem">
+              Individuals have almost no legal route to invest offshore money onshore. Read
+              <a href="/playbooks/inbound-funding">how money gets in</a> before assuming a transfer will work.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <script type="application/json" id="channel-data" set:html={JSON.stringify(channels)}></script>
+
+  <script>
+    type Result = { id: string; name: string; type: string; status: string; why: string[] };
+
+    const raw = document.getElementById('channel-data')?.textContent ?? '[]';
+    const channels = JSON.parse(raw);
+
+    const form = document.getElementById('check-form') as HTMLFormElement;
+    const results = document.getElementById('results') as HTMLElement;
+    const copyBtn = document.getElementById('copy-link') as HTMLButtonElement;
+
+    const playbookFor: Record<string, string> = {
+      equity: 'a-shares',
+      wealth: 'bank-wealth',
+      fund: 'funds',
+      route: 'inbound-funding',
+    };
+
+    const LABEL: Record<string, string> = {
+      open: 'Can open now',
+      conditional: 'Conditional',
+      unknown: 'Not verified for your case',
+      closed: 'No general route',
+    };
+
+    const BADGE: Record<string, string> = {
+      open: 'Open',
+      conditional: 'Conditional',
+      unknown: 'Not verified',
+      closed: 'Not available',
+    };
+
+    function readInput() {
+      const fd = new FormData(form);
+      return {
+        investor: String(fd.get('investor') ?? ''),
+        source: String(fd.get('source') ?? ''),
+        months: String(fd.get('months') ?? ''),
+        visa: String(fd.get('visa') ?? ''),
+        amount: Number(fd.get('amount') ?? 0),
+        visit: String(fd.get('visit') ?? 'yes'),
+        chinese: String(fd.get('chinese') ?? 'none'),
+      };
+    }
+
+    function evaluate(input: ReturnType<typeof readInput>): Result[] {
+      return channels.map((ch: any) => {
+        const a = ch.access.find((x: any) => x.investorType === input.investor);
+        if (!a) {
+          return {
+            id: ch.id,
+            name: ch.name,
+            type: ch.type,
+            status: 'closed',
+            why: ['We have not documented this channel for your investor type.'],
+          };
+        }
+
+        let status: string = a.status;
+        const why: string[] = [];
+
+        if (status === 'closed') {
+          why.push(...(a.denialReasons?.length ? a.denialReasons : a.conditions));
+        } else {
+          why.push(...a.conditions);
+        }
+
+        if (
+          status !== 'closed' &&
+          typeof ch.minimum === 'number' &&
+          ch.currency === 'CNY' &&
+          input.amount < ch.minimum
+        ) {
+          if (status === 'open') status = 'conditional';
+          why.unshift(
+            `Minimum is CNY ${ch.minimum.toLocaleString('en-US')}; your selected amount is below it.`,
+          );
+        }
+
+        if (
+          status !== 'closed' &&
+          input.visit === 'no' &&
+          /branch|counter|in person|face-to-face/i.test(a.conditions.join(' '))
+        ) {
+          if (status === 'open') status = 'conditional';
+          why.push('This route usually requires a branch visit.');
+        }
+
+        if (input.chinese === 'none' && ch.languageFriction >= 4 && status !== 'closed') {
+          why.push('Chinese is effectively required at the counter or in the app.');
+        }
+
+        if (input.months === 'none' && input.investor === 'resident-foreign-individual') {
+          why.push('You said you are not in China — the “living in China” rules may not apply to you.');
+        }
+
+        return { id: ch.id, name: ch.name, type: ch.type, status, why };
+      });
+    }
+
+    function render(list: Result[]) {
+      const order = ['open', 'conditional', 'unknown', 'closed'];
+      const groups = order.map((s) => ({ status: s, items: list.filter((r) => r.status === s) }));
+      const actionable = list.filter((r) => r.status === 'open' || r.status === 'conditional').length;
+
+      const summary = document.createElement('p');
+      summary.className = 'muted';
+      summary.style.marginBottom = '1rem';
+      summary.textContent = `${actionable} of ${list.length} channels look open or conditional for you. ${list.filter((r) => r.status === 'unknown').length} are unverified — those are questions, not refusals.`;
+
+      const frag = document.createDocumentFragment();
+      frag.appendChild(summary);
+
+      for (const g of groups) {
+        if (g.items.length === 0) continue;
+        const wrap = document.createElement('div');
+        wrap.className = 'result-group';
+        wrap.style.marginBottom = '1rem';
+
+        const head = document.createElement('div');
+        head.className = 'result-group__head';
+        const title = document.createElement('span');
+        title.textContent = LABEL[g.status];
+        const count = document.createElement('span');
+        count.className = 'mono';
+        count.textContent = String(g.items.length);
+        head.append(title, count);
+
+        const body = document.createElement('div');
+        for (const item of g.items) {
+          const row = document.createElement('div');
+          row.className = 'result-item';
+
+          const headRow = document.createElement('div');
+          headRow.className = 'result-item__head';
+
+          const link = document.createElement('a');
+          link.href = `/channels/${item.id}`;
+          link.className = 'result-item__name';
+          link.textContent = item.name;
+
+          const badge = document.createElement('span');
+          badge.className = `badge badge--${item.status} badge--sm`;
+          badge.textContent = BADGE[g.status];
+
+          headRow.append(link, badge);
+
+          const why = document.createElement('p');
+          why.className = 'result-item__why';
+          why.textContent = item.why.slice(0, 3).join(' · ');
+
+          row.append(headRow, why);
+
+          const pb = playbookFor[item.type];
+          if (pb) {
+            const a2 = document.createElement('a');
+            a2.href = `/playbooks/${pb}`;
+            a2.className = 'tiny';
+            a2.textContent = 'Open the playbook →';
+            row.appendChild(a2);
+          }
+
+          body.appendChild(row);
+        }
+
+        wrap.append(head, body);
+        frag.appendChild(wrap);
+      }
+
+      results.replaceChildren(frag);
+      copyBtn.hidden = false;
+    }
+
+    function syncUrl() {
+      const fd = new FormData(form);
+      const params = new URLSearchParams();
+      fd.forEach((v, k) => params.set(k, String(v)));
+      const url = `${location.pathname}?${params.toString()}`;
+      history.replaceState(null, '', url);
+    }
+
+    function applyParams() {
+      const params = new URLSearchParams(location.search);
+      if (![...params.keys()].length) return false;
+      for (const [k, v] of params) {
+        const el = form.elements.namedItem(k) as HTMLSelectElement | null;
+        if (el && [...el.options].some((o) => o.value === v)) el.value = v;
+      }
+      return true;
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = readInput();
+      render(evaluate(input));
+      syncUrl();
+    });
+
+    copyBtn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(location.href);
+        copyBtn.textContent = 'Link copied';
+        setTimeout(() => (copyBtn.textContent = 'Copy shareable link'), 2000);
+      } catch {
+        copyBtn.textContent = 'Copy failed — select the URL bar';
+      }
+    });
+
+    if (applyParams()) {
+      render(evaluate(readInput()));
+    }
+  </script>
+</BaseLayout>

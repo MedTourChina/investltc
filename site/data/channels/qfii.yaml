@@ -1,0 +1,79 @@
+id: qfii
+name: QFII / RQFII
+nameZh: 合格境外机构投资者
+type: route
+summary: >-
+  The institutional door: a licensed foreign institution invests into onshore securities through
+  a local custodian. Merged in 2020, with the quota cap removed, but still a compliance project.
+whatYouCanBuy:
+  - "A-shares, bonds, funds and listed derivatives within the approved scope"
+  - "Access to the interbank bond market in some configurations"
+access:
+  - investorType: offshore-institution
+    status: open
+    fundSources: [offshore-fx, offshore-cnh]
+    conditions:
+      - "Register with the CSRC and appoint a domestic custodian"
+      - "Ongoing compliance, reporting and audit obligations"
+      - "A custodian bank is mandatory"
+    denialReasons:
+      - "Insufficient track record or regulatory status in the home jurisdiction"
+      - "Custodian declines the mandate"
+  - investorType: non-resident-individual
+    status: closed
+    fundSources: [offshore-fx]
+    conditions:
+      - "QFII is not available to individuals"
+  - investorType: resident-foreign-individual
+    status: closed
+    fundSources: [onshore-rmb-income]
+    conditions:
+      - "Not applicable to individuals living in China"
+  - investorType: onshore-fie
+    status: conditional
+    fundSources: [offshore-fx]
+    conditions:
+      - "Possible for an onshore entity with offshore funding, subject to approvals"
+documents:
+  - "Institutional licence and constitutional documents"
+  - "Regulatory registration filings"
+  - "Custody agreement"
+  - "Compliance and AML programme"
+process:
+  - step: "Select a custodian bank; it will drive most of the process"
+    where: online
+  - step: "File the CSRC registration and complete the custodian onboarding"
+    where: online
+  - step: "Open the securities and FX accounts with the custodian"
+    where: both
+  - step: "Agree reporting, audit and tax procedures before the first trade"
+    where: n/a
+minimums:
+  amount: null
+  currency: CNY
+  note: "No statutory minimum, but the operational cost means only institutional sizes make sense."
+fees:
+  - label: "Custody"
+    amount: "Negotiated, typically a few basis points"
+  - label: "Trading and settlement"
+    amount: "Broker commission plus local levies"
+  - label: "Compliance and audit"
+    amount: "Material; budget for it"
+liquidity:
+  settlement: "Per custodian arrangements; repatriation is possible after tax clearance."
+taxNote: >-
+  Withholding on dividends, interest and gains depends on the treaty and the instrument.
+  This needs a tax adviser, not a blog post.
+friction: {documents: 5, inPerson: 1, language: 3, minimum: 5, exit: 4}
+lastVerified: 2026-11-18
+verifiedBy: document
+sources:
+  - label: "合格境外机构投资者和人民币合格境外机构投资者境内证券期货投资管理办法（2020）"
+    date: 2020-09-25
+  - label: "Custodian bank published QFII onboarding guidance"
+    date: 2026-11-18
+caveats:
+  - "Compiled from public documents — not verified with a custodian."
+  - "Timeline is measured in months, not weeks."
+  - "This page is an orientation, not an onboarding guide. Custodians run the real process."
+fieldNotes: []

@@ -1,0 +1,295 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StatusBadge from '../../components/StatusBadge.astro';
+import FreshnessBadge from '../../components/FreshnessBadge.astro';
+import FrictionBar from '../../components/FrictionBar.astro';
+import FrictionBreakdown from '../../components/FrictionBreakdown.astro';
+import Callout from '../../components/Callout.astro';
+import { getChannels } from '../../lib/data';
+import {
+  FUND_SOURCE_LABEL,
+  INVESTOR_LABEL,
+  STATUS_HINT,
+  STATUS_LABEL,
+  TYPE_LABEL,
+  formatAmount,
+  formatDate,
+} from '../../lib/labels';
+import { INVESTOR_TYPES } from '../../lib/schema';
+import type { Channel } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return getChannels().map((channel) => ({ params: { slug: channel.id }, props: { channel } }));
+}
+
+interface Props {
+  channel: Channel;
+}
+
+const { channel } = Astro.props;
+const others = getChannels().filter(
+  (c) => c.id !== channel.id && (c.type === channel.type || c.access.some((a) => channel.access.some((b) => b.investorType === a.investorType))),
+).slice(0, 3);
+
+const playbookFor: Record<string, string> = {
+  equity: '/playbooks/a-shares',
+  wealth: '/playbooks/bank-wealth',
+  fund: '/playbooks/funds',
+  route: '/playbooks/inbound-funding',
+};
+const playbook = playbookFor[channel.type];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: `${channel.name} — access for foreign investors in China`,
+  description: channel.summary,
+  dateModified: channel.lastVerified,
+  author: { '@type': 'Organization', name: 'Onshore' },
+};
+---
+
+<BaseLayout title={channel.name} description={channel.summary} ogType="article">
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <section class="section">
+    <div class="wrap">
+      <nav class="tiny muted" aria-label="Breadcrumb" style="margin-bottom:1rem">
+        <a href="/channels">Channels</a> → {TYPE_LABEL[channel.type]}
+      </nav>
+
+      <div class="spread">
+        <div>
+          <p class="hero__eyebrow">{TYPE_LABEL[channel.type]}</p>
+          <h1 style="margin-top:.4rem">{channel.name}</h1>
+          <p class="muted" style="margin-top:.2rem">{channel.nameZh}</p>
+        </div>
+        <FreshnessBadge date={channel.lastVerified} verifiedBy={channel.verifiedBy} />
+      </div>
+
+      <p class="lede">{channel.summary}</p>
+
+      <div class="row" style="margin-top:1.2rem">
+        <FrictionBar friction={channel.friction} />
+        {channel.access.map((a) => (
+          <StatusBadge status={a.status} size="sm" label={`${INVESTOR_LABEL[a.investorType].split(' ')[0]} ${STATUS_LABEL[a.status].toLowerCase()}`} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="grid" style="grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);align-items:start;gap:2rem">
+        <div class="stack-lg">
+          <div>
+            <h2>Who can open it</h2>
+            <div class="table-scroll" style="margin-top:1rem">
+              <table>
+                <thead>
+                  <tr>
+                    <th scope="col">Investor</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">What it takes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {INVESTOR_TYPES.map((t) => {
+                    const a = channel.access.find((x) => x.investorType === t);
+                    return (
+                      <tr>
+                        <td><strong>{INVESTOR_LABEL[t]}</strong></td>
+                        <td>{a ? <StatusBadge status={a.status} size="sm" /> : <span class="tiny muted">Not listed</span>}</td>
+                        <td>
+                          {a ? (
+                            <>
+                              {a.status === 'closed' && a.conditions.length > 0 && (
+                                <p class="tiny muted">{a.conditions[0]}</p>
+                              )}
+                              {a.status !== 'closed' && a.conditions.length > 0 && (
+                                <ul class="dotlist">
+                                  {a.conditions.map((c) => <li>{c}</li>)}
+                                </ul>
+                              )}
+                              {a.fundSources.length > 0 && (
+                                <p class="tiny muted" style="margin-top:.4rem">
+                                  Money from: {a.fundSources.map((f) => FUND_SOURCE_LABEL[f]).join(' · ')}
+                                </p>
+                              )}
+                            </>
+                          ) : (
+                            <span class="tiny muted">We have not documented this combination.</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {channel.documents.length > 0 && (
+            <div>
+              <h2>What to bring</h2>
+              <ul class="list-plain" style="margin-top:.9rem">
+                {channel.documents.map((d) => (
+                  <li>
+                    <input type="checkbox" id={`doc-${d}`} />
+                    <label for={`doc-${d}`}>{d}</label>
+                  </li>
+                ))}
+              </ul>
+              <p class="tiny muted" style="margin-top:.7rem">
+                Tick these off before you go. The list is what the rules require; a branch may ask for more.
+              </p>
+            </div>
+          )}
+
+          {channel.process.length > 0 && (
+            <div>
+              <h2>How it usually goes</h2>
+              <ol class="dotlist" style="margin-top:.9rem">
+                {channel.process.map((p, i) => (
+                  <li>
+                    <strong>{i + 1}.</strong> {p.step}
+                    <span class="tiny muted"> · {p.where === 'n/a' ? 'anywhere' : p.where}</span>
+                    {p.note && <div class="tiny muted">{p.note}</div>}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+
+          <div>
+            <h2>Cost and minimums</h2>
+            <div class="table-scroll" style="margin-top:1rem">
+              <table>
+                <tbody>
+                  <tr>
+                    <th scope="row" style="width:38%">Minimum</th>
+                    <td>
+                      <span class="mono">{formatAmount(channel.minimums.amount, channel.minimums.currency)}</span>
+                      {channel.minimums.note && <div class="tiny muted">{channel.minimums.note}</div>}
+                    </td>
+                  </tr>
+                  {channel.quota && (
+                    <tr>
+                      <th scope="row">{channel.quota.label}</th>
+                      <td>
+                        <span class="mono">{channel.quota.amount ?? '—'}</span>
+                        {channel.quota.note && <div class="tiny muted">{channel.quota.note}</div>}
+                      </td>
+                    </tr>
+                  )}
+                  {channel.fees.map((f) => (
+                    <tr>
+                      <th scope="row">{f.label}</th>
+                      <td>
+                        <span class="mono">{f.amount}</span>
+                        {f.note && <div class="tiny muted">{f.note}</div>}
+                      </td>
+                    </tr>
+                  ))}
+                  <tr>
+                    <th scope="row">Getting out</th>
+                    <td>
+                      {channel.liquidity.settlement}
+                      {channel.liquidity.note && <div class="tiny muted">{channel.liquidity.note}</div>}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {channel.whatYouCanBuy.length > 0 && (
+            <div>
+              <h2>What you can hold</h2>
+              <ul class="dotlist" style="margin-top:.9rem">
+                {channel.whatYouCanBuy.map((w) => <li>{w}</li>)}
+              </ul>
+            </div>
+          )}
+
+          {channel.taxNote && (
+            <div>
+              <h2>Tax, in one paragraph</h2>
+              <p class="muted" style="margin-top:.7rem">{channel.taxNote}</p>
+            </div>
+          )}
+
+          {channel.caveats.length > 0 && (
+            <div>
+              <h2>What we are unsure about</h2>
+              <div class="stack" style="margin-top:.9rem">
+                {channel.caveats.map((c) => (
+                  <Callout type="warn" title="Caveat"><p class="small">{c}</p></Callout>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div>
+            <h2>Sources</h2>
+            <ul class="list-plain" style="margin-top:.9rem">
+              {channel.sources.map((s) => (
+                <li>
+                  <span class="mono tiny">{formatDate(s.date)}</span>
+                  {s.url ? <a href={s.url} rel="nofollow noopener" target="_blank">{s.label}</a> : <span>{s.label}</span>}
+                </li>
+              ))}
+            </ul>
+            <p class="tiny muted" style="margin-top:.7rem">
+              Checked {formatDate(channel.lastVerified)} via {channel.verifiedBy.replace('-', ' ')}
+              {channel.verifiedCity ? ` in ${channel.verifiedCity}` : ''}. Not a substitute for the
+              institution's own terms.
+            </p>
+          </div>
+        </div>
+
+        <aside class="stack">
+          <div class="card card--flat">
+            <span class="card__kicker">Friction</span>
+            <p class="small muted" style="margin:.4rem 0 .8rem">
+              Higher means harder to enter or exit. No expected returns are scored anywhere on this site.
+            </p>
+            <FrictionBreakdown friction={channel.friction} />
+          </div>
+
+          <div class="card card--flat">
+            <span class="card__kicker">Status at a glance</span>
+            <ul class="list-plain" style="margin-top:.7rem">
+              {channel.access.map((a) => (
+                <li class="spread">
+                  <span class="tiny">{INVESTOR_LABEL[a.investorType]}</span>
+                  <StatusBadge status={a.status} size="sm" />
+                </li>
+              ))}
+            </ul>
+            <p class="tiny muted" style="margin-top:.6rem">{STATUS_HINT[channel.access[0]?.status ?? 'unknown']}</p>
+          </div>
+
+          {playbook && (
+            <a class="card card--link" href={playbook}>
+              <span class="card__kicker">Playbook</span>
+              <span class="card__title">Step-by-step: opening it</span>
+              <span class="card__body" style="display:block">Including what to say at the counter and what to do if you are refused.</span>
+            </a>
+          )}
+
+          {others.length > 0 && (
+            <div class="card card--flat">
+              <span class="card__kicker">Related</span>
+              <ul class="list-plain" style="margin-top:.6rem">
+                {others.map((o) => (
+                  <li><a href={`/channels/${o.id}`}>{o.name}</a></li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </aside>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

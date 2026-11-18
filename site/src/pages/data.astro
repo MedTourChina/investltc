@@ -1,0 +1,93 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getChannels } from '../lib/data';
+import { formatDate } from '../lib/labels';
+
+const channels = getChannels();
+const fields = [
+  ['id', 'Stable identifier used in URLs'],
+  ['access[]', 'One entry per investor type: status, conditions, funding sources, denial reasons'],
+  ['documents[]', 'What the applicant must bring'],
+  ['process[]', 'Ordered steps, and whether each happens online or at a branch'],
+  ['minimums', 'Minimum amount, in CNY unless stated'],
+  ['fees[]', 'Published fees, as ranges'],
+  ['quota', 'Annual or scheme limits where they apply'],
+  ['liquidity', 'Settlement timing and exit constraints'],
+  ['taxNote', 'A pointer, never a determination'],
+  ['friction', 'Five sub-scores, 1–5, weighted into one number'],
+  ['lastVerified / verifiedBy', 'When it was checked, and how'],
+  ['sources[]', 'What the check was based on'],
+  ['caveats[]', 'What we are unsure about'],
+];
+---
+
+<BaseLayout
+  title="Open data"
+  description="Download the channel dataset as JSON: eligibility, documents, fees, quotas, liquidity and verification dates. CC BY 4.0."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="hero__eyebrow">Dataset</p>
+      <h1 style="margin-top:.6rem">Open data</h1>
+      <p class="lede">
+        The matrix is generated from one file per channel in a public repository. You can download the
+        whole set, check our work, or build something better with it.
+      </p>
+
+      <div class="row" style="margin-top:1.5rem">
+        <a class="btn" href="/api/channels.json">Download JSON</a>
+        <a class="btn btn--ghost" href="/methodology">How it is checked</a>
+      </div>
+
+      <div class="grid grid--3" style="margin-top:2rem">
+        <div class="card">
+          <span class="card__kicker">Channels</span>
+          <p class="mono" style="font-size:2rem;margin-top:.3rem">{channels.length}</p>
+        </div>
+        <div class="card">
+          <span class="card__kicker">Field-verified</span>
+          <p class="mono" style="font-size:2rem;margin-top:.3rem">
+            {channels.filter((c) => c.verifiedBy === 'branch' || c.verifiedBy === 'phone').length}
+          </p>
+        </div>
+        <div class="card">
+          <span class="card__kicker">Last checked</span>
+          <p class="mono" style="font-size:1.3rem;margin-top:.6rem">
+            {formatDate(channels.map((c) => c.lastVerified).sort().at(-1) ?? '2026-11-18')}
+          </p>
+        </div>
+      </div>
+
+      <h2 style="margin-top:2.4rem">What is in each record</h2>
+      <div class="table-scroll" style="margin-top:1rem">
+        <table>
+          <thead><tr><th scope="col">Field</th><th scope="col">Meaning</th></tr></thead>
+          <tbody>
+            {fields.map(([k, v]) => (
+              <tr><td class="mono tiny">{k}</td><td>{v}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h2 style="margin-top:2.4rem">Licence and reuse</h2>
+      <p>
+        The dataset is published under <strong>CC BY 4.0</strong>. Reuse it, remix it, publish it —
+        with attribution. If you find an error, a correction is worth more than a citation.
+      </p>
+      <p class="small muted">
+        The records are compiled from public documents and are explicitly marked as unverified where
+        they have not been tested in person. Do not present them as confirmed eligibility.
+      </p>
+
+      <div class="callout callout--info" style="margin-top:2rem">
+        <p class="callout__title">Contributing</p>
+        <p class="small">
+          A repository link and a pull-request template will appear here once the first field notes
+          are in. Until then, send corrections by email and they will be logged in
+          <a href="/updates">Updates</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,21 @@
+---
+import { frictionLabel, frictionScore } from '../lib/friction';
+import type { Channel } from '../lib/schema';
+
+interface Props {
+  friction: Channel['friction'];
+  showLabel?: boolean;
+}
+
+const { friction, showLabel = true } = Astro.props;
+const score = frictionScore(friction);
+const tone = score < 2.5 ? '' : score < 3.75 ? 'fbar__fill--mid' : 'fbar__fill--high';
+---
+
+<span class="fbar" title={`Friction score ${score.toFixed(2)} / 5 — higher means harder to enter or exit`}>
+  <span class="fbar__track" aria-hidden="true">
+    <span class:list={['fbar__fill', tone]} style={`width:${(score / 5) * 100}%`}></span>
+  </span>
+  <span class="mono">{score.toFixed(1)}</span>
+  {showLabel && <span>{frictionLabel(score)}</span>}
+</span>

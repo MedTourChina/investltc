@@ -1,0 +1,52 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { formatDate } from '../lib/labels';
+
+interface Props {
+  title?: string;
+  description?: string;
+  kicker?: string;
+  updated?: string;
+  frontmatter?: {
+    title?: string;
+    description?: string;
+    kicker?: string;
+    updated?: string;
+  };
+}
+
+const { frontmatter = {}, ...rest } = Astro.props;
+
+const title = rest.title ?? frontmatter.title ?? 'Untitled';
+const description = rest.description ?? frontmatter.description ?? '';
+const kicker = rest.kicker ?? frontmatter.kicker ?? 'Guide';
+const updated = rest.updated ?? frontmatter.updated;
+---
+
+<BaseLayout title={title} description={description} ogType="article">
+  <article class="section">
+    <div class="wrap wrap--narrow">
+      <p class="hero__eyebrow" style="margin-bottom:.8rem">{kicker}</p>
+      <h1>{title}</h1>
+      {description && <p class="lede">{description}</p>}
+
+      <div class="doc-meta">
+        {updated && <span>Last reviewed {formatDate(updated)}</span>}
+        <span>General information, not advice</span>
+        <a href="/methodology">How we check things</a>
+      </div>
+
+      <div class="prose">
+        <slot />
+      </div>
+
+      <div class="callout callout--info" style="margin-top:2.5rem">
+        <p class="callout__title">Found something wrong?</p>
+        <p class="small">
+          Rules and branch practice change. If this page is out of date, tell us and we will fix it
+          within seven days. <a href="/about#contact">Contact</a>.
+        </p>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,66 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+}
+
+const { title, description, ogType = 'website', noindex = false } = Astro.props;
+const siteName = 'Onshore';
+const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://invest.lifetourchina.com');
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: siteName,
+  description: 'Onshore investment channels in China for foreigners: eligibility, documents, friction.',
+  url: canonical.origin,
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#faf8f3" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="proto-bar">
+      <div class="wrap">
+        <strong>Prototype.</strong> Channel data is compiled from public documents and is
+        <em>not yet field-verified</em>. <a href="/methodology">How this is checked →</a>
+      </div>
+    </div>
+
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

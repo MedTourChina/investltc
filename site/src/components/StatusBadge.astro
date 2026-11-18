@@ -1,0 +1,16 @@
+---
+import { STATUS_LABEL } from '../lib/labels';
+import type { Status } from '../lib/schema';
+
+interface Props {
+  status: Status;
+  size?: 'sm';
+  label?: string;
+}
+
+const { status, size, label } = Astro.props;
+---
+
+<span class:list={['badge', `badge--${status}`, size === 'sm' && 'badge--sm']}>
+  {label ?? STATUS_LABEL[status]}
+</span>

@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Not found" description="That page does not exist." noindex>
+  <section class="section">
+    <div class="wrap wrap--narrow">
+      <p class="hero__eyebrow">404</p>
+      <h1 style="margin-top:.6rem">That page is not here</h1>
+      <p class="lede">
+        The link may be old, or the channel may have been renamed. Start from the matrix, or search the
+        channel list.
+      </p>
+      <div class="row" style="margin-top:1.6rem">
+        <a class="btn" href="/matrix">Access matrix</a>
+        <a class="btn btn--ghost" href="/channels">All channels</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

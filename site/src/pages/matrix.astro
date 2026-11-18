@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import MatrixTable from '../components/MatrixTable.astro';
+import { getChannels } from '../lib/data';
+import { INVESTOR_LABEL, INVESTOR_HINT } from '../lib/labels';
+import { INVESTOR_TYPES } from '../lib/schema';
+
+const channels = getChannels();
+---
+
+<BaseLayout
+  title="Access matrix"
+  description="Which onshore investment channels each type of foreign investor can use in China — open, conditional, not available, or not yet verified."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="hero__eyebrow">The core table</p>
+      <h1 style="margin-top:.6rem">Who can use what</h1>
+      <p class="lede">
+        Rows are channels. Columns are investor types. Every cell is one of four states, and every
+        row links to the documents, fees and caveats behind it.
+      </p>
+
+      <div class="grid grid--4" style="margin-top:1.8rem">
+        {INVESTOR_TYPES.map((t) => (
+          <div class="card card--flat">
+            <span class="card__kicker">{INVESTOR_LABEL[t]}</span>
+            <p class="tiny muted" style="margin-top:.4rem">{INVESTOR_HINT[t]}</p>
+          </div>
+        ))}
+      </div>
+
+      <div style="margin-top:2rem">
+        <MatrixTable channels={channels} showType />
+      </div>
+
+      <div class="legend" style="margin-top:1.1rem">
+        <span><span class="badge badge--open badge--sm">Open</span> a published route exists</span>
+        <span><span class="badge badge--conditional badge--sm">Conditional</span> possible if conditions are met</span>
+        <span><span class="badge badge--closed badge--sm">Not available</span> no general route</span>
+        <span><span class="badge badge--unknown badge--sm">Not verified</span> we have not checked yet</span>
+      </div>
+
+      <div class="grid grid--2" style="margin-top:2rem">
+        <div class="callout callout--warn">
+          <p class="callout__title">“Not verified” is not a no</p>
+          <p class="small">
+            It means we have not confirmed the combination with the institution. Treat it as an open
+            question and ask the branch — do not assume refusal.
+          </p>
+        </div>
+        <div class="callout callout--info">
+          <p class="callout__title">One rule, different branches</p>
+          <p class="small">
+            Chinese banks and brokers apply the same rule unevenly. A refusal at one branch is not a
+            refusal by the institution. Our field notes will record branches, not just brands.
+          </p>
+        </div>
+      </div>
+
+      <div class="row" style="margin-top:2rem">
+        <a class="btn" href="/check">Filter by your own situation</a>
+        <a class="btn btn--ghost" href="/channels">Browse channel pages</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

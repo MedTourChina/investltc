@@ -1,0 +1,169 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StatusBadge from '../components/StatusBadge.astro';
+import FrictionBar from '../components/FrictionBar.astro';
+import { getChannels } from '../lib/data';
+import { INVESTOR_SHORT, TYPE_LABEL, formatAmount } from '../lib/labels';
+import { INVESTOR_TYPES } from '../lib/schema';
+
+const channels = getChannels();
+
+const rows = [
+  {
+    label: 'Type',
+    render: (c: (typeof channels)[number]) => TYPE_LABEL[c.type],
+  },
+  {
+    label: 'Open to',
+    render: (c: (typeof channels)[number]) =>
+      c.access
+        .filter((a) => a.status === 'open')
+        .map((a) => INVESTOR_SHORT[a.investorType])
+        .join(', ') || '—',
+  },
+  {
+    label: 'Conditional for',
+    render: (c: (typeof channels)[number]) =>
+      c.access
+        .filter((a) => a.status === 'conditional')
+        .map((a) => INVESTOR_SHORT[a.investorType])
+        .join(', ') || '—',
+  },
+  {
+    label: 'Minimum',
+    render: (c: (typeof channels)[number]) => formatAmount(c.minimums.amount, c.minimums.currency),
+  },
+  {
+    label: 'Main cost',
+    render: (c: (typeof channels)[number]) => c.fees[0]?.amount ?? '—',
+  },
+  {
+    label: 'Quota',
+    render: (c: (typeof channels)[number]) => c.quota?.amount ?? '—',
+  },
+  {
+    label: 'Liquidity',
+    render: (c: (typeof channels)[number]) => c.liquidity.settlement,
+  },
+  {
+    label: 'Tax',
+    render: (c: (typeof channels)[number]) => (c.taxNote ? 'See page' : '—'),
+  },
+  {
+    label: 'Friction',
+    render: (c: (typeof channels)[number]) => '',
+  },
+];
+---
+
+<BaseLayout
+  title="Compare channels"
+  description="Compare onshore investment channels in China side by side: eligibility, minimums, costs, quotas, liquidity, tax notes and friction."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="hero__eyebrow">Side by side</p>
+      <h1 style="margin-top:.6rem">Compare channels</h1>
+      <p class="lede">
+        Pick up to four. The comparison covers access, cost, quota, liquidity and friction — never
+        expected returns, because we do not publish them.
+      </p>
+
+      <fieldset style="border:1px solid var(--line);border-radius:var(--radius);padding:.9rem 1rem;margin:1.6rem 0 1.2rem">
+        <legend class="tiny muted" style="padding:0 .4rem">Channels to compare</legend>
+        <div class="row">
+          {channels.map((c) => (
+            <label class="chip" style="cursor:pointer">
+              <input type="checkbox" data-check={c.id} checked style="margin:0 .1rem 0 0" />
+              {c.name}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <p class="tiny muted" id="compare-hint" hidden>
+        Four at a time is readable; more than that becomes a wall of columns.
+      </p>
+
+      <div class="table-scroll" style="margin-top:1rem">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col" style="min-width:130px">Dimension</th>
+              {channels.map((c) => (
+                <th scope="col" data-col={c.id} style="min-width:170px">
+                  <a href={`/channels/${c.id}`}>{c.name}</a>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr>
+                <th scope="row" style="background:var(--surface-alt);font-weight:640">{row.label}</th>
+                {channels.map((c) => (
+                  <td data-col={c.id}>
+                    {row.label === 'Friction' ? (
+                      <FrictionBar friction={c.friction} />
+                    ) : row.label === 'Open to' || row.label === 'Conditional for' ? (
+                      <span class="tiny">{row.render(c)}</span>
+                    ) : (
+                      row.render(c)
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+            <tr>
+              <th scope="row" style="background:var(--surface-alt)">Status detail</th>
+              {channels.map((c) => (
+                <td data-col={c.id}>
+                  <div class="tag-row">
+                    {INVESTOR_TYPES.filter((t) => c.access.some((a) => a.investorType === t)).map((t) => {
+                      const a = c.access.find((x) => x.investorType === t)!;
+                      return <StatusBadge status={a.status} size="sm" label={INVESTOR_SHORT[t]} />;
+                    })}
+                  </div>
+                </td>
+              ))}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout--info" style="margin-top:1.6rem">
+        <p class="callout__title">What is deliberately missing</p>
+        <p class="small">
+          Returns, historical performance, star ratings and “best broker” awards. Those require
+          judgement about the future, and this site does not make it.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const boxes = Array.from(document.querySelectorAll<HTMLInputElement>('[data-check]'));
+    const cells = Array.from(document.querySelectorAll<HTMLElement>('[data-col]'));
+    const hint = document.getElementById('compare-hint');
+
+    function apply() {
+      const ids = boxes.filter((b) => b.checked).map((b) => b.dataset.check);
+      cells.forEach((cell) => {
+        cell.hidden = !ids.includes(cell.dataset.col ?? '');
+      });
+      if (hint) hint.hidden = ids.length <= 4;
+      const params = new URLSearchParams();
+      if (ids.length > 0) params.set('ids', ids.join(','));
+      history.replaceState(null, '', ids.length > 0 ? `?${params}` : location.pathname);
+    }
+
+    const initial = new URLSearchParams(location.search).get('ids');
+    if (initial) {
+      const ids = initial.split(',');
+      boxes.forEach((b) => (b.checked = ids.includes(b.dataset.check ?? '')));
+    }
+
+    boxes.forEach((b) => b.addEventListener('change', apply));
+    apply();
+  </script>
+</BaseLayout>

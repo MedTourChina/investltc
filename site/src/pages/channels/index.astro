@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ChannelCard from '../../components/ChannelCard.astro';
+import { getChannels } from '../../lib/data';
+import { TYPE_LABEL } from '../../lib/labels';
+import { CHANNEL_TYPES } from '../../lib/schema';
+
+const channels = getChannels();
+const types = CHANNEL_TYPES.filter((t) => channels.some((c) => c.type === t));
+---
+
+<BaseLayout
+  title="Channels"
+  description="Every onshore investment channel documented on this site: eligibility, documents, minimums, fees, liquidity and caveats."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="hero__eyebrow">Channel library</p>
+      <h1 style="margin-top:.6rem">{channels.length} channels, one page each</h1>
+      <p class="lede">
+        Each page answers four questions: can I open it, what do I bring, what does it cost, and how
+        hard is it to get out. Dates are on every page because rules move.
+      </p>
+
+      <div class="row" style="margin:1.6rem 0 1.4rem" role="group" aria-label="Filter by channel type">
+        <button class="chip" data-filter="all" aria-pressed="true">All</button>
+        {types.map((t) => (
+          <button class="chip" data-filter={t} aria-pressed="false">{TYPE_LABEL[t]}</button>
+        ))}
+      </div>
+
+      <div class="grid grid--3" id="channel-grid">
+        {channels.map((c) => (
+          <div data-card-type={c.type}>
+            <ChannelCard channel={c} />
+          </div>
+        ))}
+      </div>
+
+      <p class="tiny muted" id="filter-empty" hidden>
+        Nothing in this category yet. <a href="/channels">Show all</a>.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+    const cards = Array.from(document.querySelectorAll<HTMLElement>('[data-card-type]'));
+
+    chips.forEach((chip) => {
+      chip.addEventListener('click', () => {
+        const type = chip.dataset.filter ?? 'all';
+        chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+        let visible = 0;
+        cards.forEach((card) => {
+          const show = type === 'all' || card.dataset.cardType === type;
+          card.hidden = !show;
+          if (show) visible += 1;
+        });
+        const empty = document.getElementById('filter-empty');
+        if (empty) empty.hidden = visible > 0;
+      });
+    });
+  </script>
+</BaseLayout>

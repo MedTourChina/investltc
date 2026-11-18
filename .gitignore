@@ -16,3 +16,4 @@ site/scripts/check-astro-local.mjs
 
 *.log
 .DS_Store
+site/scripts/check-dist-local.mjs

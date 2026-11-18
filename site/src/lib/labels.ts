@@ -11,7 +11,7 @@ export const INVESTOR_SHORT: Record<InvestorType, string> = {
   'non-resident-individual': 'Living abroad',
   'resident-foreign-individual': 'Living in China',
   'offshore-institution': 'Offshore institution',
-  'onshore-fie': 'Onshore FIE',
+  'onshore-fie': 'Company here (FIE)',
 };
 
 export const INVESTOR_HINT: Record<InvestorType, string> = {

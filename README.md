@@ -1,4 +1,4 @@
-# Onshore — foreign investment access in China
+# Lifetourchina Invest — foreign investment access in China
 
 **Live:** https://invest.lifetourchina.com
 

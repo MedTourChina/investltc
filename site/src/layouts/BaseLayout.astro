@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { title, description, ogType = 'website', noindex = false } = Astro.props;
-const siteName = 'Onshore';
+const siteName = 'Lifetourchina Invest';
 const fullTitle = title === siteName ? title : `${title} · ${siteName}`;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? 'https://invest.lifetourchina.com');
 
@@ -19,7 +19,8 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: siteName,
-  description: 'Onshore investment channels in China for foreigners: eligibility, documents, friction.',
+  description:
+    'Lifetourchina Invest maps onshore investment channels in China for foreigners: eligibility, documents, friction.',
   url: canonical.origin,
 };
 ---

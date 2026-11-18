@@ -4,6 +4,7 @@
 > **砍掉**：QDII、港股通南向、香港/美国券商、境外账户——那是"钱出去"，不是这个站的事。
 > **前提不变**：无主体、无变现、纯 C 端。
 > 一句话：**"How foreign money gets into China's markets — and how RMB earned here gets invested."**
+> **品牌**：Lifetourchina Invest ｜ **域名**：invest.lifetourchina.com ｜ **仓库**：`investltc`
 
 > ⚠️ 文中所有准入判断均为**待核实假设**（资本项目规则复杂且执行有差异），上线前须逐条实测并由律师复核。
 

@@ -3,7 +3,7 @@ layout: ../layouts/ProseLayout.astro
 title: "Method"
 description: "How the channel data is gathered, what the four statuses mean, how friction is scored, and what we do when we are wrong."
 kicker: "Method"
-updated: 2026-11-18
+updated: 2026-11-19
 ---
 
 ## What this site is
@@ -11,6 +11,15 @@ updated: 2026-11-18
 A structured record of which onshore investment channels in China are open to which kind of foreign
 investor, what it takes to open them, and how hard they are to exit. It is not a broker, an adviser,
 a fund supermarket or a news site.
+
+## Who it is built for
+
+Individuals. Every page is written for a person deciding whether to walk into a branch, not for a
+company sourcing a product. The two institutional columns in the matrix are context: they show which
+doors exist for funds and companies, which is the reason those doors are not open to an individual.
+
+If you are looking for someone to manage money for you, this is the wrong site — and that is
+deliberate. We describe access, not allocation.
 
 ## Where the data comes from
 

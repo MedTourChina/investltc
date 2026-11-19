@@ -3,7 +3,7 @@ layout: ../layouts/ProseLayout.astro
 title: "About"
 description: "Who runs this, why it exists, and what it refuses to do."
 kicker: "About"
-updated: 2026-11-18
+updated: 2026-11-19
 ---
 
 ## Why this exists
@@ -16,6 +16,27 @@ your residence status is, and which branch you walk into. Almost nobody document
 tedious, local and changes often.
 
 This site documents it.
+
+## Who this is for
+
+An individual — someone living in China, or planning to move here, who wants to know which accounts
+and products are actually open to them.
+
+That is the whole audience. We do not sell to institutions, we do not take institutional clients, and
+we do not broker anything. Institutional routes (QFI, Stock Connect, QFLP) appear in the data only so
+that you can see where the line is drawn: those are the doors that exist for companies and funds, and
+that is why they are not open to you.
+
+## What it is
+
+A guide. Two things, in this order:
+
+1. **A map.** What exists, who can open it, what it costs in documents and branch visits.
+2. **A filter.** Answer ten questions and see which channels apply to you, and why.
+
+It is not a recommendation engine. It never tells you what to buy, and it has no interest in which
+channel you choose. The output is eligibility, not advice — and where we have not verified something,
+it says so instead of guessing.
 
 ## Who writes it
 
@@ -50,5 +71,5 @@ has changed.
 Corrections, branch reports and disputes: **hello@onshore.example** *(placeholder — replace before
 launch)*.
 
-We answer corrections within seven days. If you are an institution and believe a record is wrong, say
-which branch and which date, and we will re-check.
+We answer corrections within seven days. If a branch told you something different from what is written
+here, say which branch and which date, and we will re-check it.

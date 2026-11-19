@@ -16,6 +16,9 @@ updated: 2026-11-19
   are blocked until you have a brokerage account.
 - New [bonds and deposits playbook](/playbooks/bonds-and-deposits) and a
   [deposit insurance explainer](/explainers/deposit-insurance).
+- Positioning made explicit: this is a consumer guide for individuals. The two institutional columns
+  in the matrix are labelled as context, and no page offers institutional services or advice.
+- Fixed the check page opening on a different profile from the one it described.
 
 ## 2026-11-18 — Prototype published
 

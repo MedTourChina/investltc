@@ -20,9 +20,9 @@ export const INVESTOR_HINT: Record<InvestorType, string> = {
   'resident-foreign-individual':
     'You hold a Chinese residence permit and earn RMB here. This is the group with the widest onshore access.',
   'offshore-institution':
-    'A fund, family office or company outside China investing into the mainland.',
+    'Context column: a fund, family office or company outside China. Shown so you can see which doors are closed to individuals.',
   'onshore-fie':
-    'A foreign-invested enterprise registered in China with idle RMB on its books.',
+    'Context column: a foreign-invested company registered in China. Shown because it explains the boundary, not because we serve companies.',
 };
 
 export const FUND_SOURCE_LABEL: Record<FundSource, string> = {
@@ -60,6 +60,7 @@ export const REQUIREMENT_LABEL: Record<string, string> = {
   'residence-permit': 'Residence permit',
   'employment-or-study-proof': 'Employment or study proof',
   'local-bank-account': 'Local bank account first',
+  'securities-account': 'Securities account first',
   'chinese-phone': 'Chinese mobile number',
   'in-person': 'Branch visit',
 };

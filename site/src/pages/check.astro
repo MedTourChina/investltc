@@ -185,6 +185,7 @@ const channels = getChannels();
 
   <script>
     import {
+      DEFAULT_PROFILE,
       evaluateChannel,
       profileFromParams,
       profileToParams,
@@ -358,10 +359,7 @@ const channels = getChannels();
       history.replaceState(null, '', `${location.pathname}?${params.toString()}`);
     }
 
-    function applyParams() {
-      const params = new URLSearchParams(location.search);
-      if ([...params.keys()].length === 0) return false;
-      const profile = profileFromParams(params);
+    function writeProfile(profile: Profile) {
       const setValue = (name: string, value: string) => {
         const el = form.elements.namedItem(name) as HTMLSelectElement | null;
         if (el) el.value = value;
@@ -376,6 +374,12 @@ const channels = getChannels();
       setValue('bank', profile.hasBank ? 'yes' : 'no');
       setValue('phone', profile.hasPhone ? 'yes' : 'no');
       setValue('brokerage', profile.hasBrokerage ? 'yes' : 'no');
+    }
+
+    function applyParams() {
+      const params = new URLSearchParams(location.search);
+      if ([...params.keys()].length === 0) return false;
+      writeProfile(profileFromParams(params));
       return true;
     }
 
@@ -404,6 +408,7 @@ const channels = getChannels();
     });
 
     const hadParams = applyParams();
+    if (!hadParams) writeProfile(DEFAULT_PROFILE);
     render(readProfile());
     if (!hadParams) {
       const hint = document.createElement('p');

@@ -5,7 +5,9 @@
 A map of onshore investment channels in China for people who are not Chinese: bank accounts, funds,
 A-shares, bonds and the routes money takes to get in. Money in, and RMB earned here.
 
-No ads, no commissions, no advice.
+Written for **individuals only** — a guide, not an adviser, a broker or a fund supermarket. No ads, no
+commissions, no advice. Institutional routes appear in the data only to mark the boundary of what an
+individual can do.
 
 ---
 
@@ -21,7 +23,7 @@ No ads, no commissions, no advice.
 
 ## Status
 
-Prototype. Nine channels, compiled from public documents. **Nothing has been field-verified at a
+Prototype. Fourteen channels, compiled from public documents. **Nothing has been field-verified at a
 branch yet**, and every page says so. The structure — matrix, eligibility check, comparison,
 playbooks — is the product; the verification is the work.
 

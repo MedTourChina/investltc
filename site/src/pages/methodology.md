@@ -18,7 +18,7 @@ Individuals. Every page is written for a person deciding whether to walk into a 
 company sourcing a product. The two institutional columns in the matrix are context: they show which
 doors exist for funds and companies, which is the reason those doors are not open to an individual.
 
-If you are looking for someone to manage money for you, this is the wrong site ‚Äî and that is
+If you are looking for someone to manage money for you, this is the wrong site ‚Ä?and that is
 deliberate. We describe access, not allocation.
 
 ## Where the data comes from
@@ -44,7 +44,7 @@ Every phone call and branch visit uses the same script, so that answers are comp
 2. What documents are required, exactly?
 3. Must it be done in person, and how long does it take?
 
-The answers are recorded with the date, the city and ‚Äî where given ‚Äî the staff member's name. When
+The answers are recorded with the date, the city and ‚Ä?where given ‚Ä?the staff member's name. When
 the phone answer and the branch answer disagree, the branch answer wins and the disagreement is
 recorded as a caveat.
 
@@ -57,7 +57,7 @@ recorded as a caveat.
 | Not available | No general route exists for this investor type |
 | Not verified | We have not checked this combination |
 
-‚ÄúNot verified‚Äù is deliberate. A blank would read as ‚Äúno‚Äù, and a guess would read as ‚Äúyes‚Äù. Neither is
+‚ÄúNot verified‚Ä?is deliberate. A blank would read as ‚Äúno‚Ä? and a guess would read as ‚Äúyes‚Ä? Neither is
 honest.
 
 ## The friction score
@@ -78,7 +78,7 @@ score does not move.
 ## Freshness
 
 - Under 90 days: shown as current.
-- 90‚Äì180 days: marked as possibly out of date.
+- 90‚Ä?80 days: marked as possibly out of date.
 - Over 180 days: removed from the default matrix until re-checked.
 
 The date on the page is the date of the last check, not the date the page was written.
@@ -86,7 +86,7 @@ The date on the page is the date of the last check, not the date the page was wr
 ## Corrections
 
 If something is wrong, tell us. We aim to respond within seven days, and we record the correction in
-[Updates](/updates). If an institution disputes a record, we re-verify before changing it ‚Äî we do not
+[Updates](/updates). If an institution disputes a record, we re-verify before changing it ‚Ä?we do not
 delete a factual observation because it is unwelcome, and we do not keep one that we cannot support.
 
 ## Money
@@ -98,7 +98,7 @@ can pay, the matrix stops being useful.
 ## Limits
 
 - **Not advice.** Nothing here is investment, tax or legal advice, and nothing is personalised.
-- **Not exhaustive.** Fourteen channels is a starting set, not the market.
+- **Not exhaustive.** Eighteen channels is a starting set, not the market.
 - **Not uniform.** Branch practice varies by city and by staff member.
 - **Not permanent.** Rules change; that is why every page carries a date.
 

@@ -9,7 +9,7 @@ updated: 2026-11-19
 ## Why this exists
 
 Most English-language writing about investing in China answers the wrong question. It explains
-markets, products and returns ‚Äî while the reader is stuck one step earlier: *can I even open this?*
+markets, products and returns ‚Ä?while the reader is stuck one step earlier: *can I even open this?*
 
 That question has a real, checkable answer. It depends on where you live, where the money sits, what
 your residence status is, and which branch you walk into. Almost nobody documents it, because it is
@@ -19,7 +19,7 @@ This site documents it.
 
 ## Who this is for
 
-An individual ‚Äî someone living in China, or planning to move here, who wants to know which accounts
+An individual ‚Ä?someone living in China, or planning to move here, who wants to know which accounts
 and products are actually open to them.
 
 That is the whole audience. We do not sell to institutions, we do not take institutional clients, and
@@ -35,7 +35,7 @@ A guide. Two things, in this order:
 2. **A filter.** Answer ten questions and see which channels apply to you, and why.
 
 It is not a recommendation engine. It never tells you what to buy, and it has no interest in which
-channel you choose. The output is eligibility, not advice ‚Äî and where we have not verified something,
+channel you choose. The output is eligibility, not advice ‚Ä?and where we have not verified something,
 it says so instead of guessing.
 
 ## Who writes it
@@ -51,14 +51,14 @@ in person, a byline would imply more authority than the content currently earns.
 
 - Sell products, take commissions, or run affiliate links.
 - Recommend a broker, a fund or a product.
-- Publish expected returns, rankings or ‚Äúbest of‚Äù lists.
+- Publish expected returns, rankings or ‚Äúbest of‚Ä?lists.
 - Offer personalised advice, or pretend a page can replace a licensed professional.
 - Help anyone move money in a way the rules do not permit.
 
 ## Status
 
-This is a **prototype**. Fourteen channels, documented from public sources, zero field visits. The
-structure ‚Äî matrix, eligibility check, comparison, playbooks ‚Äî is the product. The data is the work
+This is a **prototype**. Eighteen channels, documented from public sources, zero field visits. The
+structure ‚Ä?matrix, eligibility check, comparison, playbooks ‚Ä?is the product. The data is the work
 that comes next.
 
 See [Method](/methodology) for exactly how each record is graded, and [Updates](/updates) for what
@@ -68,7 +68,7 @@ has changed.
 
 <div id="contact"></div>
 
-Corrections, branch reports and disputes: **hello@onshore.example** *(placeholder ‚Äî replace before
+Corrections, branch reports and disputes: **hello@onshore.example** *(placeholder ‚Ä?replace before
 launch)*.
 
 We answer corrections within seven days. If a branch told you something different from what is written

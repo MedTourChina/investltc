@@ -1,0 +1,93 @@
+id: money-market-fund
+name: "Money-market funds"
+nameZh: 货币市场基金
+type: fund
+summary: >-
+  The closest thing to a savings account that pays a market rate: a fund holding short-term deposits,
+  repo and commercial paper, usually redeemable the same day. The common mistake is treating it as
+  insured. It is not.
+whatYouCanBuy:
+  - "Onshore money-market funds sold through banks, brokers and fund platforms"
+  - "Cash-management products built on top of them"
+access:
+  - investorType: resident-foreign-individual
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+      - onshore-rmb-asset-sale
+    requirements:
+      - local-bank-account
+      - chinese-phone
+    conditions:
+      - A fund account, usually opened through the bank app or a broker
+      - Some banks only sell funds to Chinese ID holders; try a fund platform or a broker instead
+      - Fast redemption is capped per day, so it is not a current account
+    denialReasons:
+      - Bank sells funds only to Chinese ID holders
+      - No fund account and no way to open one in the app
+  - investorType: non-resident-individual
+    status: unknown
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Not verified whether a non-resident individual can hold an onshore money-market fund
+  - investorType: offshore-institution
+    status: unknown
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Institutional cash management runs through CIBM and QFI structures; not documented here
+  - investorType: onshore-fie
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+    requirements:
+      - local-bank-account
+    conditions:
+      - Corporate treasury funds are sold at most banks; the entity must open a fund account
+documents:
+  - Passport and residence permit
+  - Bank card and the bank's app
+  - Fund account agreement
+process:
+  - step: "Check the fund's size and the seven-day annualised yield, not the headline rate"
+    where: online
+  - step: "Open or activate the fund account in the bank app or at a broker"
+    where: both
+  - step: "Subscribe with a small amount first and test redemption"
+    where: online
+  - step: "Note the fast-redemption cap — above it you wait until the next trading day"
+    where: n/a
+minimums:
+  amount: 1
+  currency: CNY
+  note: "Often CNY 1 or CNY 100 to start. Fast redemption is commonly capped at CNY 10,000 a day."
+fees:
+  - label: "Management fee"
+    amount: "Around 0.15–0.33% a year"
+  - label: "Sales service fee"
+    amount: "Around 0.25% a year"
+  - label: "Redemption"
+    amount: "Usually zero"
+liquidity:
+  settlement: "T+0 for fast redemption within the daily cap; T+1 otherwise."
+taxNote: >-
+  Returns are treated as investment income and are taxable in principle, though the practical
+  treatment differs by product. Confirm before treating it as tax-free.
+friction: {documents: 2, inPerson: 3, language: 3, minimum: 1, exit: 1}
+lastVerified: 2026-11-19
+verifiedBy: document
+sources:
+  - label: "货币市场基金监督管理办法"
+    date: 2015-12-17
+  - label: "Fund product pages and fast-redemption terms"
+    date: 2026-11-19
+caveats:
+  - "Compiled from public documents — not yet field-verified."
+  - "Not a deposit and not insured. The CNY 500,000 deposit ceiling does not apply to it."
+  - "A seven-day annualised yield is a snapshot, not a promise."
+fieldNotes: []

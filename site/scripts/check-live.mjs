@@ -7,7 +7,7 @@
  * failed assertion, so it can be used after a deploy or in CI.
  */
 const base = (process.argv[2] ?? 'https://invest.lifetourchina.com').replace(/\/$/, '');
-const expected = Number(process.argv[3] ?? 14);
+const expected = Number(process.argv[3] ?? 18);
 
 const pages = [
   '/',
@@ -20,8 +20,11 @@ const pages = [
   '/channels/gold/',
   '/playbooks/inbound-funding/',
   '/playbooks/bonds-and-deposits/',
+  '/playbooks/etf-and-index/',
   '/explainers/capital-vs-current-account/',
   '/explainers/deposit-insurance/',
+  '/explainers/risk-grades/',
+  '/explainers/fund-share-classes/',
   '/methodology/',
   '/about/',
   '/updates/',

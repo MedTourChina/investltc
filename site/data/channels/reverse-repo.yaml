@@ -1,0 +1,87 @@
+id: reverse-repo
+name: "Exchange reverse repos"
+nameZh: 国债逆回购
+type: cash
+summary: >-
+  You lend cash to the market against government bonds as collateral, for a day or a few weeks, at
+  a rate the exchange quotes continuously. It needs a brokerage account, and the minimum differs
+  sharply between the two exchanges.
+whatYouCanBuy:
+  - "Overnight and term reverse repos on the Shanghai and Shenzhen exchanges"
+access:
+  - investorType: resident-foreign-individual
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+      - onshore-rmb-asset-sale
+    requirements:
+      - local-bank-account
+      - securities-account
+      - in-person
+    conditions:
+      - A securities account with the reverse-repo permission enabled
+      - Shenzhen starts at CNY 1,000; Shanghai starts at CNY 100,000
+      - Rates spike around quarter-end and before long holidays
+    denialReasons:
+      - No securities account
+      - Broker has not enabled the repo permission
+  - investorType: non-resident-individual
+    status: unknown
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Not verified for non-resident individuals
+  - investorType: offshore-institution
+    status: unknown
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Institutional repo runs through the interbank market; not documented here
+  - investorType: onshore-fie
+    status: unknown
+    fundSources:
+      - onshore-rmb-income
+    requirements: []
+    conditions:
+      - Not verified for a foreign-invested entity
+documents:
+  - Passport and residence permit
+  - Securities account
+process:
+  - step: "Enable the reverse-repo permission at the broker"
+    where: both
+  - step: "Choose the tenor — one, two, three, four, seven, fourteen or twenty-eight days"
+    where: online
+  - step: "Lend at the quoted annualised rate; the exchange holds the bonds as collateral"
+    where: online
+  - step: "The principal and interest return automatically at maturity"
+    where: n/a
+minimums:
+  amount: 1000
+  currency: CNY
+  note: "Shenzhen from CNY 1,000; Shanghai from CNY 100,000."
+fees:
+  - label: "Commission"
+    amount: "Roughly 0.001–0.03% of the amount, by tenor"
+liquidity:
+  settlement: "Principal returns at maturity — overnight means the next trading day."
+taxNote: >-
+  The interest earned is investment income and is taxable in principle; it is small enough that the
+  practical treatment is often ignored, which is not the same as exempt.
+friction: {documents: 3, inPerson: 4, language: 4, minimum: 2, exit: 1}
+lastVerified: 2026-11-19
+verifiedBy: document
+sources:
+  - label: "上海证券交易所／深圳证券交易所 债券质押式回购交易规则"
+    date: 2026-11-19
+  - label: "Broker reverse-repo product terms"
+    date: 2026-11-19
+caveats:
+  - "Compiled from public documents — not yet field-verified."
+  - "The advertised rate is annualised. A one-day repo at 3% pays about 0.008% of the amount."
+  - "Rates are highest exactly when you are least likely to be watching: quarter-end and pre-holiday."
+fieldNotes: []

@@ -6,6 +6,14 @@ kicker: "Changelog"
 updated: 2026-11-19
 ---
 
+## 2026-11-19 — Four more channels, two explainers and an ETF playbook
+
+- Added money-market funds, exchange-traded funds, exchange reverse repos and large-denomination CDs.
+  The map is now eighteen channels.
+- New [ETF playbook](/playbooks/etf-and-index): index first, fund second, premium third.
+- New explainers on [R1–R5 risk grades](/explainers/risk-grades) and on
+  [A-class versus C-class fund shares](/explainers/fund-share-classes).
+
 ## 2026-11-19 — Five more channels and a bonds playbook
 
 - Added exchange-traded bonds, public REITs, private funds, gold accumulation plans and ETFs, and

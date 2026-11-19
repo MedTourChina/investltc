@@ -1,0 +1,87 @@
+id: large-cd
+name: "Large-denomination CDs"
+nameZh: 大额存单
+type: cash
+summary: >-
+  Bank deposits with a CNY 200,000 floor and a better rate than an ordinary fixed deposit, insured
+  under the same CNY 500,000 ceiling. The catch is the floor, the tenor and the early-withdrawal terms.
+whatYouCanBuy:
+  - "Large-denomination certificates of deposit issued by banks"
+  - "Transferable issues on the bank's own platform or the exchange, where offered"
+access:
+  - investorType: resident-foreign-individual
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+      - onshore-rmb-asset-sale
+    requirements:
+      - local-bank-account
+      - in-person
+    conditions:
+      - A bank account at the issuing bank, and often a branch visit to buy
+      - CNY 200,000 minimum for individuals
+      - Transferability depends on the issue; ask before assuming you can sell it
+    denialReasons:
+      - Branch sells only to Chinese ID holders
+      - Amount below the CNY 200,000 floor
+  - investorType: non-resident-individual
+    status: unknown
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Not verified for non-resident individuals
+  - investorType: offshore-institution
+    status: closed
+    fundSources: []
+    requirements: []
+    conditions:
+      - An individual deposit product; institutions use interbank deposits instead
+  - investorType: onshore-fie
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+    requirements:
+      - local-bank-account
+    conditions:
+      - Corporate CDs exist with a higher floor; the entity buys at the branch
+documents:
+  - Passport and residence permit
+  - Bank account and card
+process:
+  - step: "Ask which issues are open and whether they are transferable"
+    where: branch
+  - step: "Compare the rate against an ordinary fixed deposit of the same tenor"
+    where: n/a
+  - step: "Buy at the branch or in the app, and keep the certificate record"
+    where: both
+  - step: "Confirm the early-withdrawal rule before you need the money"
+    where: n/a
+minimums:
+  amount: 200000
+  currency: CNY
+  note: "CNY 200,000 per issue for individuals; corporate issues are higher."
+fees:
+  - label: "Purchase fee"
+    amount: "None"
+  - label: "Early withdrawal"
+    amount: "Paid at the demand rate, or by transfer at a market price"
+liquidity:
+  settlement: "Hold to maturity, or transfer where the issue allows it."
+taxNote: >-
+  Deposit interest is taxable investment income. The bank withholds or reports depending on the
+  product, so check the net rate rather than the headline rate.
+friction: {documents: 2, inPerson: 4, language: 3, minimum: 3, exit: 2}
+lastVerified: 2026-11-19
+verifiedBy: document
+sources:
+  - label: "大额存单管理暂行办法"
+    date: 2015-06-02
+  - label: "Bank CD issue terms and transfer rules"
+    date: 2026-11-19
+caveats:
+  - "Compiled from public documents — not yet field-verified."
+  - "Insured, but only up to the same CNY 500,000 per bank as any other deposit."
+  - "A higher rate than a normal deposit is compensation for locking the money up, not free yield."
+fieldNotes: []

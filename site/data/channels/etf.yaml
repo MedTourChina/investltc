@@ -1,0 +1,92 @@
+id: etf
+name: "Exchange-traded funds"
+nameZh: 场内ETF
+type: fund
+summary: >-
+  Index funds that trade on the exchange like a stock. Cheap and transparent, but they need a
+  brokerage account, and cross-border and leveraged products carry rules that surprise people.
+whatYouCanBuy:
+  - "Broad-index equity ETFs (CSI 300, CSI 500, STAR 50 and similar)"
+  - "Bond, gold and money-market ETFs"
+  - "Cross-border ETFs, subject to quota and premium risk"
+access:
+  - investorType: resident-foreign-individual
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+      - onshore-rmb-asset-sale
+    requirements:
+      - local-bank-account
+      - securities-account
+      - in-person
+    conditions:
+      - A securities account opened in person with a passport
+      - Trading in lots of 100 units
+      - Cross-border ETFs can trade at a premium to net asset value when quotas bind
+    denialReasons:
+      - No securities account
+      - Broker has not enabled fund trading on the account
+  - investorType: non-resident-individual
+    status: unknown
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Direct exchange access for non-resident individuals is not verified
+  - investorType: offshore-institution
+    status: conditional
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Through QFI or Stock Connect where the ETF is eligible
+  - investorType: onshore-fie
+    status: unknown
+    fundSources:
+      - onshore-rmb-income
+    requirements: []
+    conditions:
+      - Not verified for a foreign-invested entity
+documents:
+  - Passport and residence permit
+  - Securities account
+process:
+  - step: "Open the securities account first — the ETF trades inside it"
+    where: branch
+  - step: "Compare the tracking index, the fee and the tracking error, in that order"
+    where: online
+  - step: "Check the premium or discount to net asset value before buying a cross-border ETF"
+    where: online
+  - step: "Trade in lots of 100 units and check the settlement date"
+    where: online
+minimums:
+  amount: 100
+  currency: CNY
+  note: "One lot is 100 units; the cash needed depends on the price."
+fees:
+  - label: "Brokerage commission"
+    amount: "0.01–0.03% per trade"
+  - label: "Management and custody"
+    amount: "0.15–0.6% a year, inside the fund"
+  - label: "Stamp duty"
+    amount: "Not charged on ETF trades"
+liquidity:
+  settlement: "T+1 for equity ETFs; some bond, gold and cross-border ETFs settle T+0."
+taxNote: >-
+  Distributions and gains have specific treatment, and cross-border ETFs add a layer. Confirm your
+  own position rather than assuming.
+friction: {documents: 3, inPerson: 4, language: 4, minimum: 1, exit: 2}
+lastVerified: 2026-11-19
+verifiedBy: document
+sources:
+  - label: "公开募集证券投资基金运作管理办法"
+    date: 2014-08-08
+  - label: "Exchange ETF trading rules and product disclosures"
+    date: 2026-11-19
+caveats:
+  - "Compiled from public documents — not yet field-verified."
+  - "An index ETF is not safer than its index. It is simply cheaper than most alternatives."
+  - "Cross-border ETFs can be suspended for subscription when the quota is full."
+fieldNotes: []

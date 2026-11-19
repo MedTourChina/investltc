@@ -20,6 +20,7 @@ export type Profile = {
   chinese: ChineseLevel;
   hasBank: boolean;
   hasPhone: boolean;
+  hasBrokerage: boolean;
 };
 
 export type Verdict = {
@@ -63,6 +64,7 @@ export const DEFAULT_PROFILE: Profile = {
   chinese: 'basic',
   hasBank: true,
   hasPhone: true,
+  hasBrokerage: false,
 };
 
 const RESIDENCE_PERMIT_HOLDERS: Residency[] = ['work', 'student', 'family', 'permanent'];
@@ -159,6 +161,10 @@ export function evaluateChannel(channel: ChannelLike, profile: Profile): Verdict
     blockers.push('Requires a local bank account first. Open one before you try this.');
   }
 
+  if (requirements.has('securities-account') && !profile.hasBrokerage) {
+    blockers.push('Requires a securities (brokerage) account first — this is an exchange-traded product.');
+  }
+
   if (requirements.has('chinese-phone') && !profile.hasPhone) {
     blockers.push('Requires a Chinese mobile number registered in your own name.');
   }
@@ -245,6 +251,7 @@ export function profileFromParams(params: URLSearchParams): Profile {
     chinese: pick('chinese', CHINESE, DEFAULT_PROFILE.chinese),
     hasBank: pick('bank', ['yes', 'no'] as const, 'yes') === 'yes',
     hasPhone: pick('phone', ['yes', 'no'] as const, 'yes') === 'yes',
+    hasBrokerage: pick('brokerage', ['yes', 'no'] as const, 'no') === 'yes',
   };
 }
 
@@ -259,5 +266,6 @@ export function profileToParams(profile: Profile): URLSearchParams {
   params.set('chinese', profile.chinese);
   params.set('bank', profile.hasBank ? 'yes' : 'no');
   params.set('phone', profile.hasPhone ? 'yes' : 'no');
+  params.set('brokerage', profile.hasBrokerage ? 'yes' : 'no');
   return params;
 }

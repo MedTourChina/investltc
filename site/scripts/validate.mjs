@@ -25,6 +25,7 @@ const REQUIREMENTS = [
   'residence-permit',
   'employment-or-study-proof',
   'local-bank-account',
+  'securities-account',
   'chinese-phone',
   'in-person',
 ];

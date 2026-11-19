@@ -89,7 +89,7 @@ can pay, the matrix stops being useful.
 ## Limits
 
 - **Not advice.** Nothing here is investment, tax or legal advice, and nothing is personalised.
-- **Not exhaustive.** Nine channels is a starting set, not the market.
+- **Not exhaustive.** Fourteen channels is a starting set, not the market.
 - **Not uniform.** Branch practice varies by city and by staff member.
 - **Not permanent.** Rules change; that is why every page carries a date.
 

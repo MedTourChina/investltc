@@ -1,0 +1,86 @@
+id: public-reit
+name: Public REITs
+nameZh: 公募REITs
+type: fund
+summary: >-
+  Listed infrastructure REITs — toll roads, industrial parks, warehouses, utilities — bought on the
+  exchange like a stock. High distribution requirements, but the price moves and liquidity is limited.
+whatYouCanBuy:
+  - "Listed public REITs on the Shanghai and Shenzhen exchanges"
+  - "REIT holdings through a fund account in some channels"
+access:
+  - investorType: resident-foreign-individual
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+      - onshore-rmb-asset-sale
+    requirements:
+      - local-bank-account
+      - securities-account
+      - in-person
+    conditions:
+      - A securities account for on-exchange trading (100 units minimum)
+      - Off-exchange subscription may require a fund account instead
+    denialReasons:
+      - No securities account
+      - Broker has not enabled REIT trading on the account
+  - investorType: non-resident-individual
+    status: unknown
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Direct access for non-resident individuals is not verified
+  - investorType: offshore-institution
+    status: conditional
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Institutional access through QFII or Stock Connect where the issue is eligible
+  - investorType: onshore-fie
+    status: unknown
+    fundSources:
+      - onshore-rmb-income
+    requirements: []
+    conditions:
+      - Not verified for a foreign-invested entity
+documents:
+  - Passport and residence permit
+  - Securities account
+process:
+  - step: "Open a securities account"
+    where: branch
+  - step: "Check the issue's distribution history and gearing before buying"
+    where: online
+  - step: "Trade in lots of 100 units and note the settlement date"
+    where: online
+minimums:
+  amount: 100
+  currency: CNY
+  note: "On-exchange trading starts at 100 units; the cash needed depends on the price."
+fees:
+  - label: "Brokerage commission"
+    amount: "0.01–0.03% per trade"
+  - label: "Management fee"
+    amount: "Inside the fund, typically 0.3–0.5% a year"
+liquidity:
+  settlement: "T+1 for units, and spreads can be wide on small issues."
+taxNote: >-
+  Distributions are typically taxed as investment income, subject to withholding.
+  Confirm treatment for your status.
+friction: {documents: 3, inPerson: 4, language: 4, minimum: 1, exit: 3}
+lastVerified: 2026-11-19
+verifiedBy: document
+sources:
+  - label: "公开募集基础设施证券投资基金指引（试行）"
+    date: 2020-08-07
+  - label: "Exchange REIT trading rules and product disclosures"
+    date: 2026-11-19
+caveats:
+  - "Compiled from public documents — not yet field-verified with a broker."
+  - "A REIT is not a bond: the price falls as well as rises, and the distribution is not guaranteed."
+  - "Thin issues can be hard to sell without moving the price."
+fieldNotes: []

@@ -1,0 +1,89 @@
+id: insurance-savings
+name: Savings-type insurance
+nameZh: 储蓄型保险（年金／增额终身寿）
+type: wealth
+summary: >-
+  Annuities and whole-of-life policies sold as long-term savings. The returns are locked in the
+  contract, the money is illiquid for years, and the sales pitch is usually the worst part.
+whatYouCanBuy:
+  - Annuity policies (年金险)
+  - Increasing whole-of-life policies (增额终身寿)
+  - Universal-life accounts with a guaranteed floor and a floating component
+access:
+  - investorType: resident-foreign-individual
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+      - onshore-rmb-asset-sale
+    requirements:
+      - local-bank-account
+      - in-person
+    conditions:
+      - Bought through a licensed agent or a bank branch
+      - Underwriting and a health declaration, even for savings products
+      - A 15-day cooling-off period after signing
+    denialReasons:
+      - Branch only sells to Chinese ID holders
+      - Product requires a face-to-face recording the branch cannot arrange in English
+  - investorType: non-resident-individual
+    status: closed
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Onshore policies require an onshore application; there is no route for a non-resident individual
+  - investorType: offshore-institution
+    status: closed
+    fundSources: []
+    requirements: []
+    conditions:
+      - Not a product for institutions
+  - investorType: onshore-fie
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+    requirements:
+      - local-bank-account
+    conditions:
+      - Group policies for employees are the usual corporate route
+documents:
+  - Passport and residence permit
+  - Bank card for premium payment
+  - Health declaration
+process:
+  - step: "Ask for the guaranteed cash-value table, not the illustrated returns"
+    where: branch
+  - step: "Complete the application and the health declaration"
+    where: both
+  - step: "Use the 15-day cooling-off period to cancel at no cost if it is wrong"
+    where: n/a
+  - step: "Keep the policy documents and the premium receipts"
+    where: n/a
+minimums:
+  amount: 10000
+  currency: CNY
+  note: "Often CNY 10,000 a year, though some products start lower or require a lump sum."
+fees:
+  - label: "Premium load"
+    amount: "Front-end costs are inside the policy, not on a fee sheet"
+  - label: "Early surrender"
+    amount: "Cash value can be far below premiums paid in early years"
+liquidity:
+  settlement: "Illiquid. Surrender takes days and may realise a loss; policy loans are the alternative."
+taxNote: >-
+  Policy proceeds and annuities have specific tax treatment that differs from investment income.
+  Confirm before treating this as a tax wrapper.
+friction: {documents: 3, inPerson: 5, language: 5, minimum: 2, exit: 5}
+lastVerified: 2026-11-19
+verifiedBy: document
+sources:
+  - label: "人身保险产品信息披露管理办法"
+    date: 2022-11-01
+  - label: "Policy terms and cash-value tables"
+    date: 2026-11-19
+caveats:
+  - "Compiled from public documents — not yet field-verified."
+  - "The illustrated return is not guaranteed. Ask which number is contractual."
+  - "These products are sold, not bought. Assume the agent's incentive is not aligned with yours."
+fieldNotes: []

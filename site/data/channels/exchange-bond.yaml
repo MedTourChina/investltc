@@ -1,0 +1,92 @@
+id: exchange-bond
+name: Exchange-traded bonds
+nameZh: 交易所债券
+type: bond
+summary: >-
+  Government, policy-bank and corporate bonds traded on the Shanghai and Shenzhen exchanges through a
+  brokerage account. Cheap and liquid, but the credit-bearing end is gated by investor qualification.
+whatYouCanBuy:
+  - Government and local government bonds
+  - Policy bank bonds
+  - Listed corporate bonds, subject to suitability
+  - Convertible bonds
+access:
+  - investorType: resident-foreign-individual
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+      - onshore-rmb-asset-sale
+    requirements:
+      - local-bank-account
+      - securities-account
+      - in-person
+    conditions:
+      - A securities account, opened in person as a foreign passport holder
+      - Some corporate bonds are restricted to qualified investors
+      - Settlement account linked to the brokerage
+    denialReasons:
+      - No brokerage account yet
+      - Broker's bond permissions not enabled for the account
+  - investorType: non-resident-individual
+    status: unknown
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - We have not verified whether a non-resident individual can trade exchange bonds directly
+  - investorType: offshore-institution
+    status: conditional
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Institutional bond access normally runs through CIBM Direct or QFII, not a retail brokerage
+  - investorType: onshore-fie
+    status: unknown
+    fundSources:
+      - onshore-rmb-income
+    requirements: []
+    conditions:
+      - Corporate bond accounts exist; the foreign-invested entity route is not verified here
+documents:
+  - Passport and residence permit
+  - Securities account
+  - Linked bank card
+process:
+  - step: "Open a securities account first — bonds trade inside it"
+    where: branch
+  - step: "Ask the broker to enable bond trading permissions on the account"
+    where: both
+  - step: "Check whether the specific bond is open to ordinary or only qualified investors"
+    where: online
+  - step: "Buy in lots of ten units (face value CNY 1,000) and confirm settlement"
+    where: online
+minimums:
+  amount: 1000
+  currency: CNY
+  note: "One lot is normally CNY 1,000 of face value."
+fees:
+  - label: "Brokerage commission"
+    amount: "0.001–0.02% per trade"
+  - label: "Exchange fees"
+    amount: "Small, usually included"
+liquidity:
+  settlement: "Same-day turnaround (T+0) on the exchange, though thin issues may not trade."
+taxNote: >-
+  Coupon interest is generally taxable and withheld at source; government bond interest has
+  exemptions. Capital gains treatment depends on the instrument.
+friction: {documents: 3, inPerson: 4, language: 4, minimum: 1, exit: 2}
+lastVerified: 2026-11-19
+verifiedBy: document
+sources:
+  - label: "上海证券交易所／深圳证券交易所 债券市场投资者适当性管理办法"
+    date: 2017-07-01
+  - label: "Exchange bond trading and settlement rules"
+    date: 2026-11-19
+caveats:
+  - "Compiled from public documents — not yet field-verified with a broker."
+  - "Suitability categories decide which bonds you may buy; a retail account does not get everything."
+  - "Liquidity varies enormously between issues. A quoted price is not a market."
+fieldNotes: []

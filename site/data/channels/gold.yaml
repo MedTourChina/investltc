@@ -1,0 +1,90 @@
+id: gold
+name: "Gold: accumulation plans and ETFs"
+nameZh: 黄金积存与黄金ETF
+type: cash
+summary: >-
+  Two different products with one name: a bank accumulation plan that buys gold by the gram, and an
+  exchange-traded fund you buy in a brokerage account. Neither is a deposit.
+whatYouCanBuy:
+  - "Bank gold accumulation plans (积存金), bought by the gram"
+  - "Gold ETFs traded on the exchange"
+  - "Physical bars and coins from banks, at a premium"
+access:
+  - investorType: resident-foreign-individual
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+      - onshore-rmb-asset-sale
+    requirements:
+      - local-bank-account
+    conditions:
+      - "Accumulation plans need a bank account and the bank's own onboarding"
+      - "Gold ETFs need a securities account instead"
+    denialReasons:
+      - Bank does not offer accumulation plans to foreign passport holders
+      - No securities account for the ETF route
+  - investorType: non-resident-individual
+    status: unknown
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Not verified for non-residents
+  - investorType: offshore-institution
+    status: conditional
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Institutional exposure usually comes through offshore gold products, not onshore retail plans
+  - investorType: onshore-fie
+    status: unknown
+    fundSources:
+      - onshore-rmb-income
+    requirements:
+      - local-bank-account
+    conditions:
+      - Corporate treasury gold is possible at some banks; not verified here
+documents:
+  - Passport and residence permit
+  - Bank account (accumulation) or securities account (ETF)
+process:
+  - step: "Decide which product you mean: bank accumulation or exchange ETF"
+    where: n/a
+  - step: "Ask the bank for the spread — the buy/sell gap is the real cost"
+    where: branch
+  - step: "For the ETF, trade in lots through the brokerage account"
+    where: online
+  - step: "Check where the metal is held and how you would take delivery"
+    where: n/a
+minimums:
+  amount: 1
+  currency: CNY
+  note: "Accumulation plans start at one gram; ETFs trade in lots of 100 units."
+fees:
+  - label: "Bank spread"
+    amount: "0.5–1% between buy and sell prices"
+  - label: "ETF management fee"
+    amount: "Around 0.5% a year"
+  - label: "Physical bar premium"
+    amount: "Several percent over spot"
+liquidity:
+  settlement: "Accumulation sells back at the bank's price; ETFs settle T+1."
+taxNote: >-
+  Gains on gold are generally treated as investment income. The treatment differs between
+  physical, accumulation plans and ETFs.
+friction: {documents: 2, inPerson: 3, language: 3, minimum: 1, exit: 2}
+lastVerified: 2026-11-19
+verifiedBy: document
+sources:
+  - label: "Bank gold accumulation product terms"
+    date: 2026-11-19
+  - label: "Exchange gold ETF product disclosures"
+    date: 2026-11-19
+caveats:
+  - "Compiled from public documents — not yet field-verified."
+  - "The buy/sell spread, not the headline fee, is what you pay."
+  - "Gold pays no income. It is a hedge, not a savings account."
+fieldNotes: []

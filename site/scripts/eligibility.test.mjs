@@ -91,6 +91,32 @@ test('closed data entries carry their denial reasons', () => {
   assert.ok(v.blockers.length > 0);
 });
 
+test('no securities account: exchange bonds and REITs name the account they need', () => {
+  const bond = evaluateChannel(by('exchange-bond'), withProfile({ hasBrokerage: false }));
+  assert.equal(bond.status, 'closed');
+  assert.match(bond.blockers.join(' '), /securities \(brokerage\) account/i);
+
+  const reit = evaluateChannel(by('public-reit'), withProfile({ hasBrokerage: false }));
+  assert.equal(reit.status, 'closed');
+  assert.match(reit.blockers.join(' '), /securities \(brokerage\) account/i);
+
+  const withAccount = evaluateChannel(
+    by('exchange-bond'),
+    withProfile({ hasBrokerage: true, visa: 'work', months: '1to3' }),
+  );
+  assert.doesNotMatch(withAccount.blockers.join(' '), /securities \(brokerage\) account/i);
+  assert.equal(withAccount.status, 'conditional');
+});
+
+test('private funds are closed to non-resident individuals', () => {
+  const v = evaluateChannel(
+    by('private-fund'),
+    withProfile({ investor: 'non-resident-individual', source: 'offshore-fx', visa: 'visitor', months: 'none' }),
+  );
+  assert.equal(v.status, 'closed');
+  assert.match(v.blockers.join(' '), /closed to non-resident|sold to onshore|offshore/i);
+});
+
 test('ranking: open, then conditional, then unknown, then closed', () => {
   const verdicts = [
     { channelId: 'c', name: 'c', type: 'fund', status: 'closed', blockers: [], needs: [], notes: [], friction: 1 },

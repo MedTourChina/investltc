@@ -1,0 +1,94 @@
+id: private-fund
+name: Private funds
+nameZh: 私募基金
+type: fund
+summary: >-
+  Privately placed funds sold only to qualified investors, with a CNY 1 million minimum per fund.
+  Most foreign residents are not eligible — the threshold is the point.
+whatYouCanBuy:
+  - Private equity and venture funds
+  - Private securities funds
+  - Some real-asset and multi-strategy vehicles
+access:
+  - investorType: resident-foreign-individual
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+      - onshore-rmb-asset-sale
+    requirements:
+      - local-bank-account
+      - in-person
+    conditions:
+      - "Qualified investor test: CNY 3 million of financial assets, or CNY 500,000 average annual income over three years"
+      - At least CNY 1 million per fund
+      - A 24-hour cooling-off period after signing, and a risk disclosure interview
+    denialReasons:
+      - Fails the qualified investor test
+      - Cannot evidence the assets or income
+      - Wants to invest less than CNY 1 million in one fund
+  - investorType: non-resident-individual
+    status: closed
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Onshore private funds are sold to onshore qualified investors; there is no retail route for non-residents
+  - investorType: offshore-institution
+    status: conditional
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Through QFLP or QFII structures, not by subscribing directly to a domestic manager
+  - investorType: onshore-fie
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+    requirements:
+      - local-bank-account
+    conditions:
+      - The entity must itself qualify, and the investment needs internal approval
+documents:
+  - Passport and residence permit
+  - Proof of financial assets or income
+  - Signed risk disclosure and suitability forms
+process:
+  - step: "Establish that you meet the qualified investor test before any meeting"
+    where: n/a
+  - step: "Complete investor suitability and risk disclosure; observe the 24-hour cooling-off period"
+    where: both
+  - step: "Sign the fund contract and transfer the subscription amount"
+    where: both
+  - step: "Confirm the lock-up, open periods and fee load in the contract"
+    where: n/a
+minimums:
+  amount: 1000000
+  currency: CNY
+  note: "CNY 1 million per fund, on top of the qualified investor test."
+fees:
+  - label: "Management fee"
+    amount: "1–2% a year"
+  - label: "Performance fee"
+    amount: "Often 20% of gains above a hurdle"
+  - label: "Subscription"
+    amount: "0–1%"
+liquidity:
+  settlement: "Lock-ups of one to several years, with limited redemption windows."
+taxNote: >-
+  Tax treatment depends on the fund structure and your status. This is an area where
+  you need advice, not a summary.
+friction: {documents: 4, inPerson: 4, language: 4, minimum: 5, exit: 5}
+lastVerified: 2026-11-19
+verifiedBy: document
+sources:
+  - label: "私募投资基金监督管理暂行办法"
+    date: 2014-08-21
+  - label: "基金合同 and investor suitability disclosures"
+    date: 2026-11-19
+caveats:
+  - "Compiled from public documents — not yet field-verified."
+  - "Illiquid and long-dated. Money you may need in two years does not belong here."
+  - "Performance fees and lock-ups compound: read the contract, not the pitch."
+fieldNotes: []

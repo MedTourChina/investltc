@@ -17,7 +17,7 @@ const channels = getChannels();
       <p class="hero__eyebrow">Eligibility check</p>
       <h1 style="margin-top:.6rem">What can you actually open?</h1>
       <p class="lede">
-        Nine questions. Everything runs in your browser — no account, no email, nothing stored.
+        Ten questions. Everything runs in your browser — no account, no email, nothing stored.
         The link at the end carries your answers, so you can send it to a friend or a banker.
       </p>
     </div>
@@ -116,6 +116,17 @@ const channels = getChannels();
                   <option value="no">No</option>
                 </select>
               </div>
+
+              <div class="field">
+                <label for="brokerage">Securities account</label>
+                <select id="brokerage" name="brokerage">
+                  <option value="no">No</option>
+                  <option value="yes">Yes, I have one</option>
+                </select>
+                <p class="tiny muted" style="margin-top:.3rem">
+                  Brokers open these in person. Anything traded on an exchange needs one first.
+                </p>
+              </div>
             </div>
 
             <div class="row" style="margin-top:1.2rem">
@@ -193,6 +204,8 @@ const channels = getChannels();
       equity: 'a-shares',
       wealth: 'bank-wealth',
       fund: 'funds',
+      bond: 'bonds-and-deposits',
+      cash: 'bonds-and-deposits',
       route: 'inbound-funding',
     };
 
@@ -222,6 +235,7 @@ const channels = getChannels();
         chinese: String(fd.get('chinese')) as Profile['chinese'],
         hasBank: String(fd.get('bank')) === 'yes',
         hasPhone: String(fd.get('phone')) === 'yes',
+        hasBrokerage: String(fd.get('brokerage')) === 'yes',
       };
     }
 
@@ -361,6 +375,7 @@ const channels = getChannels();
       setValue('chinese', profile.chinese);
       setValue('bank', profile.hasBank ? 'yes' : 'no');
       setValue('phone', profile.hasPhone ? 'yes' : 'no');
+      setValue('brokerage', profile.hasBrokerage ? 'yes' : 'no');
       return true;
     }
 

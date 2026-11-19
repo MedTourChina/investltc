@@ -3,8 +3,19 @@ layout: ../layouts/ProseLayout.astro
 title: "Updates"
 description: "What changed on this site, when, and why. Corrections are logged here, not quietly edited."
 kicker: "Changelog"
-updated: 2026-11-18
+updated: 2026-11-19
 ---
+
+## 2026-11-19 — Five more channels and a bonds playbook
+
+- Added exchange-traded bonds, public REITs, private funds, gold accumulation plans and ETFs, and
+  savings-type insurance. The map is now fourteen channels.
+- Each access entry now carries structured requirements, so the eligibility check reasons from data
+  rather than from prose.
+- New `securities account` requirement and a new question on the check page: exchange-traded products
+  are blocked until you have a brokerage account.
+- New [bonds and deposits playbook](/playbooks/bonds-and-deposits) and a
+  [deposit insurance explainer](/explainers/deposit-insurance).
 
 ## 2026-11-18 — Prototype published
 
@@ -21,7 +32,7 @@ Live at [invest.lifetourchina.com](https://invest.lifetourchina.com).
 ## What is next
 
 1. First branch visits in Shanghai: Bank of China, China Merchants Bank, CITIC Securities.
-2. Phone verification of the remaining six channels, with dates and staff answers recorded.
+2. Phone verification of the remaining channels, with dates and staff answers recorded.
 3. First field notes published with city, branch and outcome.
 4. Correction channel opened and tested with one real dispute.
 

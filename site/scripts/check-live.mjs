@@ -16,9 +16,15 @@ const pages = [
   '/compare/',
   '/channels/',
   '/channels/a-share/',
+  '/channels/exchange-bond/',
+  '/channels/gold/',
   '/playbooks/inbound-funding/',
+  '/playbooks/bonds-and-deposits/',
   '/explainers/capital-vs-current-account/',
+  '/explainers/deposit-insurance/',
   '/methodology/',
+  '/about/',
+  '/updates/',
   '/data/',
   '/api/channels.json',
   '/robots.txt',
@@ -80,6 +86,16 @@ check('channel page shows sources date', /Sources checked/.test(channel));
 
 check('check page 200', status('/check/') === 200);
 check('check page has embedded data', /id="channel-data"/.test(checkPage));
+check('check page asks about a brokerage account', /name="brokerage"/.test(checkPage));
+check('check page defaults to a resident individual', /<option value="resident-foreign-individual"[^>]*selected/.test(checkPage));
+
+check('home says it is for individuals', /For individuals/.test(home));
+check('home draws the institutional boundary', /Institutional routes appear on this site/.test(home));
+check('matrix marks institutional columns as context', /The two right-hand columns are context/.test(matrix));
+check('about states the consumer-only audience', /We do not sell to institutions/.test(body('/about/')));
+check('bonds playbook is live', /deposit insurance/i.test(body('/playbooks/bonds-and-deposits/')));
+check('deposit insurance explainer is live', /CNY 500,000/.test(body('/explainers/deposit-insurance/')));
+check('new channel page renders', /Securities account first|securities \(brokerage\) account/.test(body('/channels/exchange-bond/')));
 
 check('api returns json', api !== null);
 check(`api lists ${expected} channels`, api?.channels?.length === expected, api?.channels?.length);

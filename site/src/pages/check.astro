@@ -2,7 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ChannelData from '../components/ChannelData.astro';
 import { getChannels } from '../lib/data';
-import { INVESTOR_LABEL } from '../lib/labels';
+import { DEFAULT_PROFILE } from '../lib/eligibility';
+import { INVESTOR_LABEL, FUND_SOURCE_LABEL } from '../lib/labels';
 import { INVESTOR_TYPES } from '../lib/schema';
 
 const channels = getChannels();
@@ -33,7 +34,9 @@ const channels = getChannels();
                 <label for="investor">Who are you</label>
                 <select id="investor" name="investor">
                   {INVESTOR_TYPES.map((t) => (
-                    <option value={t}>{INVESTOR_LABEL[t]}</option>
+                    <option value={t} selected={t === DEFAULT_PROFILE.investor}>
+                      {INVESTOR_LABEL[t]}
+                    </option>
                   ))}
                 </select>
               </div>
@@ -41,10 +44,9 @@ const channels = getChannels();
               <div class="field">
                 <label for="source">Where is the money</label>
                 <select id="source" name="source">
-                  <option value="onshore-rmb-income">RMB earned in China</option>
-                  <option value="onshore-rmb-asset-sale">RMB from selling an asset in China</option>
-                  <option value="offshore-fx">Foreign currency held abroad</option>
-                  <option value="offshore-cnh">Offshore RMB (CNH)</option>
+                  {(['onshore-rmb-income', 'onshore-rmb-asset-sale', 'offshore-fx', 'offshore-cnh'] as const).map((s) => (
+                    <option value={s} selected={s === DEFAULT_PROFILE.source}>{FUND_SOURCE_LABEL[s]}</option>
+                  ))}
                 </select>
                 <p class="tiny muted" style="margin-top:.3rem">
                   This is the question that changes everything. Offshore money usually has to come in
@@ -55,73 +57,70 @@ const channels = getChannels();
               <div class="field">
                 <label for="months">Time in China</label>
                 <select id="months" name="months">
-                  <option value="none">Not in China</option>
-                  <option value="lt6">Less than 6 months</option>
-                  <option value="6to12">6–12 months</option>
-                  <option value="1to3">1–3 years</option>
-                  <option value="3plus">More than 3 years</option>
+                  {([['none', 'Not in China'], ['lt6', 'Less than 6 months'], ['6to12', '6–12 months'], ['1to3', '1–3 years'], ['3plus', 'More than 3 years']] as const).map(([v, label]) => (
+                    <option value={v} selected={v === DEFAULT_PROFILE.months}>{label}</option>
+                  ))}
                 </select>
               </div>
 
               <div class="field">
                 <label for="visa">Visa / status</label>
                 <select id="visa" name="visa">
-                  <option value="work">Work permit</option>
-                  <option value="student">Student</option>
-                  <option value="family">Family / dependent</option>
-                  <option value="permanent">Permanent residence</option>
-                  <option value="visitor">Visitor / no residence permit</option>
+                  {([['work', 'Work permit'], ['student', 'Student'], ['family', 'Family / dependent'], ['permanent', 'Permanent residence'], ['visitor', 'Visitor / no residence permit']] as const).map(([v, label]) => (
+                    <option value={v} selected={v === DEFAULT_PROFILE.visa}>{label}</option>
+                  ))}
                 </select>
               </div>
 
               <div class="field">
                 <label for="amount">Amount you could invest</label>
                 <select id="amount" name="amount">
-                  <option value="30000">Under CNY 50,000</option>
-                  <option value="300000">CNY 50,000 – 500,000</option>
-                  <option value="1500000">CNY 500,000 – 3 million</option>
-                  <option value="5000000">Above CNY 3 million</option>
+                  {(['30000', '300000', '1500000', '5000000'] as const).map((v, i) => (
+                    <option value={v} selected={Number(v) === DEFAULT_PROFILE.amount}>
+                      {['Under CNY 50,000', 'CNY 50,000 – 500,000', 'CNY 500,000 – 3 million', 'Above CNY 3 million'][i]}
+                    </option>
+                  ))}
                 </select>
               </div>
 
               <div class="field">
                 <label for="visit">Branch visits</label>
                 <select id="visit" name="visit">
-                  <option value="yes">I can go in person</option>
-                  <option value="no">Online only</option>
+                  <option value="yes" selected={DEFAULT_PROFILE.canVisit}>I can go in person</option>
+                  <option value="no" selected={!DEFAULT_PROFILE.canVisit}>Online only</option>
                 </select>
               </div>
 
               <div class="field">
                 <label for="chinese">Chinese</label>
                 <select id="chinese" name="chinese">
-                  <option value="none">None</option>
-                  <option value="basic">Basic</option>
-                  <option value="fluent">Fluent</option>
+                  {([['none', 'None'], ['basic', 'Basic'], ['fluent', 'Fluent']] as const).map(([v, label]) => (
+                    <option value={v} selected={v === DEFAULT_PROFILE.chinese}>{label}</option>
+                  ))}
                 </select>
               </div>
 
               <div class="field">
                 <label for="bank">Local bank account</label>
                 <select id="bank" name="bank">
-                  <option value="yes">Yes, I have one</option>
-                  <option value="no">Not yet</option>
+                  <option value="yes" selected={DEFAULT_PROFILE.hasBank}>Yes, I have one</option>
+                  <option value="no" selected={!DEFAULT_PROFILE.hasBank}>Not yet</option>
                 </select>
               </div>
 
               <div class="field">
                 <label for="phone">Chinese mobile number</label>
                 <select id="phone" name="phone">
-                  <option value="yes">Yes, in my name</option>
-                  <option value="no">No</option>
+                  <option value="yes" selected={DEFAULT_PROFILE.hasPhone}>Yes, in my name</option>
+                  <option value="no" selected={!DEFAULT_PROFILE.hasPhone}>No</option>
                 </select>
               </div>
 
               <div class="field">
                 <label for="brokerage">Securities account</label>
                 <select id="brokerage" name="brokerage">
-                  <option value="no">No</option>
-                  <option value="yes">Yes, I have one</option>
+                  <option value="no" selected={!DEFAULT_PROFILE.hasBrokerage}>No</option>
+                  <option value="yes" selected={DEFAULT_PROFILE.hasBrokerage}>Yes, I have one</option>
                 </select>
                 <p class="tiny muted" style="margin-top:.3rem">
                   Brokers open these in person. Anything traded on an exchange needs one first.
@@ -185,7 +184,6 @@ const channels = getChannels();
 
   <script>
     import {
-      DEFAULT_PROFILE,
       evaluateChannel,
       profileFromParams,
       profileToParams,
@@ -408,7 +406,6 @@ const channels = getChannels();
     });
 
     const hadParams = applyParams();
-    if (!hadParams) writeProfile(DEFAULT_PROFILE);
     render(readProfile());
     if (!hadParams) {
       const hint = document.createElement('p');

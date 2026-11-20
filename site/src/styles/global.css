@@ -618,6 +618,30 @@ tbody tr:hover {
   min-width: 132px;
 }
 
+/* ---------- glossary ---------- */
+.table--glossary td:first-child {
+  min-width: 132px;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+.table--glossary td:nth-child(2) {
+  min-width: 118px;
+  color: var(--ink-muted);
+}
+.table--glossary td:nth-child(3) {
+  min-width: 150px;
+}
+.table--glossary td:nth-child(4) {
+  min-width: 300px;
+  color: var(--ink-soft);
+}
+.table--glossary tbody tr:hover {
+  background: #fcfaf5;
+}
+.glossary__group[hidden] {
+  display: none;
+}
+
 /* ---------- callouts ---------- */
 .callout {
   border: 1px solid var(--line);

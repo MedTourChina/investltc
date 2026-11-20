@@ -6,7 +6,13 @@ kicker: "Changelog"
 updated: 2026-11-19
 ---
 
-## 2026-11-19 â€” Four more channels, two explainers and an ETF playbook
+## 2026-11-20 â€?Glossary and treaty relief
+
+- New [glossary](/glossary): fifty-five terms with pinyin, filterable, grouped by where you meet them â€?  accounts, products, fund mechanics, tax, cross-border.
+- New explainer on [claiming a treaty rate](/explainers/treaty-relief): the certificate of tax
+  residency, the order of operations, and the four places it goes wrong.
+
+## 2026-11-19 â€?Four more channels, two explainers and an ETF playbook
 
 - Added money-market funds, exchange-traded funds, exchange reverse repos and large-denomination CDs.
   The map is now eighteen channels.
@@ -14,7 +20,7 @@ updated: 2026-11-19
 - New explainers on [R1â€“R5 risk grades](/explainers/risk-grades) and on
   [A-class versus C-class fund shares](/explainers/fund-share-classes).
 
-## 2026-11-19 â€” Five more channels and a bonds playbook
+## 2026-11-19 â€?Five more channels and a bonds playbook
 
 - Added exchange-traded bonds, public REITs, private funds, gold accumulation plans and ETFs, and
   savings-type insurance. The map is now fourteen channels.
@@ -28,7 +34,7 @@ updated: 2026-11-19
   in the matrix are labelled as context, and no page offers institutional services or advice.
 - Fixed the check page opening on a different profile from the one it described.
 
-## 2026-11-18 â€” Prototype published
+## 2026-11-18 â€?Prototype published
 
 Live at [invest.lifetourchina.com](https://invest.lifetourchina.com).
 

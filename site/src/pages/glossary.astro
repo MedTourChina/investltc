@@ -1,0 +1,458 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+interface Term {
+  zh: string;
+  py: string;
+  en: string;
+  note: string;
+}
+
+const groups: { title: string; hint: string; terms: Term[] }[] = [
+  {
+    title: 'Accounts and paperwork',
+    hint: 'The words on the form you are handed at the counter.',
+    terms: [
+      {
+        zh: '一类户 / 二类户',
+        py: 'yī lèi hù / èr lèi hù',
+        en: 'Class I / Class II account',
+        note: 'Class I is the full bank account you open in person. Class II has tighter payment limits and can often be opened in an app.',
+      },
+      {
+        zh: '结算账户',
+        py: 'jié suàn zhàng hù',
+        en: 'Settlement account',
+        note: 'The account wages are paid into and bills are paid from. Not an investment account, whatever the app suggests.',
+      },
+      {
+        zh: '证券账户',
+        py: 'zhèng quàn zhàng hù',
+        en: 'Securities (brokerage) account',
+        note: 'The account shares, bonds, ETFs and reverse repos live in. Opened at a broker, usually in person.',
+      },
+      {
+        zh: '基金账户',
+        py: 'jī jīn zhàng hù',
+        en: 'Fund account',
+        note: 'A separate registration for mutual funds, opened through a bank, a broker or a fund platform.',
+      },
+      {
+        zh: 'NRA 账户',
+        py: 'NRA zhàng hù',
+        en: 'Non-resident account',
+        note: 'An onshore RMB account for a non-resident. Good for payments, not a licence to invest.',
+      },
+      {
+        zh: '社保',
+        py: 'shè bǎo',
+        en: 'Social insurance',
+        note: 'Pension, medical and related contributions. Proof of it is often accepted as proof of employment.',
+      },
+      {
+        zh: '公积金',
+        py: 'gōng jī jīn',
+        en: 'Housing provident fund',
+        note: 'A forced savings account co-funded by employer and employee. Withdrawable only in defined situations.',
+      },
+      {
+        zh: '面签',
+        py: 'miàn qiān',
+        en: 'Signing in person',
+        note: 'The branch visit where identity is checked and documents are signed. The single biggest source of friction for foreigners.',
+      },
+    ],
+  },
+  {
+    title: 'Products',
+    hint: 'What you might actually buy, once you are allowed to.',
+    terms: [
+      {
+        zh: 'A股',
+        py: 'A gǔ',
+        en: 'A-shares',
+        note: 'RMB-denominated shares of mainland-listed companies. The market most foreigners mean by "Chinese stocks".',
+      },
+      {
+        zh: '沪深300',
+        py: 'Hù Shēn 300',
+        en: 'CSI 300',
+        note: 'The 300 largest and most liquid A-shares. The default index for broad onshore equity exposure.',
+      },
+      {
+        zh: '创业板',
+        py: 'chuàng yè bǎn',
+        en: 'ChiNext',
+        note: 'The Shenzhen growth board. Higher listing thresholds for investors, more volatility.',
+      },
+      {
+        zh: '科创板',
+        py: 'kē chuàng bǎn',
+        en: 'STAR Market',
+        note: 'The Shanghai science-and-technology board. Access usually requires a minimum account size and experience test.',
+      },
+      {
+        zh: '公募基金',
+        py: 'gōng mù jī jīn',
+        en: 'Public (mutual) fund',
+        note: 'The regulated, retail-accessible fund. The ordinary way an individual gets diversified exposure.',
+      },
+      {
+        zh: '私募基金',
+        py: 'sī mù jī jīn',
+        en: 'Private fund',
+        note: 'Sold only to qualified investors, with a CNY 1 million minimum in practice. Closed to most foreign individuals.',
+      },
+      {
+        zh: '货币基金',
+        py: 'huò bì jī jīn',
+        en: 'Money-market fund',
+        note: 'Short-term deposits, repo and paper. Redeemable quickly, not insured, and not a savings account.',
+      },
+      {
+        zh: 'ETF',
+        py: 'ETF',
+        en: 'Exchange-traded fund',
+        note: 'An index fund that trades like a stock, in lots of 100 units, inside a securities account.',
+      },
+      {
+        zh: 'LOF',
+        py: 'LOF',
+        en: 'Listed open-end fund',
+        note: 'A fund that trades on the exchange and can also be bought at net asset value through a distributor. Two prices, one fund.',
+      },
+      {
+        zh: 'REITs',
+        py: 'REITs',
+        en: 'Public REITs',
+        note: 'Listed infrastructure and property trusts. Recent, small, and not a substitute for owning property.',
+      },
+      {
+        zh: '银行理财',
+        py: 'yín háng lǐ cái',
+        en: 'Bank wealth-management product',
+        note: 'Sold at the counter, not a deposit, not insured. Read the risk grade before the yield.',
+      },
+      {
+        zh: '结构性存款',
+        py: 'jié gòu xìng cún kuǎn',
+        en: 'Structured deposit',
+        note: 'A deposit with an embedded option. Principal is usually protected; the yield is not a promise.',
+      },
+      {
+        zh: '大额存单',
+        py: 'dà é cún dān',
+        en: 'Large-denomination CD',
+        note: 'A deposit with a CNY 200,000 floor. Insured, transferable in some issues, better rate than a normal fixed deposit.',
+      },
+      {
+        zh: '国债逆回购',
+        py: 'guó zhài nì huí gòu',
+        en: 'Reverse repo',
+        note: 'You lend cash against government bonds for a day or a few weeks. Needs a securities account.',
+      },
+    ],
+  },
+  {
+    title: 'How a fund works',
+    hint: 'The vocabulary that decides whether you made or lost money.',
+    terms: [
+      {
+        zh: '净值',
+        py: 'jìng zhí',
+        en: 'Net asset value',
+        note: 'The value of one unit of the fund. Your return is the change in this, plus distributions.',
+      },
+      {
+        zh: '份额',
+        py: 'fèn é',
+        en: 'Units',
+        note: 'What you actually own. Money in ÷ net asset value = units purchased.',
+      },
+      {
+        zh: '认购',
+        py: 'rèn gòu',
+        en: 'Subscription during launch',
+        note: 'Buying a new fund before it starts trading. Your money is locked during the fundraising period.',
+      },
+      {
+        zh: '申购',
+        py: 'shēn gòu',
+        en: 'Subscription after launch',
+        note: 'Buying into an existing fund at the day’s net asset value.',
+      },
+      {
+        zh: '赎回',
+        py: 'shú huí',
+        en: 'Redemption',
+        note: 'Selling your units back to the fund. The cash arrives after the settlement period, not immediately.',
+      },
+      {
+        zh: '定投',
+        py: 'dìng tóu',
+        en: 'Regular investment plan',
+        note: 'A standing order that buys a fixed amount on a schedule. A behaviour tool, not a return guarantee.',
+      },
+      {
+        zh: '分红',
+        py: 'fēn hóng',
+        en: 'Distribution',
+        note: 'A payout from the fund. Cash distribution reduces net asset value by the same amount — it is not free money.',
+      },
+      {
+        zh: '封闭期',
+        py: 'fēng bì qī',
+        en: 'Lock-up period',
+        note: 'A period when you cannot redeem. Common for new funds and for fixed-term wealth products.',
+      },
+      {
+        zh: '起购金额',
+        py: 'qǐ gòu jīn é',
+        en: 'Minimum purchase',
+        note: 'The smallest amount you can put in. Often CNY 1 for a fund, CNY 200,000 for a large CD.',
+      },
+      {
+        zh: '涨跌停',
+        py: 'zhǎng diē tíng',
+        en: 'Price limit',
+        note: 'The daily cap on how far a share can move — 10% on the main board, 20% on ChiNext and STAR.',
+      },
+      {
+        zh: '佣金',
+        py: 'yòng jīn',
+        en: 'Commission',
+        note: 'What the broker charges per trade. Often has a CNY 5 minimum, which hurts small orders.',
+      },
+      {
+        zh: '管理费 / 托管费',
+        py: 'guǎn lǐ fèi / tuō guǎn fèi',
+        en: 'Management / custody fee',
+        note: 'Charged inside the fund every day. You never see a bill; the net asset value is already net of them.',
+      },
+      {
+        zh: '销售服务费',
+        py: 'xiāo shòu fú wù fèi',
+        en: 'Sales service fee',
+        note: 'The trailing fee on C-class shares. It replaces the up-front subscription fee.',
+      },
+      {
+        zh: '风险等级',
+        py: 'fēng xiǎn děng jí',
+        en: 'Risk grade',
+        note: 'R1 to R5 on the product, C1 to C5 on you. If yours is lower, the system blocks the purchase.',
+      },
+      {
+        zh: '双录',
+        py: 'shuāng lù',
+        en: 'Dual recording',
+        note: 'Audio and video recorded when a risky product is sold at a branch. If you are asked to read a script, this is why.',
+      },
+    ],
+  },
+  {
+    title: 'Tax and documents',
+    hint: 'The words that appear on the certificate you need in April.',
+    terms: [
+      {
+        zh: '个人所得税',
+        py: 'gè rén suǒ dé shuì',
+        en: 'Individual income tax',
+        note: 'The tax on wages and on most investment income. Withheld at source for most products.',
+      },
+      {
+        zh: '股息红利',
+        py: 'gǔ xī hóng lì',
+        en: 'Dividends',
+        note: 'Taxed differently by holding period for residents, and by treaty for non-residents.',
+      },
+      {
+        zh: '利息',
+        py: 'lì xī',
+        en: 'Interest',
+        note: 'Deposit interest is exempt for individuals; bond and loan interest generally is not.',
+      },
+      {
+        zh: '印花税',
+        py: 'yìn huā shuì',
+        en: 'Stamp duty',
+        note: 'Charged on share sales, not on ETF trades. A small number that shows up on every contract note.',
+      },
+      {
+        zh: '资本利得',
+        py: 'zī běn lì dé',
+        en: 'Capital gain',
+        note: 'Profit from selling an asset. Individuals have long been exempt on listed A-shares — do not assume that survives a change of residency.',
+      },
+      {
+        zh: '完税证明',
+        py: 'wán shuì zhèng míng',
+        en: 'Tax payment certificate',
+        note: 'Proof that tax was withheld. You need it to claim a foreign tax credit at home.',
+      },
+      {
+        zh: '税收居民身份证明',
+        py: 'shuì shōu jū mín shēn fèn zhèng míng',
+        en: 'Tax residency certificate',
+        note: 'Issued by your home tax authority. The document that unlocks a treaty rate instead of the default withholding.',
+      },
+      {
+        zh: '协定税率',
+        py: 'xié dìng shuì lǜ',
+        en: 'Treaty rate',
+        note: 'The reduced rate under a double-tax agreement. Usually 5% or 10% on dividends, applied only if you claim it.',
+      },
+      {
+        zh: '综合所得',
+        py: 'zōng hé suǒ dé',
+        en: 'Comprehensive income',
+        note: 'Wages, labour remuneration, author’s fees and royalties, combined for the annual settlement.',
+      },
+      {
+        zh: '年度汇算',
+        py: 'nián dù huì suàn',
+        en: 'Annual settlement',
+        note: 'The yearly reconciliation between tax withheld and tax due. Where a refund usually comes from.',
+      },
+    ],
+  },
+  {
+    title: 'Cross-border and boundaries',
+    hint: 'The words that decide whether money may cross the border at all.',
+    terms: [
+      {
+        zh: '结汇',
+        py: 'jié huì',
+        en: 'Selling foreign currency',
+        note: 'Converting USD into RMB. Subject to the USD 50,000 annual quota for individuals, and to purpose rules.',
+      },
+      {
+        zh: '购汇',
+        py: 'gòu huì',
+        en: 'Buying foreign currency',
+        note: 'Converting RMB into USD. Same quota, same purpose rules, and not a route to invest abroad.',
+      },
+      {
+        zh: '跨境汇款',
+        py: 'kuà jìng huì kuǎn',
+        en: 'Cross-border remittance',
+        note: 'A wire in or out. The bank asks for the purpose, and the declared purpose has to be a permitted one.',
+      },
+      {
+        zh: '中英文名',
+        py: 'zhōng yīng wén míng',
+        en: 'Name in Chinese and English',
+        note: 'Banks key your account to a Chinese rendering of your name. Inconsistent spelling across documents causes most onboarding failures.',
+      },
+      {
+        zh: '手机银行',
+        py: 'shǒu jī yín háng',
+        en: 'Mobile banking',
+        note: 'The app. Frequently requires a Chinese phone number and a face scan to activate.',
+      },
+      {
+        zh: '网银',
+        py: 'wǎng yín',
+        en: 'Online banking',
+        note: 'The desktop version, and usually where the full remittance and certificate functions live.',
+      },
+      {
+        zh: '北向资金',
+        py: 'běi xiàng zī jīn',
+        en: 'Northbound flows',
+        note: 'Foreign money buying A-shares through Stock Connect. A market indicator, not a channel open to individuals directly.',
+      },
+      {
+        zh: '合格投资者',
+        py: 'hé gé tóu zī zhě',
+        en: 'Qualified investor',
+        note: 'The threshold that gates private funds and some products. Two years of experience plus an asset or income test.',
+      },
+    ],
+  },
+];
+
+const allTerms = groups.flatMap((g) => g.terms);
+const searchText = (t: Term) => `${t.zh} ${t.py} ${t.en} ${t.note}`.toLowerCase();
+---
+
+<BaseLayout
+  title="Glossary"
+  description="The Chinese terms you will meet on bank forms, fund prospectuses and brokerage apps — pinyin, English and what each one actually decides."
+>
+<section class="section">
+  <div class="wrap">
+    <p class="hero__eyebrow">Words</p>
+    <h1 style="margin-top:.6rem">Glossary</h1>
+    <p class="lede">
+      English explanations are easy to find. The problem is the form in front of you, which is in
+      Chinese. These are the {allTerms.length} terms that actually decide what happens next — with
+      pinyin, so you can say them out loud at the counter.
+    </p>
+
+    <div class="field" style="max-width:32rem;margin-top:1.6rem">
+      <label for="q">Filter terms</label>
+      <input id="q" type="text" placeholder="Type Chinese, pinyin or English — e.g. 净值, jingzhi, net asset" autocomplete="off" />
+    </div>
+
+    {
+      groups.map((g) => (
+        <section class="glossary__group" data-group style="margin-top:2.4rem">
+          <h2 style="font-size:1.18rem;margin-bottom:.2rem">{g.title}</h2>
+          <p class="small muted" style="margin-bottom:.9rem">{g.hint}</p>
+          <div class="table-scroll">
+            <table class="table--glossary">
+              <thead>
+                <tr>
+                  <th scope="col">Term</th>
+                  <th scope="col">Pinyin</th>
+                  <th scope="col">English</th>
+                  <th scope="col">What it decides</th>
+                </tr>
+              </thead>
+              <tbody>
+                {g.terms.map((t) => (
+                  <tr data-term data-search={searchText(t)}>
+                    <td><strong lang="zh-Hans">{t.zh}</strong></td>
+                    <td class="small muted">{t.py}</td>
+                    <td>{t.en}</td>
+                    <td class="small">{t.note}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ))
+    }
+
+    <p class="small muted" id="glossary-empty" hidden style="margin-top:1.4rem">
+      No term matches that. Try the Chinese characters, or a shorter word.
+    </p>
+  </div>
+</section>
+
+<script>
+  const input = document.getElementById('q');
+  const rows = Array.from(document.querySelectorAll('[data-term]'));
+  const groups = Array.from(document.querySelectorAll('[data-group]'));
+  const empty = document.getElementById('glossary-empty');
+
+  const apply = () => {
+    const q = (input && 'value' in input ? String(input.value) : '').trim().toLowerCase();
+    let shown = 0;
+    for (const row of rows) {
+      const hit = q === '' || (row.dataset.search || '').includes(q);
+      row.hidden = !hit;
+      if (hit) shown += 1;
+    }
+    for (const group of groups) {
+      const visible = group.querySelectorAll('[data-term]:not([hidden])').length;
+      group.hidden = visible === 0;
+    }
+    if (empty) empty.hidden = shown !== 0;
+  };
+
+  input?.addEventListener('input', apply);
+  apply();
+</script>
+</BaseLayout>

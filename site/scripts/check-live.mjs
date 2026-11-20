@@ -21,10 +21,12 @@ const pages = [
   '/playbooks/inbound-funding/',
   '/playbooks/bonds-and-deposits/',
   '/playbooks/etf-and-index/',
+  '/glossary/',
   '/explainers/capital-vs-current-account/',
   '/explainers/deposit-insurance/',
   '/explainers/risk-grades/',
   '/explainers/fund-share-classes/',
+  '/explainers/treaty-relief/',
   '/methodology/',
   '/about/',
   '/updates/',
@@ -99,6 +101,9 @@ check('about states the consumer-only audience', /We do not sell to institutions
 check('bonds playbook is live', /deposit insurance/i.test(body('/playbooks/bonds-and-deposits/')));
 check('deposit insurance explainer is live', /CNY 500,000/.test(body('/explainers/deposit-insurance/')));
 check('new channel page renders', /Securities account first|securities \(brokerage\) account/.test(body('/channels/exchange-bond/')));
+check('glossary renders terms', /面签/.test(body('/glossary/')) && /yī lèi hù/.test(body('/glossary/')));
+check('glossary filter is wired', /id="q"/.test(body('/glossary/')));
+check('treaty explainer is live', /certificate of tax residency/i.test(body('/explainers/treaty-relief/')));
 
 check('api returns json', api !== null);
 check(`api lists ${expected} channels`, api?.channels?.length === expected, api?.channels?.length);

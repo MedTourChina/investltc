@@ -117,6 +117,19 @@ test('private funds are closed to non-resident individuals', () => {
   assert.match(v.blockers.join(' '), /closed to non-resident|sold to onshore|offshore/i);
 });
 
+test('employee equity is conditional for a resident and unknown for a non-resident', () => {
+  const resident = evaluateChannel(by('employee-equity'), withProfile({ investor: 'resident-foreign-individual' }));
+  assert.equal(resident.status, 'conditional');
+  const access = by('employee-equity').access.find((a) => a.investorType === 'resident-foreign-individual');
+  assert.match(access.conditions.join(' '), /plan/i);
+
+  const nonResident = evaluateChannel(
+    by('employee-equity'),
+    withProfile({ investor: 'non-resident-individual', source: 'offshore-fx', visa: 'visitor', months: 'none' }),
+  );
+  assert.equal(nonResident.status, 'unknown');
+});
+
 test('ranking: open, then conditional, then unknown, then closed', () => {
   const verdicts = [
     { channelId: 'c', name: 'c', type: 'fund', status: 'closed', blockers: [], needs: [], notes: [], friction: 1 },

@@ -3,24 +3,33 @@ layout: ../layouts/ProseLayout.astro
 title: "Updates"
 description: "What changed on this site, when, and why. Corrections are logged here, not quietly edited."
 kicker: "Changelog"
-updated: 2026-11-19
+updated: 2026-11-21
 ---
 
-## 2026-11-20 â€?Glossary and treaty relief
+## 2026-11-21 â€” Employee equity
 
-- New [glossary](/glossary): fifty-five terms with pinyin, filterable, grouped by where you meet them â€?  accounts, products, fund mechanics, tax, cross-border.
+- New channel: [employee equity](/channels/employee-equity) â€” RSUs and options, and the three things
+  that decide whether the award is worth what the offer letter implies.
+- New [ESOP playbook](/playbooks/esop-and-rsu): five questions before signing, the vest date, and how
+  the proceeds leave the country.
+- New explainer on the [three taxable moments](/explainers/equity-compensation) â€” grant, vest, sale.
+
+## 2026-11-20 â€” Glossary and treaty relief
+
+- New [glossary](/glossary): fifty-five terms with pinyin, filterable, grouped by where you meet them â€”
+  accounts, products, fund mechanics, tax, cross-border.
 - New explainer on [claiming a treaty rate](/explainers/treaty-relief): the certificate of tax
   residency, the order of operations, and the four places it goes wrong.
 
-## 2026-11-19 â€?Four more channels, two explainers and an ETF playbook
+## 2026-11-19 â€” Four more channels, two explainers and an ETF playbook
 
 - Added money-market funds, exchange-traded funds, exchange reverse repos and large-denomination CDs.
-  The map is now eighteen channels.
+  The map is now nineteen channels.
 - New [ETF playbook](/playbooks/etf-and-index): index first, fund second, premium third.
 - New explainers on [R1â€“R5 risk grades](/explainers/risk-grades) and on
   [A-class versus C-class fund shares](/explainers/fund-share-classes).
 
-## 2026-11-19 â€?Five more channels and a bonds playbook
+## 2026-11-19 â€” Five more channels and a bonds playbook
 
 - Added exchange-traded bonds, public REITs, private funds, gold accumulation plans and ETFs, and
   savings-type insurance. The map is now fourteen channels.
@@ -34,7 +43,7 @@ updated: 2026-11-19
   in the matrix are labelled as context, and no page offers institutional services or advice.
 - Fixed the check page opening on a different profile from the one it described.
 
-## 2026-11-18 â€?Prototype published
+## 2026-11-18 â€” Prototype published
 
 Live at [invest.lifetourchina.com](https://invest.lifetourchina.com).
 

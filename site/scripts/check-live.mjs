@@ -7,7 +7,7 @@
  * failed assertion, so it can be used after a deploy or in CI.
  */
 const base = (process.argv[2] ?? 'https://invest.lifetourchina.com').replace(/\/$/, '');
-const expected = Number(process.argv[3] ?? 18);
+const expected = Number(process.argv[3] ?? 19);
 
 const pages = [
   '/',
@@ -27,6 +27,8 @@ const pages = [
   '/explainers/risk-grades/',
   '/explainers/fund-share-classes/',
   '/explainers/treaty-relief/',
+  '/explainers/equity-compensation/',
+  '/playbooks/esop-and-rsu/',
   '/methodology/',
   '/about/',
   '/updates/',
@@ -104,6 +106,8 @@ check('new channel page renders', /Securities account first|securities \(brokera
 check('glossary renders terms', /面签/.test(body('/glossary/')) && /yī lèi hù/.test(body('/glossary/')));
 check('glossary filter is wired', /id="q"/.test(body('/glossary/')));
 check('treaty explainer is live', /certificate of tax residency/i.test(body('/explainers/treaty-relief/')));
+check('employee equity channel renders', /股权激励/.test(body('/channels/employee-equity/')));
+check('esop playbook is live', /Before you sign/i.test(body('/playbooks/esop-and-rsu/')));
 
 check('api returns json', api !== null);
 check(`api lists ${expected} channels`, api?.channels?.length === expected, api?.channels?.length);

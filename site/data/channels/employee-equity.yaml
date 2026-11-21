@@ -1,0 +1,92 @@
+id: employee-equity
+name: "Employee equity (RSUs and options)"
+nameZh: 股权激励
+type: equity
+summary: >-
+  Shares or options granted by your employer. The hard part is not the market — it is whether the
+  plan is registered, which account the shares land in, and the tax that is withheld the day they vest.
+whatYouCanBuy:
+  - "Restricted stock units and options in a Chinese-listed employer"
+  - "Shares in a foreign parent, where the plan is registered for onshore employees"
+  - "Employee stock ownership plans (员工持股计划) that hold shares on your behalf"
+access:
+  - investorType: resident-foreign-individual
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+    requirements:
+      - employment-or-study-proof
+      - local-bank-account
+    conditions:
+      - The employer must operate a registered equity incentive plan
+      - Shares often sit in a plan account administered by the company, not in your own brokerage account
+      - Tax is withheld by the employer at vest or exercise, before you can sell
+      - Whether you may join can depend on your contract type and residence status
+    denialReasons:
+      - Employer has no registered plan for foreign employees
+      - Plan documents name only Chinese ID holders
+  - investorType: non-resident-individual
+    status: unknown
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements: []
+    conditions:
+      - Not verified whether a non-resident employee can join an onshore plan
+  - investorType: offshore-institution
+    status: closed
+    fundSources: []
+    requirements: []
+    conditions:
+      - An employment benefit, not an institutional route
+  - investorType: onshore-fie
+    status: unknown
+    fundSources:
+      - onshore-rmb-income
+    requirements: []
+    conditions:
+      - Entity-level plans exist; not documented here
+documents:
+  - Passport and residence permit
+  - Employment contract and the plan's award agreement
+  - Employer tax withholding records
+process:
+  - step: "Ask HR whether the plan is registered and whether foreign employees are named in it"
+    where: online
+  - step: "Read the vesting schedule and what happens to unvested awards if you leave"
+    where: n/a
+  - step: "Confirm which account the shares will sit in — yours, or the plan's"
+    where: online
+  - step: "Check the withholding at vest, and keep the certificate"
+    where: n/a
+minimums:
+  amount: 0
+  currency: CNY
+  note: "Set by the award, not by a purchase minimum. Some plans require you to buy at a strike price."
+fees:
+  - label: "Brokerage commission on sale"
+    amount: "Normal trading commission, if you sell through your own account"
+  - label: "Plan administration"
+    amount: "Usually borne by the employer; confirm"
+liquidity:
+  settlement: "Vesting schedule first, then the market. Unvested awards are not yours to sell."
+taxNote: >-
+  Listed-company equity incentives are generally taxed as wages at vest or exercise, calculated
+  separately from your salary rather than merged into comprehensive income. The shares are taxed again
+  on sale only to the extent the rules say so — for individuals selling listed A-shares, capital gains
+  have long been exempt. Confirm both ends before you plan around it.
+friction: {documents: 4, inPerson: 3, language: 4, minimum: 1, exit: 3}
+lastVerified: 2026-11-21
+verifiedBy: document
+sources:
+  - label: "财政部 税务总局公告2023年第25号（上市公司股权激励单独计税延续）"
+    date: 2023-08-22
+  - label: "财税〔2016〕101号（非上市公司股权激励递延纳税）"
+    date: 2016-09-20
+  - label: "Plan documents and employer withholding statements"
+    date: 2026-11-21
+caveats:
+  - "Compiled from public documents — not yet field-verified."
+  - "The tax is withheld before you see the shares, so the headline grant is not the net grant."
+  - "This is not a route to buy shares with your own money; it is a route to receive them from an employer."
+fieldNotes: []

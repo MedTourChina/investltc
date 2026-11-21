@@ -3,7 +3,7 @@
  *
  *   node scripts/check-live.mjs [baseUrl] [expectedChannelCount]
  *
- * Defaults to the production domain and 14 channels. Exits non-zero on the first
+ * Defaults to the production domain and 19 channels. Exits non-zero on the first
  * failed assertion, so it can be used after a deploy or in CI.
  */
 const base = (process.argv[2] ?? 'https://invest.lifetourchina.com').replace(/\/$/, '');
@@ -18,6 +18,7 @@ const pages = [
   '/channels/a-share/',
   '/channels/exchange-bond/',
   '/channels/gold/',
+  '/channels/employee-equity/',
   '/playbooks/inbound-funding/',
   '/playbooks/bonds-and-deposits/',
   '/playbooks/etf-and-index/',

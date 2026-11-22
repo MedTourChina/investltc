@@ -241,6 +241,9 @@ hr {
   display: flex;
   align-items: center;
   gap: 1.15rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  row-gap: 0.2rem;
   font-size: 0.9rem;
   font-weight: 550;
 }
@@ -997,6 +1000,10 @@ tbody tr:hover {
 
 /* ---------- responsive ---------- */
 @media (max-width: 940px) {
+  .nav {
+    gap: 0.7rem;
+    font-size: 0.84rem;
+  }
   .grid--4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

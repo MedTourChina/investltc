@@ -6,6 +6,12 @@ kicker: "Changelog"
 updated: 2026-11-22
 ---
 
+## 2026-11-22 — A sequenced way in
+
+- New page: [First thirty days](/start) — the order in which things can actually be opened, from the
+  SIM card to the brokerage account, and why the investment account comes last.
+- The homepage now leads with it, and the navigation has a Start entry.
+
 ## 2026-11-22 — Banks, e-CNY and the tax year
 
 - New explainers on [choosing a Chinese or foreign bank](/explainers/foreign-vs-chinese-bank),

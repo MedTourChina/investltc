@@ -39,6 +39,7 @@ const pages = [
   '/explainers/foreign-vs-chinese-bank/',
   '/explainers/ecny/',
   '/explainers/foreign-tax-allowances/',
+  '/start/',
   '/methodology/',
   '/about/',
   '/updates/',
@@ -126,6 +127,9 @@ check('bank comparison explainer is live', /Class I/.test(body('/explainers/fore
 check('e-cny explainer is live', /数字人民币/.test(body('/explainers/ecny/')));
 check('tax allowance explainer is live', /eight tax-free allowances|Eight allowances/i.test(body('/explainers/foreign-tax-allowances/')));
 check('annual tax playbook is live', /1 March to 30 June/.test(body('/playbooks/annual-tax-settlement/')));
+check('start page is live', /Phone number → bank account/.test(body('/start/')));
+check('start page is in the navigation', /href="\/start"/.test(home));
+check('home link to start page', /Just arrived\? Start here/.test(home));
 
 check('api returns json', api !== null);
 check(`api lists ${expected} channels`, api?.channels?.length === expected, api?.channels?.length);

@@ -11,6 +11,7 @@ import {
   summarise,
 } from '../src/lib/eligibility.ts';
 import { PATHS, checkParamsFor, pathFor } from '../src/lib/paths.ts';
+import { escapeHtml, renderResults } from '../src/lib/render.ts';
 
 const dir = path.join(import.meta.dirname, '..', 'data', 'channels');
 const channels = fs
@@ -66,6 +67,31 @@ test('path check links prefill the investor type and visa', () => {
     assert.equal(prof.investor, 'resident-foreign-individual');
     assert.equal(prof.visa, p.visa);
   }
+});
+
+test('the results markup carries the actual answer, not an empty div', () => {
+  const html = renderResults(
+    rankVerdicts(channels.map((c) => evaluateChannel(c, DEFAULT_PROFILE))),
+    DEFAULT_PROFILE,
+  );
+  assert.match(html, /channels look usable for you/);
+  assert.match(html, /class="result-item"/);
+  assert.match(html, /Your path/);
+  assert.match(html, /Work permit path/);
+  assert.match(html, /href="\/channels\/a-share"/);
+});
+
+test('the path block is only shown to holders of a residence permit', () => {
+  const base = rankVerdicts(channels.map((c) => evaluateChannel(c, DEFAULT_PROFILE)));
+  assert.doesNotMatch(renderResults(base, withProfile({ visa: 'visitor' })), /Your path/);
+  assert.doesNotMatch(
+    renderResults(base, withProfile({ visa: 'work', investor: 'offshore-institution' })),
+    /Your path/,
+  );
+});
+
+test('markup from the data is escaped', () => {
+  assert.equal(escapeHtml('a & b <c> "d"'), 'a &amp; b &lt;c&gt; &quot;d&quot;');
 });
 
 test('cannot visit a branch: wealth products become conditional', () => {

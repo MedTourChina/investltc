@@ -111,6 +111,9 @@ check('check page 200', status('/check/') === 200);
 check('check page has embedded data', /id="channel-data"/.test(checkPage));
 check('check page asks about a brokerage account', /name="brokerage"/.test(checkPage));
 check('check page defaults to a resident individual', /<option value="resident-foreign-individual"[^>]*selected/.test(checkPage));
+check('check page renders its results in the HTML', /channels look usable for you/.test(checkPage));
+check('check page renders the path block in the HTML', /Your path/.test(checkPage));
+check('check page links a channel in the HTML', /href="\/channels\/a-share"/.test(checkPage));
 
 check('home says it is for individuals', /For individuals/.test(home));
 check('home draws the institutional boundary', /Institutional routes appear on this site/.test(home));

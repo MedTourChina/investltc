@@ -6,6 +6,14 @@ kicker: "Changelog"
 updated: 2026-11-22
 ---
 
+## 2026-11-22 — The check works without JavaScript
+
+- The [eligibility check](/check) now ships its results in the HTML: the whole list for the default
+  profile is rendered at build time and the script only replaces it when you change an answer.
+  Before this, the page was an empty div to a crawler and to anyone with scripting off.
+- Both versions come from one renderer (`site/src/lib/render.ts`), so what the server writes and
+  what the browser redraws cannot drift apart.
+
 ## 2026-11-22 — Paths and the check now agree
 
 - The [eligibility check](/check) shows your path above the results: what the next three steps are

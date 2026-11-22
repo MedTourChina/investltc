@@ -2,11 +2,19 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ChannelData from '../components/ChannelData.astro';
 import { getChannels } from '../lib/data';
-import { DEFAULT_PROFILE } from '../lib/eligibility';
+import { DEFAULT_PROFILE, evaluateChannel, rankVerdicts } from '../lib/eligibility';
+import { renderResults } from '../lib/render';
 import { INVESTOR_LABEL, FUND_SOURCE_LABEL } from '../lib/labels';
 import { INVESTOR_TYPES } from '../lib/schema';
 
 const channels = getChannels();
+
+// Rendered at build time for the default profile so the page has real content in its HTML:
+// the results are the point of the page, and they used to exist only after the script ran.
+const initialResults = renderResults(
+  rankVerdicts(channels.map((channel) => evaluateChannel(channel, DEFAULT_PROFILE))),
+  DEFAULT_PROFILE,
+);
 ---
 
 <BaseLayout
@@ -148,7 +156,7 @@ const channels = getChannels();
             </div>
           </noscript>
 
-          <div id="results" aria-live="polite" style="margin-top:2rem"></div>
+          <div id="results" aria-live="polite" style="margin-top:2rem" set:html={initialResults}></div>
         </div>
 
         <aside class="stack">
@@ -188,10 +196,9 @@ const channels = getChannels();
       profileFromParams,
       profileToParams,
       rankVerdicts,
-      summarise,
       type Profile,
     } from '../lib/eligibility';
-    import { pathFor } from '../lib/paths';
+    import { renderResults } from '../lib/render';
 
     const raw = document.getElementById('channel-data')?.textContent ?? '[]';
     const channels = JSON.parse(raw);
@@ -199,29 +206,6 @@ const channels = getChannels();
     const form = document.getElementById('check-form') as HTMLFormElement;
     const results = document.getElementById('results') as HTMLElement;
     const copyBtn = document.getElementById('copy-link') as HTMLButtonElement;
-
-    const PLAYBOOK: Record<string, string> = {
-      equity: 'a-shares',
-      wealth: 'bank-wealth',
-      fund: 'funds',
-      bond: 'bonds-and-deposits',
-      cash: 'bonds-and-deposits',
-      route: 'inbound-funding',
-    };
-
-    const GROUP_LABEL: Record<string, string> = {
-      open: 'Can open now',
-      conditional: 'Conditional — one thing to fix',
-      unknown: 'Not verified for your case',
-      closed: 'Not available to you',
-    };
-
-    const BADGE_LABEL: Record<string, string> = {
-      open: 'Open',
-      conditional: 'Conditional',
-      unknown: 'Not verified',
-      closed: 'Not available',
-    };
 
     function readProfile(): Profile {
       const fd = new FormData(form);
@@ -239,184 +223,9 @@ const channels = getChannels();
       };
     }
 
-    function line(text: string, kind: 'blocker' | 'need' | 'note') {
-      const p = document.createElement('p');
-      p.className = 'result-item__why';
-      p.style.margin = '0.15rem 0';
-      const mark = kind === 'blocker' ? '✕ ' : kind === 'need' ? '! ' : '· ';
-      p.style.color =
-        kind === 'blocker' ? 'var(--red)' : kind === 'need' ? 'var(--amber)' : 'var(--ink-muted)';
-      p.textContent = mark + text;
-      return p;
-    }
-
-    function item(v: any) {
-      const row = document.createElement('div');
-      row.className = 'result-item';
-
-      const head = document.createElement('div');
-      head.className = 'result-item__head';
-
-      const link = document.createElement('a');
-      link.href = `/channels/${v.channelId}`;
-      link.className = 'result-item__name';
-      link.textContent = v.name;
-
-      const badge = document.createElement('span');
-      badge.className = `badge badge--${v.status} badge--sm`;
-      badge.textContent = BADGE_LABEL[v.status];
-
-      const friction = document.createElement('span');
-      friction.className = 'mono tiny muted';
-      friction.textContent = `friction ${v.friction.toFixed(1)}`;
-
-      head.append(link, badge, friction);
-      row.appendChild(head);
-
-      for (const b of v.blockers ?? []) row.appendChild(line(b, 'blocker'));
-      for (const n of v.needs ?? []) row.appendChild(line(n, 'need'));
-      for (const n of v.notes ?? []) row.appendChild(line(n, 'note'));
-
-      const pb = PLAYBOOK[v.type];
-      if (pb) {
-        const a = document.createElement('a');
-        a.href = `/playbooks/${pb}`;
-        a.className = 'tiny';
-        a.textContent = 'Open the playbook →';
-        a.style.display = 'inline-block';
-        a.style.marginTop = '0.35rem';
-        row.appendChild(a);
-      }
-
-      return row;
-    }
-
-    function pathBanner(path: { label: string; lede: string; href: string; next: { title: string; body: string; href?: string; hrefLabel?: string }[] }) {
-      const box = document.createElement('div');
-      box.className = 'card card--flat';
-      box.style.marginBottom = '1.2rem';
-
-      const kicker = document.createElement('span');
-      kicker.className = 'card__kicker';
-      kicker.textContent = 'Your path';
-      box.appendChild(kicker);
-
-      const title = document.createElement('p');
-      title.className = 'small';
-      title.style.margin = '0.5rem 0 0';
-      const strong = document.createElement('strong');
-      strong.textContent = path.label;
-      title.append(strong, document.createTextNode(` — ${path.lede}`));
-      box.appendChild(title);
-
-      const list = document.createElement('ol');
-      list.className = 'small';
-      list.style.margin = '0.8rem 0 0';
-      list.style.paddingLeft = '1.2rem';
-
-      for (const step of path.next) {
-        const li = document.createElement('li');
-        li.style.marginBottom = '0.6rem';
-
-        const st = document.createElement('span');
-        st.style.display = 'block';
-        const stStrong = document.createElement('strong');
-        stStrong.textContent = step.title;
-        st.append(stStrong);
-        li.appendChild(st);
-
-        const sb = document.createElement('span');
-        sb.className = 'muted';
-        sb.textContent = step.body;
-        li.appendChild(sb);
-
-        if (step.href && step.hrefLabel) {
-          const a = document.createElement('a');
-          a.href = step.href;
-          a.className = 'tiny';
-          a.style.display = 'inline-block';
-          a.style.marginTop = '0.15rem';
-          a.textContent = `${step.hrefLabel} →`;
-          li.appendChild(a);
-        }
-
-        list.appendChild(li);
-      }
-      box.appendChild(list);
-
-      const more = document.createElement('a');
-      more.href = path.href;
-      more.className = 'tiny';
-      more.style.display = 'inline-block';
-      more.style.marginTop = '0.3rem';
-      more.textContent = `Read the whole ${path.label.toLowerCase()} →`;
-      box.appendChild(more);
-
-      return box;
-    }
-
     function render(profile: Profile) {
       const verdicts = rankVerdicts(channels.map((c: any) => evaluateChannel(c, profile)));
-      const counts = summarise(verdicts);
-
-      const head = document.createElement('div');
-      head.className = 'stack';
-      head.style.marginBottom = '1.2rem';
-
-      const title = document.createElement('h2');
-      title.style.fontSize = '1.25rem';
-      title.textContent = `${counts.open + counts.conditional} of ${verdicts.length} channels look usable for you`;
-      head.appendChild(title);
-
-      const sub = document.createElement('p');
-      sub.className = 'muted small';
-      sub.textContent = `${counts.open} open · ${counts.conditional} conditional · ${counts.unknown} not verified · ${counts.closed} blocked`;
-      head.appendChild(sub);
-
-      const frag = document.createDocumentFragment();
-      frag.appendChild(head);
-
-      const path = profile.investor === 'resident-foreign-individual' ? pathFor(profile.visa) : undefined;
-      if (path) frag.appendChild(pathBanner(path));
-
-      const order = ['open', 'conditional', 'unknown', 'closed'] as const;
-      for (const status of order) {
-        const items = verdicts.filter((v) => v.status === status);
-        if (items.length === 0) continue;
-
-        const group = document.createElement('div');
-        group.className = 'result-group';
-        group.style.marginBottom = '1rem';
-
-        const gh = document.createElement('div');
-        gh.className = 'result-group__head';
-        const gt = document.createElement('span');
-        gt.textContent = GROUP_LABEL[status];
-        const gc = document.createElement('span');
-        gc.className = 'mono';
-        gc.textContent = String(items.length);
-        gh.append(gt, gc);
-
-        const body = document.createElement('div');
-        for (const v of items) body.appendChild(item(v));
-
-        group.append(gh, body);
-        frag.appendChild(group);
-      }
-
-      const offshore = verdicts.filter(
-        (v) => v.status === 'closed' && (v.blockers ?? []).some((b) => /inbound route|arriving from outside/i.test(b)),
-      );
-      if (offshore.length > 0) {
-        const note = document.createElement('p');
-        note.className = 'small muted';
-        note.style.marginTop = '.6rem';
-        note.innerHTML =
-          'Some channels are blocked because the money is still offshore. That is a transfer problem, not a product problem — read <a href="/playbooks/inbound-funding">how money gets into China</a> first.';
-        frag.appendChild(note);
-      }
-
-      results.replaceChildren(frag);
+      results.innerHTML = renderResults(verdicts, profile);
       copyBtn.hidden = false;
     }
 

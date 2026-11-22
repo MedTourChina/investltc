@@ -282,9 +282,14 @@ const initialResults = renderResults(
       }
     });
 
+    // The build already rendered the default profile, so only redraw when the URL carries a
+    // different one. Redrawing identical markup would flash and make the live region announce
+    // the whole list again for no reason.
     const hadParams = applyParams();
-    render(readProfile());
-    if (!hadParams) {
+    if (hadParams) {
+      render(readProfile());
+    } else {
+      copyBtn.hidden = false;
       const hint = document.createElement('p');
       hint.className = 'tiny muted';
       hint.style.marginTop = '.6rem';

@@ -140,8 +140,9 @@ check('student path is live', /residence permit for study/.test(body('/paths/stu
 check('work permit path is live', /work permit and residence permit for work/.test(body('/paths/work-permit/')));
 check('permanent residence path is live', /permanent resident identity card|永久居留/.test(body('/paths/permanent-residence/')));
 check('dependant path is live', /family reunion/i.test(body('/paths/dependant/')));
-check('student path links into the check with its visa', /\/check\?investor=resident-foreign-individual&(amp;)?visa=student/.test(body('/paths/student/')));
-check('work permit path links into the check with its visa', /\/check\?investor=resident-foreign-individual&(amp;)?visa=work/.test(body('/paths/work-permit/')));
+const AMP = '(?:&amp;|&#x26;|&#38;|&)';
+check('student path links into the check with its visa', new RegExp(`/check\\?investor=resident-foreign-individual${AMP}visa=student`).test(body('/paths/student/')));
+check('work permit path links into the check with its visa', new RegExp(`/check\\?investor=resident-foreign-individual${AMP}visa=work`).test(body('/paths/work-permit/')));
 check('permanent residence path links into the check with its visa', /visa=permanent/.test(body('/paths/permanent-residence/')));
 check('dependant path links into the check with its visa', /visa=family/.test(body('/paths/dependant/')));
 

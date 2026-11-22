@@ -35,6 +35,10 @@ const pages = [
   '/explainers/qdii-boundary/',
   '/playbooks/esop-and-rsu/',
   '/playbooks/leaving-china/',
+  '/playbooks/annual-tax-settlement/',
+  '/explainers/foreign-vs-chinese-bank/',
+  '/explainers/ecny/',
+  '/explainers/foreign-tax-allowances/',
   '/methodology/',
   '/about/',
   '/updates/',
@@ -118,6 +122,10 @@ check('housing fund channel renders', /住房公积金/.test(body('/channels/hou
 check('leaving-china playbook is live', /order of operations/i.test(body('/playbooks/leaving-china/')));
 check('cny-vs-cnh explainer is live', /CNH/.test(body('/explainers/cny-vs-cnh/')));
 check('qdii explainer is live', /QDII/.test(body('/explainers/qdii-boundary/')));
+check('bank comparison explainer is live', /Class I/.test(body('/explainers/foreign-vs-chinese-bank/')));
+check('e-cny explainer is live', /数字人民币/.test(body('/explainers/ecny/')));
+check('tax allowance explainer is live', /eight tax-free allowances|Eight allowances/i.test(body('/explainers/foreign-tax-allowances/')));
+check('annual tax playbook is live', /1 March to 30 June/.test(body('/playbooks/annual-tax-settlement/')));
 
 check('api returns json', api !== null);
 check(`api lists ${expected} channels`, api?.channels?.length === expected, api?.channels?.length);

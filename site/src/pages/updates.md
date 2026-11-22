@@ -6,6 +6,14 @@ kicker: "Changelog"
 updated: 2026-11-22
 ---
 
+## 2026-11-22 — Banks, e-CNY and the tax year
+
+- New explainers on [choosing a Chinese or foreign bank](/explainers/foreign-vs-chinese-bank),
+  [what e-CNY is not](/explainers/ecny), and the
+  [allowances-versus-deductions choice](/explainers/foreign-tax-allowances) most foreigners miss.
+- New [annual tax reconciliation playbook](/playbooks/annual-tax-settlement): the March–June window,
+  the app registration that needs one trip to a tax office, and the three things that block a refund.
+
 ## 2026-11-22 — Payroll deductions, two renminbis and the exit
 
 - New channel: [housing provident fund](/channels/housing-fund) — matched employer contributions, a

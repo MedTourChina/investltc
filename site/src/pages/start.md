@@ -108,6 +108,7 @@ page happens once.
 
 ## Where to go next
 
+- [Your path](/paths) — student, work permit, permanent residence or dependant changes this sequence
 - [Check what you can open](/check) — the filter, with your profile
 - [The access matrix](/matrix) — all twenty channels at a glance
 - [Bank account](/playbooks/bank-account) — the documents, in detail

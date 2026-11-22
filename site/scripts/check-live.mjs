@@ -40,6 +40,11 @@ const pages = [
   '/explainers/ecny/',
   '/explainers/foreign-tax-allowances/',
   '/start/',
+  '/paths/',
+  '/paths/student/',
+  '/paths/work-permit/',
+  '/paths/permanent-residence/',
+  '/paths/dependant/',
   '/methodology/',
   '/about/',
   '/updates/',
@@ -130,6 +135,11 @@ check('annual tax playbook is live', /1 March to 30 June/.test(body('/playbooks/
 check('start page is live', /Phone number → bank account/.test(body('/start/')));
 check('start page is in the navigation', /href="\/start"/.test(home));
 check('home link to start page', /Just arrived\? Start here/.test(home));
+check('paths index is live', /Four paths through this/.test(body('/paths/')));
+check('student path is live', /residence permit for study/.test(body('/paths/student/')));
+check('work permit path is live', /work permit and residence permit for work/.test(body('/paths/work-permit/')));
+check('permanent residence path is live', /permanent resident identity card|永久居留/.test(body('/paths/permanent-residence/')));
+check('dependant path is live', /family reunion/i.test(body('/paths/dependant/')));
 
 check('api returns json', api !== null);
 check(`api lists ${expected} channels`, api?.channels?.length === expected, api?.channels?.length);

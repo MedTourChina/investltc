@@ -6,6 +6,12 @@ kicker: "Changelog"
 updated: 2026-11-22
 ---
 
+## 2026-11-22 — Four paths
+
+- New section: [Four paths through this](/paths) — student, work permit, permanent residence and
+  dependant, each with what it can skip and where it gets stuck.
+- The [first thirty days](/start) page now points at it, because the sequence depends on your status.
+
 ## 2026-11-22 — A sequenced way in
 
 - New page: [First thirty days](/start) — the order in which things can actually be opened, from the

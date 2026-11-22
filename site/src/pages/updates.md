@@ -3,8 +3,18 @@ layout: ../layouts/ProseLayout.astro
 title: "Updates"
 description: "What changed on this site, when, and why. Corrections are logged here, not quietly edited."
 kicker: "Changelog"
-updated: 2026-11-21
+updated: 2026-11-22
 ---
+
+## 2026-11-22 — Payroll deductions, two renminbis and the exit
+
+- New channel: [housing provident fund](/channels/housing-fund) — matched employer contributions, a
+  fixed rate, and a purpose test before you can touch it.
+- New [leaving China playbook](/playbooks/leaving-china): the order of operations, the tax clearance,
+  and the phone number you should cancel last.
+- New explainers on [housing fund and social insurance](/explainers/housing-fund-and-social-insurance),
+  [CNY versus CNH](/explainers/cny-vs-cnh), and
+  [where the map stops at QDII](/explainers/qdii-boundary).
 
 ## 2026-11-21 — Employee equity
 

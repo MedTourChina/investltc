@@ -3,11 +3,11 @@
  *
  *   node scripts/check-live.mjs [baseUrl] [expectedChannelCount]
  *
- * Defaults to the production domain and 19 channels. Exits non-zero on the first
+ * Defaults to the production domain and 20 channels. Exits non-zero on the first
  * failed assertion, so it can be used after a deploy or in CI.
  */
 const base = (process.argv[2] ?? 'https://invest.lifetourchina.com').replace(/\/$/, '');
-const expected = Number(process.argv[3] ?? 19);
+const expected = Number(process.argv[3] ?? 20);
 
 const pages = [
   '/',
@@ -19,6 +19,7 @@ const pages = [
   '/channels/exchange-bond/',
   '/channels/gold/',
   '/channels/employee-equity/',
+  '/channels/housing-fund/',
   '/playbooks/inbound-funding/',
   '/playbooks/bonds-and-deposits/',
   '/playbooks/etf-and-index/',
@@ -29,7 +30,11 @@ const pages = [
   '/explainers/fund-share-classes/',
   '/explainers/treaty-relief/',
   '/explainers/equity-compensation/',
+  '/explainers/housing-fund-and-social-insurance/',
+  '/explainers/cny-vs-cnh/',
+  '/explainers/qdii-boundary/',
   '/playbooks/esop-and-rsu/',
+  '/playbooks/leaving-china/',
   '/methodology/',
   '/about/',
   '/updates/',
@@ -109,6 +114,10 @@ check('glossary filter is wired', /id="q"/.test(body('/glossary/')));
 check('treaty explainer is live', /certificate of tax residency/i.test(body('/explainers/treaty-relief/')));
 check('employee equity channel renders', /股权激励/.test(body('/channels/employee-equity/')));
 check('esop playbook is live', /Before you sign/i.test(body('/playbooks/esop-and-rsu/')));
+check('housing fund channel renders', /住房公积金/.test(body('/channels/housing-fund/')));
+check('leaving-china playbook is live', /order of operations/i.test(body('/playbooks/leaving-china/')));
+check('cny-vs-cnh explainer is live', /CNH/.test(body('/explainers/cny-vs-cnh/')));
+check('qdii explainer is live', /QDII/.test(body('/explainers/qdii-boundary/')));
 
 check('api returns json', api !== null);
 check(`api lists ${expected} channels`, api?.channels?.length === expected, api?.channels?.length);

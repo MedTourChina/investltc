@@ -1,0 +1,84 @@
+id: housing-fund
+name: "Housing provident fund"
+nameZh: 住房公积金
+type: cash
+summary: >-
+  A savings account fed by a deduction from your salary and matched by your employer. The money is
+  yours, earns a small fixed rate, and comes out for housing — or when you leave for good.
+whatYouCanBuy:
+  - "A deposit on housing, or mortgage repayment"
+  - "Rent, under the city's withdrawal rules"
+  - "Nothing else — it is not a spending account"
+access:
+  - investorType: resident-foreign-individual
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+    requirements:
+      - employment-or-study-proof
+      - local-bank-account
+    conditions:
+      - The city must enrol foreign employees; not all do
+      - Your employer must register you and contribute its matching share
+      - Withdrawal needs a housing purpose, or proof that you are leaving China permanently
+      - Balance earns a fixed rate set nationally, currently around 1.5% a year
+    denialReasons:
+      - Employer does not contribute for foreign staff
+      - City scheme does not accept foreign participants
+  - investorType: non-resident-individual
+    status: closed
+    fundSources: []
+    requirements: []
+    conditions:
+      - Requires an onshore employment relationship
+  - investorType: offshore-institution
+    status: closed
+    fundSources: []
+    requirements: []
+    conditions:
+      - An employee savings scheme, not an investment route
+  - investorType: onshore-fie
+    status: closed
+    fundSources: []
+    requirements: []
+    conditions:
+      - Employer contributions are a payroll obligation, not a product
+documents:
+  - Passport and residence permit
+  - Employment contract
+  - Employer's contribution record
+  - For departure withdrawal, proof of leaving China permanently
+process:
+  - step: "Ask payroll whether the company contributes for foreign employees, and in which city"
+    where: branch
+  - step: "Confirm the account is in your name and check the balance in the city's app"
+    where: online
+  - step: "Withdraw for housing, or file the departure withdrawal with the exit proof"
+    where: branch
+minimums:
+  amount: 0
+  currency: CNY
+  note: "No minimum to hold. Withdrawal is a purpose test, not an amount test."
+fees:
+  - label: "None"
+    amount: "No management fee is charged to the member"
+liquidity:
+  settlement: "Housing use is fast once approved; departure withdrawal takes weeks and needs an in-person filing."
+taxNote: >-
+  Contributions and the interest on them are not treated as taxable income when paid in, and the
+  withdrawal is generally not taxed either. If you are a foreign national leaving permanently, the
+  balance can normally be taken out in one go — ask which documents your city requires, because
+  "leaving permanently" is proven differently in different places.
+friction: {documents: 3, inPerson: 4, language: 4, minimum: 1, exit: 4}
+lastVerified: 2026-11-22
+verifiedBy: document
+sources:
+  - label: "住房公积金管理条例（国务院令第 350 号，2019 年修订）"
+    date: 2019-03-24
+  - label: "City housing-fund centres' withdrawal rules for foreign employees"
+    date: 2026-11-22
+caveats:
+  - "Compiled from public documents — not yet field-verified."
+  - "City-level practice varies more than for any other item on this map; treat the local centre as the source."
+  - "It is a savings account, not an investment. The rate is set by policy, not by the market."
+fieldNotes: []

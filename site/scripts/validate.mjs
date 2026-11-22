@@ -144,6 +144,22 @@ const filesToScan = [
 ];
 
 const linkProblems = [];
+
+// Markdown pages declare their layout by relative path; a wrong depth still parses
+// and only fails at build time, so check that the file resolves.
+for (const file of filesToScan.filter((f) => f.endsWith('.md'))) {
+  const text = fs.readFileSync(file, 'utf8');
+  const m = text.match(/^---\r?\n([\s\S]*?)\r?\n---/);
+  if (!m) continue;
+  const layout = m[1].match(/^layout:\s*(.+)$/m);
+  if (!layout) continue;
+  const rel = layout[1].trim().replace(/^['"]|['"]$/g, '');
+  const resolved = path.resolve(path.dirname(file), rel);
+  if (!fs.existsSync(resolved)) {
+    linkProblems.push(`${path.relative(root, file)}: layout not found ${rel}`);
+  }
+}
+
 for (const file of filesToScan) {
   const text = fs.readFileSync(file, 'utf8');
   const literals = [

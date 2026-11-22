@@ -1,5 +1,5 @@
 ---
-layout: ../layouts/ProseLayout.astro
+layout: ../../layouts/ProseLayout.astro
 title: "Four paths through this"
 description: "The same country, four different starting points. What a student can skip, what a dependant gets stuck on, and why permanent residence is not an investment channel."
 kicker: "Paths"

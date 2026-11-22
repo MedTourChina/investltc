@@ -11,7 +11,8 @@ updated: 2026-11-22
 The [first thirty days](/start) is a generic sequence. Your status changes it: which steps you can
 skip, which ones refuse you, and which documents you will be asked for.
 
-Four paths cover almost everyone:
+Four paths cover almost everyone. Whichever one you are on, the [eligibility check](/check) shows
+that path's next three steps above the results, because it reads the same visa answer you gave it.
 
 | Path | On this site |
 | --- | --- |
@@ -83,3 +84,4 @@ When two apply, the more restricted one usually governs what a bank or broker wi
 - [First thirty days](/start) — the generic sequence
 - [Check what you can open](/check) — filter the channels by your profile
 - [The access matrix](/matrix) — all twenty channels at a glance
+

@@ -191,6 +191,7 @@ const channels = getChannels();
       summarise,
       type Profile,
     } from '../lib/eligibility';
+    import { pathFor } from '../lib/paths';
 
     const raw = document.getElementById('channel-data')?.textContent ?? '[]';
     const channels = JSON.parse(raw);
@@ -290,6 +291,70 @@ const channels = getChannels();
       return row;
     }
 
+    function pathBanner(path: { label: string; lede: string; href: string; next: { title: string; body: string; href?: string; hrefLabel?: string }[] }) {
+      const box = document.createElement('div');
+      box.className = 'card card--flat';
+      box.style.marginBottom = '1.2rem';
+
+      const kicker = document.createElement('span');
+      kicker.className = 'card__kicker';
+      kicker.textContent = 'Your path';
+      box.appendChild(kicker);
+
+      const title = document.createElement('p');
+      title.className = 'small';
+      title.style.margin = '0.5rem 0 0';
+      const strong = document.createElement('strong');
+      strong.textContent = path.label;
+      title.append(strong, document.createTextNode(` — ${path.lede}`));
+      box.appendChild(title);
+
+      const list = document.createElement('ol');
+      list.className = 'small';
+      list.style.margin = '0.8rem 0 0';
+      list.style.paddingLeft = '1.2rem';
+
+      for (const step of path.next) {
+        const li = document.createElement('li');
+        li.style.marginBottom = '0.6rem';
+
+        const st = document.createElement('span');
+        st.style.display = 'block';
+        const stStrong = document.createElement('strong');
+        stStrong.textContent = step.title;
+        st.append(stStrong);
+        li.appendChild(st);
+
+        const sb = document.createElement('span');
+        sb.className = 'muted';
+        sb.textContent = step.body;
+        li.appendChild(sb);
+
+        if (step.href && step.hrefLabel) {
+          const a = document.createElement('a');
+          a.href = step.href;
+          a.className = 'tiny';
+          a.style.display = 'inline-block';
+          a.style.marginTop = '0.15rem';
+          a.textContent = `${step.hrefLabel} →`;
+          li.appendChild(a);
+        }
+
+        list.appendChild(li);
+      }
+      box.appendChild(list);
+
+      const more = document.createElement('a');
+      more.href = path.href;
+      more.className = 'tiny';
+      more.style.display = 'inline-block';
+      more.style.marginTop = '0.3rem';
+      more.textContent = `Read the whole ${path.label.toLowerCase()} →`;
+      box.appendChild(more);
+
+      return box;
+    }
+
     function render(profile: Profile) {
       const verdicts = rankVerdicts(channels.map((c: any) => evaluateChannel(c, profile)));
       const counts = summarise(verdicts);
@@ -310,6 +375,9 @@ const channels = getChannels();
 
       const frag = document.createDocumentFragment();
       frag.appendChild(head);
+
+      const path = profile.investor === 'resident-foreign-individual' ? pathFor(profile.visa) : undefined;
+      if (path) frag.appendChild(pathBanner(path));
 
       const order = ['open', 'conditional', 'unknown', 'closed'] as const;
       for (const status of order) {

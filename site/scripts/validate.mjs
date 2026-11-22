@@ -169,6 +169,7 @@ for (const file of filesToScan) {
   for (const m of literals) {
     let target = m[1];
     if (target.includes('${')) continue;
+    target = target.split('?')[0].split('#')[0];
     if (target.length > 1 && target.endsWith('/')) target = target.slice(0, -1);
     if (target.startsWith('/#')) continue;
     if (!routes.has(target)) {

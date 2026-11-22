@@ -81,6 +81,10 @@ worth settling early rather than at the airport.
 4. Open the fund account if you want to hold anything.
 5. If you plan to work, start the permit change early — it can be slow.
 
+## Check it against your own case
+
+[Run the check with this path pre-filled](/check?investor=resident-foreign-individual&visa=family&bank=yes&phone=yes) — ten questions, answered in your browser, nothing stored.
+
 ## Related
 
 - [First thirty days](/start)

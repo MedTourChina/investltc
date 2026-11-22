@@ -66,6 +66,10 @@ The [first thirty days](/start) still applies, with two changes:
 Everything after that — the risk assessment, the annual settlement, the housing fund if you are
 employed — is unchanged.
 
+## Check it against your own case
+
+[Run the check with this path pre-filled](/check?investor=resident-foreign-individual&visa=permanent&bank=yes&phone=yes) — ten questions, answered in your browser, nothing stored.
+
 ## Related
 
 - [First thirty days](/start)

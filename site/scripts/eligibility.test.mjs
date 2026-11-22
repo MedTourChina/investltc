@@ -6,9 +6,11 @@ import { channelSchema } from '../src/lib/schema.ts';
 import {
   DEFAULT_PROFILE,
   evaluateChannel,
+  profileFromParams,
   rankVerdicts,
   summarise,
 } from '../src/lib/eligibility.ts';
+import { PATHS, checkParamsFor, pathFor } from '../src/lib/paths.ts';
 
 const dir = path.join(import.meta.dirname, '..', 'data', 'channels');
 const channels = fs
@@ -49,6 +51,21 @@ test('below the minimum: bank wealth becomes conditional', () => {
   const v = evaluateChannel(by('bank-wealth'), withProfile({ amount: 5_000 }));
   assert.equal(v.status, 'conditional');
   assert.match(v.needs.join(' '), /Minimum is CNY 10,000/i);
+});
+
+test('every path maps from a real visa value', () => {
+  for (const p of PATHS) {
+    assert.equal(pathFor(p.visa)?.id, p.id);
+  }
+  assert.equal(pathFor('visitor'), undefined);
+});
+
+test('path check links prefill the investor type and visa', () => {
+  for (const p of PATHS) {
+    const prof = profileFromParams(new URLSearchParams(checkParamsFor(p)));
+    assert.equal(prof.investor, 'resident-foreign-individual');
+    assert.equal(prof.visa, p.visa);
+  }
 });
 
 test('cannot visit a branch: wealth products become conditional', () => {

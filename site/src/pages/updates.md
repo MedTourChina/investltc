@@ -6,6 +6,16 @@ kicker: "Changelog"
 updated: 2026-11-22
 ---
 
+## 2026-11-22 — Paths and the check now agree
+
+- The [eligibility check](/check) shows your path above the results: what the next three steps are
+  for a student, a work permit, permanent residence or a dependant. The path is derived from the
+  visa answer, so it never contradicts the channels below it.
+- Each [path page](/paths) now links into the check with its visa pre-filled, so the tool and the
+  written page cannot drift apart on which answer they assume.
+- The link checker in the build now resolves query strings, and the data validator resolves every
+  Markdown layout path, because a wrong relative depth only fails at build time.
+
 ## 2026-11-22 — Four paths
 
 - New section: [Four paths through this](/paths) — student, work permit, permanent residence and

@@ -70,6 +70,10 @@ Employment does not change the investment rules:
 - You cannot use the capital-account routes reserved for institutions (QFII, Northbound, CIBM).
 - You cannot buy products your risk grade does not allow, however much you deposit.
 
+## Check it against your own case
+
+[Run the check with this path pre-filled](/check?investor=resident-foreign-individual&visa=work&bank=yes&phone=yes) — ten questions, answered in your browser, nothing stored.
+
 ## Related
 
 - [First thirty days](/start)

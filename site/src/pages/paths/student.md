@@ -72,6 +72,10 @@ side is ordinary; keep the documents:
 A student can bank, pay, receive money from home, and hold a money-market fund. A student generally
 cannot trade. Plan around that rather than fighting it.
 
+## Check it against your own case
+
+[Run the check with this path pre-filled](/check?investor=resident-foreign-individual&visa=student&bank=no&phone=yes) — ten questions, answered in your browser, nothing stored.
+
 ## Related
 
 - [First thirty days](/start)

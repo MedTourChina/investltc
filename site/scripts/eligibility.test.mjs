@@ -12,6 +12,16 @@ import {
 } from '../src/lib/eligibility.ts';
 import { PATHS, checkParamsFor, pathFor } from '../src/lib/paths.ts';
 import { escapeHtml, renderResults } from '../src/lib/render.ts';
+import {
+  EVIDENCE,
+  EVIDENCE_INFO,
+  evidenceInfo,
+  evidenceRows,
+  fieldCount,
+  isFieldVerified,
+  questionFor,
+  upgradeFor,
+} from '../src/lib/verification.ts';
 
 const dir = path.join(import.meta.dirname, '..', 'data', 'channels');
 const channels = fs
@@ -92,6 +102,40 @@ test('the path block is only shown to holders of a residence permit', () => {
 
 test('markup from the data is escaped', () => {
   assert.equal(escapeHtml('a & b <c> "d"'), 'a &amp; b &lt;c&gt; &quot;d&quot;');
+});
+
+test('every evidence level used by the data has a description', () => {
+  for (const c of channels) {
+    const info = evidenceInfo(c.verifiedBy);
+    assert.equal(info.level, c.verifiedBy);
+    assert.ok(info.label.length > 0 && info.limits.length > 0);
+    assert.equal(isFieldVerified(c.verifiedBy), info.field);
+  }
+});
+
+test('exactly two of the five levels count as field verification', () => {
+  assert.equal(EVIDENCE.length, 5);
+  assert.deepEqual(
+    EVIDENCE.filter((level) => EVIDENCE_INFO[level].field),
+    ['branch', 'phone'],
+  );
+});
+
+test('the evidence table covers every channel and counts field checks honestly', () => {
+  const rows = evidenceRows(channels);
+  assert.equal(rows.length, channels.length);
+  assert.equal(fieldCount(rows), channels.filter((c) => isFieldVerified(c.verifiedBy)).length);
+  for (const row of rows) assert.ok(row.channelId && row.name && row.level);
+});
+
+test('every channel type has a question to ask at the counter', () => {
+  const questions = new Set(channels.map((c) => questionFor(c.type)));
+  assert.equal(questions.size, new Set(channels.map((c) => c.type)).size);
+  assert.ok([...questions].every((q) => q.length > 20));
+});
+
+test('each level names a concrete way to upgrade it', () => {
+  for (const level of EVIDENCE) assert.match(upgradeFor(level), /branch|counter|field-verified/i);
 });
 
 test('cannot visit a branch: wealth products become conditional', () => {

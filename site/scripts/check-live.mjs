@@ -15,6 +15,7 @@ const pages = [
   '/check/',
   '/compare/',
   '/channels/',
+  '/verification/',
   '/channels/a-share/',
   '/channels/exchange-bond/',
   '/channels/gold/',
@@ -87,6 +88,7 @@ const home = body('/');
 const matrix = body('/matrix/');
 const channel = body('/channels/a-share/');
 const checkPage = body('/check/');
+const verification = body('/verification/');
 const api = parseJson(body('/api/channels.json'));
 
 check('home returns 200', status('/') === 200);
@@ -114,6 +116,11 @@ check('check page defaults to a resident individual', /<option value="resident-f
 check('check page renders its results in the HTML', /channels look usable for you/.test(checkPage));
 check('check page renders the path block in the HTML', /Your path/.test(checkPage));
 check('check page links a channel in the HTML', /href="\/channels\/a-share"/.test(checkPage));
+check('verification page 200', status('/verification/') === 200);
+check('verification page names its five levels', /The five levels/.test(verification) && /field-verified/.test(verification));
+check('verification page states the current position', /has been tested by a person at an institution/.test(verification));
+check('verification page lists every record', (verification.match(/href="\/channels\//g) ?? []).length >= 20);
+check('channel page shows its evidence level', /Evidence:/.test(channel) && /Ask this yourself:/.test(channel));
 
 check('home says it is for individuals', /For individuals/.test(home));
 check('home draws the institutional boundary', /Institutional routes appear on this site/.test(home));

@@ -17,6 +17,7 @@ import {
   formatDate,
 } from '../../lib/labels';
 import { INVESTOR_TYPES } from '../../lib/schema';
+import { evidenceInfo, questionFor, upgradeFor } from '../../lib/verification';
 import type { Channel } from '../../lib/schema';
 
 export function getStaticPaths() {
@@ -41,6 +42,8 @@ const playbookFor: Record<string, string> = {
   route: '/playbooks/inbound-funding',
 };
 const playbook = playbookFor[channel.type];
+
+const evidence = evidenceInfo(channel.verifiedBy);
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -257,6 +260,20 @@ const jsonLd = {
               {channel.verifiedCity ? ` in ${channel.verifiedCity}` : ''}. Not a substitute for the
               institution's own terms.
             </p>
+
+            <div class="callout callout--info" style="margin-top:1.2rem">
+              <p class="callout__title">
+                Evidence: {evidence.label}{evidence.field ? '' : ' (not field-verified)'}
+              </p>
+              <p class="small">{evidence.limits}</p>
+              <p class="small" style="margin-top:.5rem">
+                <strong>Ask this yourself:</strong> {questionFor(channel.type)}
+              </p>
+              <p class="tiny muted" style="margin-top:.5rem">
+                {upgradeFor(channel.verifiedBy)}
+                <a href="/verification">How every record is checked →</a>
+              </p>
+            </div>
           </div>
         </div>
 

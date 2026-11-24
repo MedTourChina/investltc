@@ -6,6 +6,16 @@ kicker: "Changelog"
 updated: 2026-11-22
 ---
 
+## 2026-11-24 — Every record now says how it was checked
+
+- New page: [How records are checked](/verification) — the five evidence levels, the level of every
+  record, what would upgrade it, and the question to ask at a counter.
+- Each channel page now shows its level, what that level does and does not prove, and the question
+  to ask. All twenty records are currently document-verified; the site says so in the number, not in
+  a footnote.
+- The method page gained an Evidence section, because a record's level now matters as much as its
+  date.
+
 ## 2026-11-22 — The check works without JavaScript
 
 - The [eligibility check](/check) now ships its results in the HTML: the whole list for the default

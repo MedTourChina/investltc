@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getChannels } from '../lib/data';
+import { formatDate } from '../lib/labels';
+import {
+  EVIDENCE,
+  EVIDENCE_INFO,
+  evidenceRows,
+  fieldCount,
+  questionFor,
+  upgradeFor,
+} from '../lib/verification';
+
+const channels = getChannels();
+const rows = evidenceRows(channels);
+const field = fieldCount(rows);
+const lastChecked = formatDate(channels.map((c) => c.lastVerified).sort().at(-1) ?? '2026-11-18');
+const steps = [
+  'Open the channel page and read the level at the bottom. Document means a rule, not a practice.',
+  'Read the question for that channel type below. It is deliberately about eligibility, not about products or returns.',
+  'Ask it at the branch that would actually process you, or on the published number. Write down what you were told and who told you.',
+  'If the answer contradicts the page, send it to us. A refusal at one branch is worth recording, because it is exactly the thing published documents cannot show.',
+  'Keep your own note of the date. Rules here change quietly, and a two-year-old answer is a different answer.',
+];
+---
+
+<BaseLayout
+  title="How each record was checked"
+  description="Every channel record carries the evidence behind it: whether it was tested at a counter, confirmed by phone, or read out of a published document."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="hero__eyebrow">Evidence</p>
+      <h1 style="margin-top:.6rem">How each record was checked</h1>
+      <p class="lede">
+        This site answers “can I open this” instead of “what should I buy”, and that answer is only
+        worth something if you can see what it rests on. Every record carries the level of evidence
+        behind it, including when that level is “we read a rule”.
+      </p>
+
+      <div class="grid grid--3" style="margin-top:2rem">
+        <div class="card">
+          <span class="card__kicker">Records</span>
+          <p class="mono" style="font-size:2rem;margin-top:.3rem">{rows.length}</p>
+        </div>
+        <div class="card">
+          <span class="card__kicker">Field-verified</span>
+          <p class="mono" style="font-size:2rem;margin-top:.3rem">{field}</p>
+          <p class="tiny muted" style="margin-top:.3rem">Answered by a person at an institution</p>
+        </div>
+        <div class="card">
+          <span class="card__kicker">Last checked</span>
+          <p class="mono" style="font-size:1.3rem;margin-top:.6rem">{lastChecked}</p>
+        </div>
+      </div>
+
+      <div class="callout callout--warn" style="margin-top:1.6rem">
+        <p class="callout__title">The honest position right now</p>
+        <p class="small">
+          {field === 0
+            ? `None of the ${rows.length} records has been tested by a person at an institution yet. Every one is built from published documents — laws, regulator notices, fee schedules and product pages — and is labelled as such.`
+            : `${field} of ${rows.length} records have been tested by a person at an institution; the rest are built from published documents.`}
+          That is a real limit, not a disclaimer: a documented rule and a branch that has not read it
+          are two different things, and the gap is where foreign applicants get refused.
+        </p>
+      </div>
+
+      <h2 style="margin-top:2.6rem">The five levels</h2>
+      <p class="small muted" style="margin-top:.4rem">
+        Only the first two count as field verification. The other three are documents, apps and
+        published terms — necessary, but they describe what should happen.
+      </p>
+      <div class="table-scroll" style="margin-top:1rem">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Level</th>
+              <th scope="col">What was done</th>
+              <th scope="col">What it proves, and what it does not</th>
+            </tr>
+          </thead>
+          <tbody>
+            {EVIDENCE.map((level) => (
+              <tr>
+                <td>
+                  <strong>{EVIDENCE_INFO[level].label}</strong>
+                  <div class="mono tiny muted" style="margin-top:.2rem">{level}</div>
+                  {EVIDENCE_INFO[level].field ? (
+                    <div class="tiny" style="color:var(--jade);margin-top:.2rem">field-verified</div>
+                  ) : null}
+                </td>
+                <td class="small">{EVIDENCE_INFO[level].done}</td>
+                <td class="small muted">{EVIDENCE_INFO[level].limits}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h2 style="margin-top:2.6rem">Every record, and what would upgrade it</h2>
+      <p class="small muted" style="margin-top:.4rem">
+        The question column is the one to ask. It is about eligibility, because that is the part
+        published documents get wrong.
+      </p>
+      <div class="table-scroll" style="margin-top:1rem">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Channel</th>
+              <th scope="col">Level</th>
+              <th scope="col">Checked</th>
+              <th scope="col">What would upgrade it</th>
+              <th scope="col">The question to ask</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr>
+                <td>
+                  <a href={`/channels/${row.channelId}`}>{row.name}</a>
+                </td>
+                <td class="tiny">
+                  {EVIDENCE_INFO[row.level as keyof typeof EVIDENCE_INFO]?.label ?? row.level}
+                </td>
+                <td class="mono tiny">{formatDate(row.lastVerified)}</td>
+                <td class="small muted">{upgradeFor(row.level)}</td>
+                <td class="small">{questionFor(row.type)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h2 style="margin-top:2.6rem">Verify one yourself in ten minutes</h2>
+      <ol class="small" style="margin-top:.8rem;padding-left:1.2rem">
+        {steps.map((step) => (
+          <li style="margin-bottom:.7rem">{step}</li>
+        ))}
+      </ol>
+
+      <div class="callout callout--info" style="margin-top:2rem">
+        <p class="callout__title">Why the levels are not enough on their own</p>
+        <p class="small">
+          A record can be document-verified and still wrong for you, because access depends on the
+          investor type and on where the money sits. That is what the
+          <a href="/check">eligibility check</a> is for, and it is honest about the difference
+          between <em>not verified</em> and <em>not available</em>.
+        </p>
+      </div>
+
+      <p class="small muted" style="margin-top:1.6rem">
+        The levels are part of the published dataset, so you can filter on them:
+        <a href="/api/channels.json">/api/channels.json</a> carries <span class="mono tiny">verifiedBy</span>
+        and <span class="mono tiny">lastVerified</span> for every record.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

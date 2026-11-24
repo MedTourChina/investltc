@@ -83,6 +83,20 @@ score does not move.
 
 The date on the page is the date of the last check, not the date the page was written.
 
+## Evidence
+
+Each record also carries the level behind that date, and the level matters more than the date:
+
+- **Branch** — someone asked at a counter that would process the application. The strongest level, and still one branch in one city.
+- **Phone** — someone called the published number. Good for hours and minimums, weak for anything decided by discretion.
+- **Official site** — the institution's own published terms: fees, minimums, eligibility wording.
+- **App** — the product appears in a banking or brokerage app. Proves it exists, not that you can open it.
+- **Document** — a law, regulator notice or tax rule. The rule, not the practice, and the level most often contradicted at a counter.
+
+Only the first two count as field verification. Every record, its level and what would upgrade it is
+on [How records are checked](/verification), and the level travels with the
+[open dataset](/data).
+
 ## Corrections
 
 If something is wrong, tell us. We aim to respond within seven days, and we record the correction in

@@ -6,6 +6,16 @@ kicker: "Changelog"
 updated: 2026-11-22
 ---
 
+## 2026-11-24 — Two channels where the answer is "it depends who you are"
+
+- New channel: [Personal pension account](/channels/personal-pension) — CNY 12,000 a year, a flat 3%
+  on the way out, and a gate most readers will find closed: you must already be enrolled in basic
+  pension insurance.
+- New channel: [Foreign-currency deposit](/channels/fx-deposit) — holding USD at a Chinese bank,
+  which is legal and dull, and which the two conversions around it make expensive.
+- New explainers: [the pension lockbox](/explainers/personal-pension-lockbox) and
+  [dollars onshore vs offshore](/explainers/usd-onshore-vs-offshore).
+
 ## 2026-11-24 — Every record now says how it was checked
 
 - New page: [How records are checked](/verification) — the five evidence levels, the level of every

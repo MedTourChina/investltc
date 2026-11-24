@@ -1,0 +1,99 @@
+id: fx-deposit
+name: "Foreign-currency deposit"
+nameZh: 外币存款
+type: cash
+summary: >-
+  Keeping USD, EUR, HKD or JPY in a deposit at a Chinese bank. Useful if the money is already in a
+  foreign currency onshore and you do not want to convert it yet. The friction is at both ends: it
+  has to arrive as foreign currency, and getting it back out is a cross-border transfer with
+  documents, not a withdrawal at an ATM.
+whatYouCanBuy:
+  - "Foreign-currency current and fixed deposits at a Chinese bank"
+  - "Foreign-currency cash withdrawal within the bank's limits"
+access:
+  - investorType: resident-foreign-individual
+    status: conditional
+    fundSources:
+      - offshore-fx
+      - onshore-rmb-income
+    requirements:
+      - local-bank-account
+    conditions:
+      - A bank account at a branch that handles foreign currency; not every sub-branch does
+      - The foreign currency must come from an inbound remittance or from a purchase of FX within the annual facilitation quota
+      - Fixed terms are commonly 1 month to 2 years; early withdrawal usually loses the interest
+      - Cash withdrawal in foreign currency is capped and larger amounts need a declaration
+    denialReasons:
+      - The branch does not handle foreign-currency business
+      - No inbound remittance record or quota left to buy the currency
+  - investorType: non-resident-individual
+    status: conditional
+    fundSources:
+      - offshore-fx
+      - offshore-cnh
+    requirements:
+      - local-bank-account
+    conditions:
+      - Possible where the person holds an onshore account, but the source has to be an inbound remittance with a purpose that permits it
+      - Not verified case by case at the counter
+  - investorType: offshore-institution
+    status: closed
+    fundSources: []
+    requirements: []
+    conditions:
+      - Institutions hold foreign currency through the capital account, not a personal deposit
+  - investorType: onshore-fie
+    status: conditional
+    fundSources:
+      - offshore-fx
+      - onshore-rmb-income
+    requirements:
+      - local-bank-account
+    conditions:
+      - Corporate foreign-currency accounts exist; the entity opens them at the bank with its own documents
+documents:
+  - Passport and residence permit
+  - Bank account and card
+  - Inbound remittance record or the FX purchase slip
+process:
+  - step: "Ask the branch whether it handles foreign-currency deposits at all"
+    where: branch
+  - step: "Confirm which currencies and which tenors are on offer"
+    where: branch
+  - step: "Deposit the inbound remittance or the purchased currency into the account"
+    where: both
+  - step: "Before you need the money, ask what converting back to RMB costs and which counter does it"
+    where: branch
+minimums:
+  amount: 0
+  currency: CNY
+  note: "No general minimum; each bank sets one per currency and fixed terms usually start around the equivalent of a few hundred US dollars."
+fees:
+  - label: "Account fee"
+    amount: "Usually none for a personal account"
+  - label: "Early withdrawal"
+    amount: "Interest is lost or paid at the demand rate"
+  - label: "Conversion back to RMB"
+    amount: "The bank's bid-offer spread, and it counts against the annual facilitation quota"
+liquidity:
+  settlement: "Fixed deposits are locked for the term; getting the currency out of China is a separate, documented process."
+taxNote: >-
+  Foreign-currency deposit interest is taxable investment income like RMB deposit interest. The
+  exchange-rate move is not taxed as a gain, but it is also not a return you can bank without
+  converting, and converting is where the spread goes.
+friction: {documents: 3, inPerson: 3, language: 3, minimum: 1, exit: 4}
+lastVerified: 2026-11-24
+verifiedBy: document
+sources:
+  - label: "个人外汇管理办法 (individual FX rules)"
+    date: 2007-02-01
+  - label: "个人外汇管理办法实施细则 (annual facilitation quota)"
+    date: 2007-01-05
+  - label: "Bank foreign-currency deposit terms"
+    date: 2026-11-24
+caveats:
+  - "Compiled from public documents — not yet field-verified."
+  - "A foreign-currency deposit is not a way around the conversion rules: the currency has to arrive as foreign currency or be bought within the quota."
+  - "Cash is the awkward part — large foreign-currency cash withdrawals need a declaration, and not every branch holds the notes."
+  - "Holding USD onshore is not the same as holding USD offshore: the deposit sits inside the same account and the same reporting."
+fieldNotes: []

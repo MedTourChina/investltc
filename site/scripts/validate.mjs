@@ -8,6 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import YAML from 'yaml';
+import { channelSchema } from '../src/lib/schema.ts';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dataDir = path.join(root, 'data', 'channels');
@@ -50,6 +51,15 @@ for (const file of fs.readdirSync(dataDir).filter((f) => f.endsWith('.yaml'))) {
     if (!(key in doc)) return problems.push(`${where}: missing "${label}"`);
     if (!test(doc[key])) problems.push(`${where}: invalid "${label}"`);
   };
+
+  // The authoritative rules live in src/lib/schema.ts. Run them too, so a field
+  // this file does not mirror (process[].where, for instance) still fails here.
+  const schema = channelSchema.safeParse(doc);
+  if (!schema.success) {
+    for (const issue of schema.error.issues) {
+      problems.push(`${where}: schema ${issue.path.join('.') || '(root)'} — ${issue.message}`);
+    }
+  }
 
   need('id', (v) => typeof v === 'string' && /^[a-z0-9-]+$/.test(v), 'id');
   need('name', (v) => typeof v === 'string' && v.length > 1, 'name');

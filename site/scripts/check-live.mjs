@@ -3,11 +3,11 @@
  *
  *   node scripts/check-live.mjs [baseUrl] [expectedChannelCount]
  *
- * Defaults to the production domain and 20 channels. Exits non-zero on the first
+ * Defaults to the production domain and 22 channels. Exits non-zero on the first
  * failed assertion, so it can be used after a deploy or in CI.
  */
 const base = (process.argv[2] ?? 'https://invest.lifetourchina.com').replace(/\/$/, '');
-const expected = Number(process.argv[3] ?? 20);
+const expected = Number(process.argv[3] ?? 22);
 
 const pages = [
   '/',
@@ -38,6 +38,10 @@ const pages = [
   '/playbooks/leaving-china/',
   '/playbooks/annual-tax-settlement/',
   '/explainers/foreign-vs-chinese-bank/',
+  '/explainers/personal-pension-lockbox/',
+  '/explainers/usd-onshore-vs-offshore/',
+  '/channels/personal-pension/',
+  '/channels/fx-deposit/',
   '/explainers/ecny/',
   '/explainers/foreign-tax-allowances/',
   '/start/',
@@ -121,6 +125,10 @@ check('verification page names its five levels', /The five levels/.test(verifica
 check('verification page states the current position', /has been tested by a person at an institution/.test(verification));
 check('verification page lists every record', (verification.match(/href="\/channels\//g) ?? []).length >= 20);
 check('channel page shows its evidence level', /Evidence:/.test(channel) && /Ask this yourself:/.test(channel));
+check('personal pension page renders', status('/channels/personal-pension/') === 200 && /basic pension insurance/.test(body('/channels/personal-pension/')));
+check('fx deposit page renders', status('/channels/fx-deposit/') === 200 && /inbound remittance/.test(body('/channels/fx-deposit/')));
+check('pension explainer is listed', /href="\/explainers\/personal-pension-lockbox"/.test(body('/explainers/')));
+check('dollars explainer is listed', /href="\/explainers\/usd-onshore-vs-offshore"/.test(body('/explainers/')));
 
 check('home says it is for individuals', /For individuals/.test(home));
 check('home draws the institutional boundary', /Institutional routes appear on this site/.test(home));

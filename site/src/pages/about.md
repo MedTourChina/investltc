@@ -57,7 +57,7 @@ in person, a byline would imply more authority than the content currently earns.
 
 ## Status
 
-This is a **prototype**. Twenty channels, documented from public sources, zero field visits. The
+This is a **prototype**. Twenty-two channels, documented from public sources, zero field visits. The
 structure — matrix, eligibility check, comparison, playbooks — is the product. The data is the work
 that comes next.
 

@@ -23,7 +23,7 @@ individual can do.
 
 ## Status
 
-Prototype. Twenty channels, compiled from public documents. **Nothing has been field-verified at a
+Prototype. Twenty-two channels, compiled from public documents. **Nothing has been field-verified at a
 branch yet**, and every page says so. The structure — matrix, eligibility check, comparison,
 playbooks — is the product; the verification is the work.
 

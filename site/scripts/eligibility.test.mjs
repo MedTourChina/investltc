@@ -58,6 +58,22 @@ test('no local bank account: funds channel is blocked', () => {
   assert.match(v.blockers.join(' '), /bank account/i);
 });
 
+test('personal pension is conditional for a resident and closed offshore', () => {
+  const resident = evaluateChannel(by('personal-pension'), withProfile({}));
+  assert.equal(resident.status, 'conditional');
+  assert.match(by('personal-pension').access[0].conditions.join(' '), /basic pension insurance/i);
+
+  const nonResident = evaluateChannel(by('personal-pension'), withProfile({ investor: 'non-resident-individual', source: 'offshore-fx' }));
+  assert.equal(nonResident.status, 'closed');
+});
+
+test('a foreign-currency deposit stays open to a resident with offshore currency', () => {
+  const v = evaluateChannel(by('fx-deposit'), withProfile({ source: 'offshore-fx' }));
+  assert.notEqual(v.status, 'closed');
+  assert.equal(by('fx-deposit').access[1].investorType, 'non-resident-individual');
+  assert.ok(by('fx-deposit').friction.exit >= 4);
+});
+
 test('below the minimum: bank wealth becomes conditional', () => {
   const v = evaluateChannel(by('bank-wealth'), withProfile({ amount: 5_000 }));
   assert.equal(v.status, 'conditional');

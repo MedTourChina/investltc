@@ -1,0 +1,94 @@
+id: personal-pension
+name: "Personal pension account"
+nameZh: 个人养老金
+type: wealth
+summary: >-
+  A tax-deferred retirement account opened at a bank, capped at CNY 12,000 a year. Contributions
+  reduce taxable income now, the money is taxed at a flat 3% when withdrawn, and it is locked until
+  retirement age or until you settle abroad. The gate is that you must already be enrolled in
+  China's basic pension insurance.
+whatYouCanBuy:
+  - "Pension savings deposits (养老储蓄) at the account bank"
+  - "Pension wealth-management products (养老理财)"
+  - "Pension target-date and index funds (养老目标基金, Y-class shares)"
+  - "Commercial pension insurance (商业养老保险)"
+access:
+  - investorType: resident-foreign-individual
+    status: conditional
+    fundSources:
+      - onshore-rmb-income
+    requirements:
+      - residence-permit
+      - local-bank-account
+    conditions:
+      - You must be enrolled in basic pension insurance (基本养老保险) in China — in practice, employed and paying social insurance, or covered by a residence-permit route that enrolls you
+      - One account per person for life; it is opened at a bank, not at a broker
+      - Contributions are capped at CNY 12,000 per calendar year, and the cap does not roll over
+      - Money cannot come out before retirement age, except on permanent loss of working capacity, settling abroad, or death
+    denialReasons:
+      - Not enrolled in basic pension insurance, so the account cannot be opened
+      - Already holding an account at another bank
+      - Trying to contribute more than the annual cap
+  - investorType: non-resident-individual
+    status: closed
+    fundSources: []
+    requirements: []
+    conditions:
+      - Requires participation in China's basic pension insurance, which a non-resident individual does not have
+  - investorType: offshore-institution
+    status: closed
+    fundSources: []
+    requirements: []
+    conditions:
+      - An individual account by design
+  - investorType: onshore-fie
+    status: closed
+    fundSources: []
+    requirements: []
+    conditions:
+      - The account belongs to a natural person, not to an entity
+documents:
+  - Passport and residence permit
+  - Social insurance participation record (社保缴费记录), from the local social insurance office or the 12333 app
+  - Bank card for the account bank
+process:
+  - step: "Confirm you are enrolled in basic pension insurance and for how long"
+    where: both
+  - step: "Open the pension account and the linked fund account at one bank"
+    where: both
+  - step: "Contribute up to the annual cap, and keep the contribution voucher for the tax filing"
+    where: online
+  - step: "Claim the deduction in the annual tax settlement, not on the monthly payroll"
+    where: online
+minimums:
+  amount: 0
+  currency: CNY
+  note: "No product minimum, but the annual contribution cap is CNY 12,000 and the products inside may have their own floors."
+fees:
+  - label: "Account fee"
+    amount: "None at the major banks"
+  - label: "Product fees"
+    amount: "Set by the product; Y-class fund shares are cheaper than the ordinary class"
+liquidity:
+  settlement: "Locked until retirement age, or until you settle abroad with the paperwork to prove it."
+taxNote: >-
+  Contributions up to CNY 12,000 a year are deductible from comprehensive or business income, claimed
+  in the annual settlement. Investment gains inside the account are not taxed as they accrue. Withdrawals
+  are taxed separately at a flat 3%, whatever your marginal rate was. For a higher-rate earner that
+  spread is the whole point; for someone in the 3% bracket the account is a lock-up with no tax benefit.
+friction: {documents: 3, inPerson: 3, language: 4, minimum: 2, exit: 5}
+lastVerified: 2026-11-24
+verifiedBy: document
+sources:
+  - label: "个人养老金实施办法 (implementing measures)"
+    date: 2022-11-04
+  - label: "关于全面实施个人养老金制度的通知 (nationwide rollout)"
+    date: 2024-12-12
+  - label: "财政部 税务总局公告 2022年第34号 (tax treatment)"
+    date: 2022-11-03
+caveats:
+  - "Compiled from public documents — not yet field-verified."
+  - "The 3% rate on withdrawal applies to the whole balance, not only to the growth."
+  - "Whether a foreign employee is enrolled in basic pension insurance depends on nationality and on the bilateral social-security agreement that applies; the account follows the enrolment, not the passport."
+  - "Funds are locked. Treat the annual contribution as money you will not see until you leave or retire."
+fieldNotes: []
